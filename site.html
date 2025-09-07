@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardápio Virtual - Mini Salgados e Churros</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; }
+    header { background: #ff5a5f; color: #fff; padding: 15px; text-align: center; }
+    h1 { margin: 0; }
+    .container { padding: 20px; max-width: 800px; margin: auto; }
+    .produto { border: 1px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; background: #fff; display: flex; justify-content: space-between; align-items: center; }
+    .produto img { width: 80px; border-radius: 8px; }
+    .btn { background: #ff5a5f; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+    .btn:hover { background: #e0484c; }
+    #carrinho { margin-top: 30px; padding: 15px; border: 2px solid #ff5a5f; border-radius: 10px; background: #fff; }
+    #carrinho h2 { margin-top: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cardápio Virtual 🍩🥟</h1>
+    <p>Escolha seus itens e finalize no WhatsApp</p>
+  </header>
+
+  <div class="container">
+    <div class="produto">
+      <div>
+        <h3>Coxinha</h3>
+        <p>Unidade - R$ 2,00</p>
+      </div>
+      <button class="btn" onclick="adicionarCarrinho('Coxinha - R$ 2,00')">Adicionar</button>
+    </div>
+
+    <div class="produto">
+      <div>
+        <h3>Churros Doce de Leite</h3>
+        <p>Unidade - R$ 3,00</p>
+      </div>
+      <button class="btn" onclick="adicionarCarrinho('Churros Doce de Leite - R$ 3,00')">Adicionar</button>
+    </div>
+
+    <div class="produto">
+      <div>
+        <h3>Bolinha de Queijo</h3>
+        <p>Unidade - R$ 2,00</p>
+      </div>
+      <button class="btn" onclick="adicionarCarrinho('Bolinha de Queijo - R$ 2,00')">Adicionar</button>
+    </div>
+
+    <div id="carrinho">
+      <h2>🛒 Carrinho</h2>
+      <ul id="itens"></ul>
+      <button class="btn" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    let carrinho = [];
+
+    function adicionarCarrinho(item) {
+      carrinho.push(item);
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById("itens");
+      lista.innerHTML = "";
+      carrinho.forEach((item, i) => {
+        let li = document.createElement("li");
+        li.textContent = item;
+        lista.appendChild(li);
+      });
+    }
+
+    function finalizarPedido() {
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+      }
+      const mensagem = encodeURIComponent("Olá, quero fazer o pedido: " + carrinho.join(", "));
+      const telefone = "5585998578909"; // <- coloque o número do WhatsApp da loja aqui
+      window.open(`https://wa.me/${telefone}?text=${mensagem}`, "_blank");
+    }
+  </script>
+</body>
+</html>
