@@ -56,21 +56,34 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 <body>
 
 <header>
-  <div class="logo"><img src="images/logo-doce-confete.jpg" alt="logo" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'"></div>
+  <div class="logo">
+    <!-- substitua pelo arquivo real da logo -->
+    <img src="images/logo-doce-confete.jpg" alt="logo"
+         onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'">
+  </div>
   <div class="title"><h1>Doce Confete</h1><p>Encomendas, combos e porções — finalize pelo WhatsApp</p></div>
 </header>
 
 <main>
   <div>
-    <section style="margin-bottom:10px"><h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados & Mini Churros</h2><p style="margin:0 0 10px 0;color:var(--muted)">Escolha a quantidade antes de adicionar.</p></section>
+    <section style="margin-bottom:10px">
+      <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados & Mini Churros</h2>
+      <p style="margin:0 0 10px 0;color:var(--muted)">Escolha a quantidade antes de adicionar.</p>
+    </section>
 
     <!-- onde os produtos serão renderizados -->
     <div class="produtos" id="produtos"></div>
 
     <!-- Sabores -->
-    <div class="sabores" id="sabores"><h3>Sabores</h3>
+    <div class="sabores" id="sabores">
+      <h3>Sabores</h3>
       <ul>
-        <li>COXINHA</li><li>PASTELZINHO</li><li>BALÃOZINHO DE PIZZA</li><li>TRAVESSEIRINHO DE CARNE</li><li>BOLINHA DE QUEIJO</li><li>MEDALÃO DE SALSICHA</li>
+        <li>COXINHA</li>
+        <li>PASTELZINHO</li>
+        <li>BALÃOZINHO DE PIZZA</li>
+        <li>TRAVESSEIRINHO DE CARNE</li>
+        <li>BOLINHA DE QUEIJO</li>
+        <li>MEDALÃO DE SALSICHA</li>
       </ul>
     </div>
 
@@ -78,7 +91,6 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <section class="combos page-break" id="combos-section">
       <h2 style="margin-top:0;color:var(--brown-dark)">🎉 Combos Especiais</h2>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
-        <!-- cada combo tem qty e botão -->
         <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
           <div><strong style="color:var(--orange)">Delícia da Casa</strong><br><small>40 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
@@ -141,9 +153,9 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 <div class="toast" id="toast">Adicionado ao carrinho</div>
 
 <script>
-/* === dados (muda os nomes das imagens conforme tua pasta) === */
+/* === dados (troque os caminhos das imagens) === */
 const produtosData = [
-  {id:'p25',nome:'25 Salgados',preco:12.99,img:'images/25-salgados.jpg'},
+  {id:'p25',nome:'25 Salgados',preco:12.99,img:'im  ages/25-salgados.jpg'},
   {id:'p50',nome:'50 Salgados',preco:25.90,img:'images/50-salgados.jpg'},
   {id:'p80',nome:'80 Salgados',preco:40.50,img:'images/80-salgados.jpg'},
   {id:'p100',nome:'100 Salgados',preco:50.00,img:'images/100-salgados.jpg'},
@@ -238,14 +250,20 @@ function atualizarCarrinho(){
     lista.appendChild(li);
   }
   totalEl.textContent=`Total: ${formatBRL(total)}`;
-  // montar mensagem (sem nome)
-  let mensagemText = `🍩 Pedido - Doce Confete%0A%0A`;
-  for(const [id,entry] of carrinho.entries()){
-    mensagemText += `• ${encodeURIComponent(entry.produto.nome)} — ${entry.qty} x ${encodeURIComponent(formatBRL(entry.produto.preco))} = ${encodeURIComponent(formatBRL(entry.qty*entry.produto.preco))}%0A`;
+
+  // montar mensagem em texto puro (sem codificação)
+  let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
+  for (const [id, entry] of carrinho.entries()) {
+    const line = `• ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
+    mensagemTextPlain += line + '\n';
   }
-  mensagemText += `%0ATotal: *${encodeURIComponent(formatBRL(total))}*%0A%0AEndereço: %0AForma de pagamento:`;
-  waBtn.dataset.mensagem = mensagemText; waBtn.dataset.total = total.toFixed(2);
-  waBtn.classList.remove('small'); waBtn.href='#';
+  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n\nEndereço:\nForma de pagamento:`;
+
+  // salvar para usar depois (no modal de nome)
+  waBtn.dataset.mensagemRaw = mensagemTextPlain;
+  waBtn.dataset.total = total.toFixed(2);
+  waBtn.classList.remove('small');
+  waBtn.href = '#';
   updateFab(count);
 }
 
@@ -260,12 +278,15 @@ document.getElementById('confirm-modal').addEventListener('click', ()=>{ const n
 
 function enviarPedidoWhatsApp(nome){
   const waBtn=document.getElementById('whatsapp-btn');
-  const baseMsg = waBtn.dataset.mensagem || '';
+  const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
   const total = waBtn.dataset.total || '0,00';
-  const msgHeader = encodeURIComponent(`Olá, meu nome é ${nome} e quero realizar meu pedido:%0A%0A`);
-  const finalMsg = `${msgHeader}${baseMsg}%0A%0ATotal pedido: *${encodeURIComponent(formatBRL(Number(total)))}*`;
-  const telefone = '558791060340'; // <-- ALTERA AQUI pro teu número
-  const waHref = `https://wa.me/${telefone}?text=${finalMsg}`;
+  const cabecalho = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
+  const mensagemCompleta = cabecalho + pedidoSemNome + `\nTotal pedido: ${formatBRL(Number(total))}`;
+  const mensagemCodificada = encodeURIComponent(mensagemCompleta);
+
+  // telefone (troque pelo seu número no formato internacional sem símbolos)
+  const telefone = '558791060340'; // <-- ALTERE AQUI PELO SEU NÚMERO (apenas números)
+  const waHref = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
   window.open(waHref, '_blank');
   document.getElementById('modal').style.display='none';
 }
@@ -273,17 +294,10 @@ function enviarPedidoWhatsApp(nome){
 /* toast */
 const toastEl = document.getElementById('toast');
 let toastTimer = null;
-function showToast(txt){
-  toastEl.textContent = txt || 'Adicionado ao carrinho';
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600);
-}
+function showToast(txt){ toastEl.textContent = txt || 'Adicionado ao carrinho'; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600); }
 
 /* inicial */
 atualizarCarrinho();
-
-/* DEBUG helpers (mostra no console pra você checar) */
 console.log('Cardápio carregado. Produtos:', produtosData.length, 'Combos:', Object.keys(combosInfo).length);
 </script>
 </body>
