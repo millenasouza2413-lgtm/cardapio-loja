@@ -1,230 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Doce Confete — Cardápio</title>
 <style>
-  :root{
-    --brown: #6b3b1a;         /* marrom (detalhes/botões) */
-    --brown-dark: #4d2c15;
-    --orange: #ff6a00;        /* laranja para textos */
-    --pastel-yellow: #fff6b8; /* fundo pastel */
-    --card: #ffffff;
-    --muted: #6b6b6b;
-    --shadow: 0 10px 30px rgba(0,0,0,0.08);
-    --radius: 12px;
-    --maxw: 1100px;
-  }
-
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: var(--pastel-yellow);
-    color:#222;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* header */
-  header{
-    background: var(--brown);
-    color: white;
-    padding:16px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    justify-content:center;
-  }
-  .logo{
-    width:72px; height:72px; border-radius:10px; overflow:hidden;
-    background:#fff3d6; display:flex; align-items:center; justify-content:center; flex-shrink:0;
-  }
-  .logo img{ width:100%; height:100%; object-fit:contain; display:block; }
-  .title h1{ margin:0; font-size:22px; color:#fff; font-weight:800; }
-  .title p{ margin:4px 0 0 0; font-size:13px; color:#ffeaa7; }
-
-  main{
-    max-width: var(--maxw);
-    margin:18px auto;
-    padding:14px;
-    display:grid;
-    grid-template-columns: 1fr 380px;
-    gap:18px;
-  }
-
-  /* produto cards */
-  .produtos{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:14px; }
-  .card{
-    background: var(--card);
-    border-radius: var(--radius);
-    padding:12px;
-    box-shadow: var(--shadow);
-    display:flex; flex-direction:column; gap:10px; min-height:220px;
-  }
-  .thumb{ height:140px; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f6f6f6; }
-  .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-  .info{ display:flex; justify-content:space-between; align-items:center; gap:8px; }
-  .nome{ font-weight:800; font-size:15px; color:var(--orange); }
-  .preco{ color:var(--brown-dark); font-weight:900; font-size:16px; }
-
-  .controle{ display:flex; align-items:center; gap:8px; justify-content:space-between; margin-top:auto; }
-  .qty{
-    display:flex; align-items:center; gap:8px; background:#fff4e6; padding:6px; border-radius:10px; font-weight:800;
-    border:1px solid rgba(0,0,0,0.04);
-  }
-  .qty button{ background:transparent; border:none; font-size:18px; width:28px; height:28px; cursor:pointer; color:var(--brown-dark); }
-  .qty .n{ min-width:28px; text-align:center; }
-
-  .add-btn{
-    background: var(--brown); color: #fff; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; font-weight:900;
-    box-shadow:0 6px 12px rgba(0,0,0,0.06);
-  }
-  .add-btn:hover{ filter:brightness(.96) }
-
-  /* carrinho (sidebar) */
-  #carrinho{
-    position:sticky; top:18px; background:var(--card); padding:14px; border-radius:var(--radius); box-shadow:var(--shadow); height:fit-content;
-  }
-  #carrinho h2{ margin:0 0 8px 0; color:var(--brown-dark) }
-  #lista-carrinho{ list-style:none; margin:0; padding:0; max-height:380px; overflow:auto; }
-  #lista-carrinho li{ display:flex; gap:8px; padding:8px 0; border-bottom:1px dashed #f0f0f0; align-items:center; }
-  .mini-thumb{ width:56px; height:42px; border-radius:8px; overflow:hidden; background:#f3f3f3; flex-shrink:0; }
-  .mini-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .cart-meta{ flex:1; font-size:14px; }
-  .cart-meta .cname{ font-weight:800; color:var(--orange) }
-  .cart-meta .csub{ color:var(--muted); font-size:13px; }
-  .cart-right{ text-align:right; }
-  .cart-right .subtotal{ font-weight:900; color:var(--brown-dark) }
-  .cart-right .remove{ display:block; font-size:12px; color:#999; cursor:pointer; margin-top:6px }
-
-  #total{ font-weight:900; text-align:right; font-size:18px; margin-top:10px; color:var(--brown-dark) }
-  #whatsapp-btn{ display:block; text-align:center; background:var(--brown-dark); color:var(--pastel-yellow, #fff); text-decoration:none; padding:12px 10px; border-radius:10px; margin-top:12px; font-weight:900; }
-  #whatsapp-btn.small{ padding:8px 10px; font-size:14px; }
-
-  /* Sabores */
-  .sabores{ margin-top:18px; background:var(--card); padding:14px; border-radius:var(--radius); box-shadow:var(--shadow); color:var(--brown-dark); }
-  .sabores h3{ margin:0 0 8px 0; color:var(--brown-dark) }
-  .sabores ul{ margin:8px 0 0 18px; color:#333; font-weight:700; }
-
-  /* Combos (segunda página ao imprimir) */
-  .combos{ margin-top:18px; background:var(--card); padding:18px; border-radius:var(--radius); box-shadow:var(--shadow); }
-  .page-break{ page-break-before: always; break-before: page; -webkit-break-before: always; }
-
-  /* botão flutuante ver carrinho */
-  .fab{
-    position:fixed; right:18px; bottom:18px; z-index:9999;
-    background:var(--brown); width:64px; height:64px; border-radius:18px; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 12px 30px rgba(0,0,0,0.18); cursor:pointer; color:#fff;
-  }
-  .fab .badge{ position:absolute; top:-6px; right:-6px; background:var(--orange); color:#fff; width:22px; height:22px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px; }
-
-  /* responsivo */
-  @media (max-width:980px){
-    main{ grid-template-columns: 1fr; padding:12px; }
-    #carrinho{ position:relative; top:auto; margin-top:12px; }
-    .fab{ right:14px; bottom:14px; }
-  }
-
-  /* impressão */
-  @media print{
-    body{ background:var(--pastel-yellow) }
-    header, .card, #carrinho, .combos, .sabores { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  }
+:root{
+  --brown:#6b3b1a; --brown-dark:#4d2c15; --orange:#ff6a00; --pastel:#fff6b8;
+  --card:#fff; --muted:#6b6b6b; --radius:12px; --shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--pastel);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;justify-content:center}
+.logo{width:72px;height:72px;border-radius:10px;overflow:hidden;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo img{width:100%;height:100%;object-fit:contain}
+.title h1{margin:0;font-size:22px;color:#fff;font-weight:800}
+.title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
+main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
+.produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px}
+.thumb{height:140px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f6f6}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.nome{font-weight:800;font-size:15px;color:var(--orange)}
+.preco{color:var(--brown-dark);font-weight:900;font-size:16px}
+.controle{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:auto}
+.qty{display:flex;align-items:center;gap:8px;background:#fff4e6;padding:6px;border-radius:10px;font-weight:800;border:1px solid rgba(0,0,0,0.04)}
+.qty button{background:transparent;border:none;font-size:18px;width:28px;height:28px;cursor:pointer;color:var(--brown-dark)}
+.qty .n{min-width:28px;text-align:center}
+.add-btn{background:var(--brown);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
+.add-btn:hover{filter:brightness(.96)}
+#carrinho{position:sticky;top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);height:fit-content}
+#lista-carrinho{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
+#lista-carrinho li{display:flex;gap:8px;padding:8px 0;border-bottom:1px dashed #f0f0f0;align-items:center}
+.mini-thumb{width:56px;height:42px;border-radius:8px;overflow:hidden;background:#f3f3f3;flex-shrink:0}
+.mini-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.cart-meta{flex:1;font-size:14px}
+.cart-meta .cname{font-weight:800;color:var(--orange)}
+.cart-meta .csub{color:var(--muted);font-size:13px}
+.cart-right{text-align:right}
+.cart-right .subtotal{font-weight:900;color:var(--brown-dark)}
+.cart-right .remove{display:block;font-size:12px;color:#999;cursor:pointer;margin-top:6px}
+#total{font-weight:900;text-align:right;font-size:18px;margin-top:10px;color:var(--brown-dark)}
+#whatsapp-btn{display:block;text-align:center;background:var(--brown-dark);color:var(--pastel,#fff);text-decoration:none;padding:12px 10px;border-radius:10px;margin-top:12px;font-weight:900}
+.sabores{margin-top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);color:var(--brown-dark)}
+.combos{margin-top:18px;background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.page-break{page-break-before:always;break-before:page;-webkit-break-before:always}
+.fab{position:fixed;right:18px;bottom:18px;z-index:9999;background:var(--brown);width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,0.18);cursor:pointer;color:#fff}
+.fab .badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:#fff;width:22px;height:22px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:#222;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:9999}
+.toast.show{opacity:1;pointer-events:auto}
+@media (max-width:980px){main{grid-template-columns:1fr;padding:12px}#carrinho{position:relative;top:auto;margin-top:12px}.fab{right:14px;bottom:14px}}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <!-- Substitua pelo caminho real do logo (ex: images/logo-doce-confete.jpg) -->
-    <img src="images/logo-doce-confete.jpg" alt="Doce Confete - logo"
-         onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22 font-family=%22Verdana%22>Logo<\/text></svg>'">
-  </div>
-  <div class="title">
-    <h1>Doce Confete</h1>
-    <p>Encomendas, combos e porções — finalize pelo WhatsApp</p>
-  </div>
+  <div class="logo"><img src="images/logo-doce-confete.jpg" alt="logo" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'"></div>
+  <div class="title"><h1>Doce Confete</h1><p>Encomendas, combos e porções — finalize pelo WhatsApp</p></div>
 </header>
 
 <main>
   <div>
-    <section style="margin-bottom:10px">
-      <h2 style="margin:0 0 8px 0; color:var(--brown-dark)">Salgados & Mini Churros</h2>
-      <p style="margin:0 0 10px 0; color:var(--muted)">Escolha a quantidade antes de adicionar.</p>
-    </section>
+    <section style="margin-bottom:10px"><h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados & Mini Churros</h2><p style="margin:0 0 10px 0;color:var(--muted)">Escolha a quantidade antes de adicionar.</p></section>
 
-    <!-- PRODUTOS -->
+    <!-- onde os produtos serão renderizados -->
     <div class="produtos" id="produtos"></div>
 
-    <!-- SABORES (informativo) -->
-    <div class="sabores" id="sabores">
-      <h3>Sabores</h3>
+    <!-- Sabores -->
+    <div class="sabores" id="sabores"><h3>Sabores</h3>
       <ul>
-        <li>COXINHA</li>
-        <li>PASTELZINHO</li>
-        <li>BALÃOZINHO DE PIZZA</li>
-        <li>TRAVESSEIRINHO DE CARNE</li>
-        <li>BOLINHA DE QUEIJO</li>
-        <li>MEDALÃO DE SALSICHA</li>
+        <li>COXINHA</li><li>PASTELZINHO</li><li>BALÃOZINHO DE PIZZA</li><li>TRAVESSEIRINHO DE CARNE</li><li>BOLINHA DE QUEIJO</li><li>MEDALÃO DE SALSICHA</li>
       </ul>
     </div>
 
-    <!-- COMBOS (vai pra segunda página ao imprimir/gerar PDF) -->
+    <!-- Combos (vai pra 2ª página ao imprimir) -->
     <section class="combos page-break" id="combos-section">
-      <h2 style="margin-top:0; color:var(--brown-dark)">🎉 Combos Especiais</h2>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px;">
-        <!-- Cada combo terá qty ajustável e botão de adicionar -->
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-          <div>
-            <strong style="color:var(--orange)">Delícia da Casa</strong><br>
-            <small>40 salgados + 10 mini churros</small>
-          </div>
+      <h2 style="margin-top:0;color:var(--brown-dark)">🎉 Combos Especiais</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+        <!-- cada combo tem qty e botão -->
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <div><strong style="color:var(--orange)">Delícia da Casa</strong><br><small>40 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
-            <div class="qty" data-id="combo_delicia">
-              <button class="minus">−</button><div class="n">1</div><button class="plus">+</button>
-            </div>
+            <div class="qty" data-id="combo_delicia"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
             <div style="font-weight:900;color:var(--brown-dark)">R$ 35,00</div>
             <button class="add-btn combo-add" data-id="combo_delicia" data-name="Delícia da Casa" data-price="35">Adicionar</button>
           </div>
         </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-          <div>
-            <strong style="color:var(--orange)">Festa Total</strong><br>
-            <small>100 salgados + 10 mini churros</small>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <div><strong style="color:var(--orange)">Festa Total</strong><br><small>100 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
-            <div class="qty" data-id="combo_festa">
-              <button class="minus">−</button><div class="n">1</div><button class="plus">+</button>
-            </div>
+            <div class="qty" data-id="combo_festa"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
             <div style="font-weight:900;color:var(--brown-dark)">R$ 55,00</div>
             <button class="add-btn combo-add" data-id="combo_festa" data-name="Festa Total" data-price="55">Adicionar</button>
           </div>
         </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-          <div>
-            <strong style="color:var(--orange)">Tô com Fome</strong><br>
-            <small>20 salgados + 10 mini churros</small>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <div><strong style="color:var(--orange)">Tô com Fome</strong><br><small>20 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
-            <div class="qty" data-id="combo_fome">
-              <button class="minus">−</button><div class="n">1</div><button class="plus">+</button>
-            </div>
+            <div class="qty" data-id="combo_fome"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
             <div style="font-weight:900;color:var(--brown-dark)">R$ 15,00</div>
             <button class="add-btn combo-add" data-id="combo_fome" data-name="Tô com Fome" data-price="15">Adicionar</button>
           </div>
         </div>
-
-        <p style="margin-top:8px;color:var(--muted)">Obs: ao imprimir/gerar PDF, esta seção aparecerá na página seguinte.</p>
       </div>
     </section>
+
   </div>
 
-  <!-- CARRINHO LATERAL -->
+  <!-- carrinho lateral -->
   <aside id="carrinho">
     <h2>🛒 Seu Carrinho</h2>
     <ul id="lista-carrinho"></ul>
@@ -234,8 +120,8 @@
   </aside>
 </main>
 
-<!-- MODAL de nome -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:9998;">
+<!-- modal -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:9998">
   <div style="background:white;padding:20px;border-radius:12px;max-width:420px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,0.25)">
     <h3 style="margin:0 0 10px 0;color:var(--brown-dark)">Qual seu nome?</h3>
     <p style="margin:0 0 10px 0;color:#444">Precisamos do seu nome para enviar o pedido.</p>
@@ -247,193 +133,158 @@
   </div>
 </div>
 
-<!-- floating fab -->
+<!-- fab + toast -->
 <div class="fab" id="fab" title="Ver carrinho">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" style="filter:drop-shadow(0 1px 0 rgba(0,0,0,0.15))">
-    <path d="M7 4h-2l-1 2h2l1.2 6.4A3 3 0 0 0 10.2 15h7.1a3 3 0 0 0 2.9-2.4L22 6H7z" fill="#fff"/>
-    <circle cx="10.5" cy="19.5" r="1.5" fill="#fff"/>
-    <circle cx="17.5" cy="19.5" r="1.5" fill="#fff"/>
-  </svg>
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 4h-2l-1 2h2l1.2 6.4A3 3 0 0 0 10.2 15h7.1a3 3 0 0 0 2.9-2.4L22 6H7z" fill="#fff"/><circle cx="10.5" cy="19.5" r="1.5" fill="#fff"/><circle cx="17.5" cy="19.5" r="1.5" fill="#fff"/></svg>
   <div class="badge" id="fab-count">0</div>
 </div>
+<div class="toast" id="toast">Adicionado ao carrinho</div>
 
 <script>
-  /* ======== DADOS DOS PRODUTOS (troque os caminhos das imagens) ========
-     Substitua img por 'images/...' com os nomes que você vai subir. */
-  const produtosData = [
-    { id:'p25', nome:'25 Salgados', preco:12.99, img:'images/25-salgados.jpg' },
-    { id:'p50', nome:'50 Salgados', preco:25.90, img:'images/50-salgados.jpg' },
-    { id:'p80', nome:'80 Salgados', preco:40.50, img:'images/80-salgados.jpg' },
-    { id:'p100', nome:'100 Salgados', preco:50.00, img:'images/100-salgados.jpg' },
-    { id:'c10', nome:'Poção 10 Mini Churros', preco:6.99, img:'images/mini-churros-10.jpg' },
-    { id:'c50', nome:'Poção 50 Mini Churros', preco:29.00, img:'images/mini-churros-50.jpg' },
-    { id:'c100', nome:'Poção 100 Mini Churros', preco:50.90, img:'images/mini-churros-100.jpg' },
-    { id:'kit2', nome:'Kit com 2 Churros Gourmet', preco:8.00, img:'images/kit-churros-2.jpg' },
-    { id:'churro', nome:'Churros Gourmet (uni.)', preco:4.99, img:'images/churros-gourmet.jpg' }
-  ];
+/* === dados (muda os nomes das imagens conforme tua pasta) === */
+const produtosData = [
+  {id:'p25',nome:'25 Salgados',preco:12.99,img:'images/25-salgados.jpg'},
+  {id:'p50',nome:'50 Salgados',preco:25.90,img:'images/50-salgados.jpg'},
+  {id:'p80',nome:'80 Salgados',preco:40.50,img:'images/80-salgados.jpg'},
+  {id:'p100',nome:'100 Salgados',preco:50.00,img:'images/100-salgados.jpg'},
+  {id:'c10',nome:'Poção 10 Mini Churros',preco:6.99,img:'images/mini-churros-10.jpg'},
+  {id:'c50',nome:'Poção 50 Mini Churros',preco:29.00,img:'images/mini-churros-50.jpg'},
+  {id:'c100',nome:'Poção 100 Mini Churros',preco:50.90,img:'images/mini-churros-100.jpg'},
+  {id:'kit2',nome:'Kit com 2 Churros Gourmet',preco:8.00,img:'images/kit-churros-2.jpg'},
+  {id:'churro',nome:'Churros Gourmet (uni.)',preco:4.99,img:'images/churros-gourmet.jpg'}
+];
 
-  // mapa carrinho: id => { produto, qty }
-  const carrinho = new Map();
+const combosInfo = {
+  'combo_delicia':{nome:'Delícia da Casa',preco:35.00,img:'images/combo_delicia.jpg'},
+  'combo_festa':{nome:'Festa Total',preco:55.00,img:'images/combo_festa.jpg'},
+  'combo_fome':{nome:'Tô com Fome',preco:15.00,img:'images/combo_fome.jpg'}
+};
 
-  // function formatting
-  function formatBRL(num){ return num.toLocaleString('pt-BR', { style:'currency', currency:'BRL'}); }
+const carrinho = new Map();
+function formatBRL(n){ return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
 
-  // render produtos
-  const produtosContainer = document.getElementById('produtos');
-  produtosData.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="thumb"><img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f6f6%22 /><text x=%22120%22 y=%2270%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22Verdana%22>${encodeURIComponent('Sem imagem')}<\/text></svg>'"></div>
-      <div class="info"><div class="nome">${p.nome}</div><div class="preco">${formatBRL(p.preco)}</div></div>
-      <div class="controle">
-        <div class="qty" data-id="${p.id}">
-          <button class="minus">−</button><div class="n">1</div><button class="plus">+</button>
-        </div>
-        <button class="add-btn" data-id="${p.id}">Adicionar</button>
-      </div>
-    `;
-    produtosContainer.appendChild(card);
+/* render produtos */
+const produtosContainer = document.getElementById('produtos');
+produtosData.forEach(p=>{
+  const card = document.createElement('div'); card.className='card';
+  card.innerHTML = `
+    <div class="thumb"><img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f6f6%22 /><text x=%22120%22 y=%2270%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22Verdana%22>Sem imagem</text></svg>'"></div>
+    <div class="info"><div class="nome">${p.nome}</div><div class="preco">${formatBRL(p.preco)}</div></div>
+    <div class="controle">
+      <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
+      <button class="add-btn" data-id="${p.id}">Adicionar</button>
+    </div>`;
+  produtosContainer.appendChild(card);
+  const qtyEl = card.querySelector('.qty');
+  const nEl = qtyEl.querySelector('.n');
+  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n});
+  qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
+  card.querySelector('.add-btn').addEventListener('click',()=>{ const qty=parseInt(nEl.textContent,10); adicionarAoCarrinho(p.id,qty) });
+});
 
-    const qtyEl = card.querySelector('.qty');
-    const nEl = qtyEl.querySelector('.n');
-    qtyEl.querySelector('.minus').addEventListener('click', () => {
-      let n = parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent = n;
-    });
-    qtyEl.querySelector('.plus').addEventListener('click', () => {
-      let n = parseInt(nEl.textContent,10); n++; nEl.textContent = n;
-    });
-    card.querySelector('.add-btn').addEventListener('click', () => {
-      const qty = parseInt(nEl.textContent,10); adicionarAoCarrinho(p.id, qty);
-    });
+/* combos handlers */
+document.querySelectorAll('.combos .qty').forEach(qtyEl=>{
+  const nEl = qtyEl.querySelector('.n');
+  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n});
+  qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
+});
+document.querySelectorAll('.combo-add').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id = btn.dataset.id;
+    const qtyEl = document.querySelector(`.combos .qty[data-id="${id}"]`);
+    const qty = qtyEl ? parseInt(qtyEl.querySelector('.n').textContent,10) : 1;
+    const info = combosInfo[id];
+    if(!info) return;
+    adicionarAoCarrinho(id,qty,{nome:info.nome,preco:info.preco,img:info.img});
   });
+});
 
-  // combos já estão no HTML (na seção combos) — relacionar preços/names
-  const combosInfo = {
-    'combo_delicia': { nome:'Delícia da Casa', preco:35.00 },
-    'combo_festa': { nome:'Festa Total', preco:55.00 },
-    'combo_fome': { nome:'Tô com Fome', preco:15.00 }
-  };
-
-  // inicializar handlers dos combos (qtys e botões)
-  document.querySelectorAll('.combos .qty').forEach(qtyEl=>{
-    const nEl = qtyEl.querySelector('.n');
-    qtyEl.querySelector('.minus').addEventListener('click', ()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n; });
-    qtyEl.querySelector('.plus').addEventListener('click', ()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n; });
-  });
-  document.querySelectorAll('.combo-add').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const id = btn.getAttribute('data-id');
-      const qtyEl = document.querySelector(`.combos .qty[data-id="${id}"]`);
-      const qty = qtyEl ? parseInt(qtyEl.querySelector('.n').textContent,10) : 1;
-      const info = combosInfo[id];
-      if(!info) return;
-      // inserir no carrinho com id combo_x
-      adicionarAoCarrinho(id, qty, { nome: info.nome, preco: info.preco, img: 'images/combo-'+id+'.jpg' });
-    });
-  });
-
-  // adicionar ao carrinho (produtos e combos)
-  function adicionarAoCarrinho(id, quantidade, override){
-    // override -> usado para combos onde não há objeto em produtosData
-    if(override){
-      if(carrinho.has(id)){
-        const e = carrinho.get(id); e.qty += quantidade; carrinho.set(id,e);
-      } else {
-        carrinho.set(id, { produto: { nome: override.nome, preco: override.preco, img: override.img }, qty: quantidade });
-      }
-    } else {
-      const produto = produtosData.find(x=>x.id===id); if(!produto) return;
-      if(carrinho.has(id)){ const e = carrinho.get(id); e.qty += quantidade; carrinho.set(id,e); } 
-      else { carrinho.set(id, { produto, qty: quantidade }); }
-    }
-    atualizarCarrinho();
+/* adicionar ao carrinho (produtos ou combos com override) */
+function adicionarAoCarrinho(id,quant,override){
+  if(override){
+    if(carrinho.has(id)){ const e=carrinho.get(id); e.qty+=quant; carrinho.set(id,e); }
+    else carrinho.set(id,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant});
+  } else {
+    const prod = produtosData.find(x=>x.id===id); if(!prod) return;
+    if(carrinho.has(id)){ const e=carrinho.get(id); e.qty+=quant; carrinho.set(id,e); } else carrinho.set(id,{produto:prod,qty:quant});
   }
+  // feedback
+  showToast('Adicionado ao carrinho');
+  atualizarCarrinho();
+}
 
-  function removerDoCarrinho(id){ carrinho.delete(id); atualizarCarrinho(); }
+/* remover */
+function removerDoCarrinho(id){ carrinho.delete(id); atualizarCarrinho(); }
 
-  // atualizar UI do carrinho
-  function atualizarCarrinho(){
-    const lista = document.getElementById('lista-carrinho'); lista.innerHTML='';
-    const totalEl = document.getElementById('total'); const waBtn = document.getElementById('whatsapp-btn');
-    let total=0, count=0;
-    if(carrinho.size===0){ lista.innerHTML='<p style="color:#888">Seu carrinho está vazio — adicione algo 😋</p>'; totalEl.textContent='Total: R$ 0,00'; waBtn.classList.add('small'); waBtn.href='#'; updateFab(0); return; }
-
-    for(const [id, entry] of carrinho.entries()){
-      const li = document.createElement('li');
-      const thumb = document.createElement('div'); thumb.className='mini-thumb';
-      const img = document.createElement('img'); img.src=entry.produto.img; img.alt=entry.produto.nome;
-      img.onerror=function(){ this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' };
-      thumb.appendChild(img);
-
-      const meta = document.createElement('div'); meta.className='cart-meta';
-      meta.innerHTML = `<div class="cname">${entry.produto.nome}</div><div class="csub">Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
-
-      const right = document.createElement('div'); right.className='cart-right';
-      const subtotal = entry.qty * entry.produto.preco; total += subtotal; count += entry.qty;
-      right.innerHTML = `<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-id="${id}">Remover</div>`;
-
-      li.appendChild(thumb); li.appendChild(meta); li.appendChild(right);
-      li.querySelector('.remove').addEventListener('click', (ev)=>{ const idToRemove = ev.target.getAttribute('data-id'); removerDoCarrinho(idToRemove); });
-
-      lista.appendChild(li);
-    }
-    totalEl.textContent = `Total: ${formatBRL(total)}`;
-
-    // montar mensagem pro WhatsApp (sem o nome — o nome será solicitado no modal)
-    let mensagemText = `🍩 Pedido - Doce Confete%0A%0A`;
-    for(const [id, entry] of carrinho.entries()){
-      mensagemText += `• ${encodeURIComponent(entry.produto.nome)} — ${entry.qty} x ${encodeURIComponent(formatBRL(entry.produto.preco))} = ${encodeURIComponent(formatBRL(entry.qty*entry.produto.preco))}%0A`;
-    }
-    mensagemText += `%0ATotal: *${encodeURIComponent(formatBRL(total))}*%0A%0AEndereço: %0AForma de pagamento:`;
-
-    // salvar para enviar depois junto com o nome
-    waBtn.dataset.mensagem = mensagemText;
-    waBtn.dataset.total = total.toFixed(2);
-
-    // habilita botão
-    waBtn.classList.remove('small');
-    waBtn.href = '#';
-
-    updateFab(count);
+/* atualizar carrinho UI */
+function atualizarCarrinho(){
+  const lista=document.getElementById('lista-carrinho'); lista.innerHTML='';
+  const totalEl=document.getElementById('total'); const waBtn=document.getElementById('whatsapp-btn');
+  let total=0, count=0;
+  if(carrinho.size===0){ lista.innerHTML='<p style="color:#888">Seu carrinho está vazio — adicione algo 😋</p>'; totalEl.textContent='Total: R$ 0,00'; waBtn.classList.add('small'); waBtn.href='#'; updateFab(0); return; }
+  for(const [id,entry] of carrinho.entries()){
+    const li=document.createElement('li');
+    const thumb=document.createElement('div'); thumb.className='mini-thumb';
+    const img=document.createElement('img'); img.src=entry.produto.img; img.alt=entry.produto.nome;
+    img.onerror=function(){ this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' };
+    thumb.appendChild(img);
+    const meta=document.createElement('div'); meta.className='cart-meta';
+    meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
+    const right=document.createElement('div'); right.className='cart-right';
+    const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty;
+    right.innerHTML=`<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-id="${id}">Remover</div>`;
+    li.appendChild(thumb); li.appendChild(meta); li.appendChild(right);
+    li.querySelector('.remove').addEventListener('click', (ev)=>{ removerDoCarrinho(ev.target.dataset.id) });
+    lista.appendChild(li);
   }
-
-  // atualizar contador do botão flutuante
-  function updateFab(count){
-    document.getElementById('fab-count').textContent = count;
+  totalEl.textContent=`Total: ${formatBRL(total)}`;
+  // montar mensagem (sem nome)
+  let mensagemText = `🍩 Pedido - Doce Confete%0A%0A`;
+  for(const [id,entry] of carrinho.entries()){
+    mensagemText += `• ${encodeURIComponent(entry.produto.nome)} — ${entry.qty} x ${encodeURIComponent(formatBRL(entry.produto.preco))} = ${encodeURIComponent(formatBRL(entry.qty*entry.produto.preco))}%0A`;
   }
+  mensagemText += `%0ATotal: *${encodeURIComponent(formatBRL(total))}*%0A%0AEndereço: %0AForma de pagamento:`;
+  waBtn.dataset.mensagem = mensagemText; waBtn.dataset.total = total.toFixed(2);
+  waBtn.classList.remove('small'); waBtn.href='#';
+  updateFab(count);
+}
 
-  // fab abrir/ver carrinho: rolar até o elemento do carrinho
-  document.getElementById('fab').addEventListener('click', ()=>{
-    const cart = document.getElementById('carrinho');
-    cart.scrollIntoView({ behavior:'smooth', block:'center' });
-    cart.style.transition='box-shadow .2s'; cart.style.boxShadow='0 20px 50px rgba(0,0,0,0.18)';
-    setTimeout(()=>{ cart.style.boxShadow='var(--shadow)'; },700);
-  });
+/* fab */
+function updateFab(count){ document.getElementById('fab-count').textContent = count; }
+document.getElementById('fab').addEventListener('click', ()=>{ document.getElementById('carrinho').scrollIntoView({behavior:'smooth',block:'center'}) });
 
-  // botão enviar — abre modal pra pedir nome
-  document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{
-    e.preventDefault();
-    if(carrinho.size === 0){ alert('Seu carrinho está vazio. Adicione itens antes de enviar.'); return; }
-    document.getElementById('modal').style.display='flex';
-    document.getElementById('cliente-nome').focus();
-  });
+/* enviar pedido -> abre modal pedindo nome */
+document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ e.preventDefault(); if(carrinho.size===0){ alert('Seu carrinho está vazio.'); return;} document.getElementById('modal').style.display='flex'; document.getElementById('cliente-nome').focus();});
+document.getElementById('cancel-modal').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none';});
+document.getElementById('confirm-modal').addEventListener('click', ()=>{ const nome=document.getElementById('cliente-nome').value.trim(); if(!nome){ alert('Por favor digite seu nome.'); document.getElementById('cliente-nome').focus(); return; } enviarPedidoWhatsApp(nome); });
 
-  // modal controls
-  document.getElementById('cancel-modal').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none'; });
-  document.getElementById('confirm-modal').addEventListener('click', ()=>{ 
-    const nome = document.getElementById('cliente-nome').value.trim();
-    if(!nome){ alert('Por favor digite seu nome.'); document.getElementById('cliente-nome').focus(); return; }
-    enviarPedidoWhatsApp(nome);
-  });
+function enviarPedidoWhatsApp(nome){
+  const waBtn=document.getElementById('whatsapp-btn');
+  const baseMsg = waBtn.dataset.mensagem || '';
+  const total = waBtn.dataset.total || '0,00';
+  const msgHeader = encodeURIComponent(`Olá, meu nome é ${nome} e quero realizar meu pedido:%0A%0A`);
+  const finalMsg = `${msgHeader}${baseMsg}%0A%0ATotal pedido: *${encodeURIComponent(formatBRL(Number(total)))}*`;
+  const telefone = '558791060340'; // <-- ALTERA AQUI pro teu número
+  const waHref = `https://wa.me/${telefone}?text=${finalMsg}`;
+  window.open(waHref, '_blank');
+  document.getElementById('modal').style.display='none';
+}
 
-  // montar e abrir link do WhatsApp com o nome
-  function enviarPedidoWhatsApp(nome){
-    const waBtn = document.getElementById('whatsapp-btn');
-    const baseMsg = waBtn.dataset.mensagem || '';
-    const total = waBtn.dataset.total || '0,00';
-    // mensagem final: incluir nome e o pedido
-    const msgHeader = encodeURIComponent(`Olá, meu nome é ${nome} e quero realizar meu pedido:%0A%0
+/* toast */
+const toastEl = document.getElementById('toast');
+let toastTimer = null;
+function showToast(txt){
+  toastEl.textContent = txt || 'Adicionado ao carrinho';
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600);
+}
 
+/* inicial */
+atualizarCarrinho();
 
-
+/* DEBUG helpers (mostra no console pra você checar) */
+console.log('Cardápio carregado. Produtos:', produtosData.length, 'Combos:', Object.keys(combosInfo).length);
+</script>
+</body>
+</html>
