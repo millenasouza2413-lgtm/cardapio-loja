@@ -1,177 +1,188 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doce Confete – Cardápio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doce Confete – Cardápio Interativo</title>
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background-color: #fdf6ff;
-      color: #333;
+      background-color: #faf6ff;
       margin: 0;
       padding: 0;
+      color: #333;
     }
 
     header {
-      background-color: #6c2bd9; /* roxo */
-      color: white;
-      text-align: center;
-      padding: 20px 10px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    main {
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    section {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      margin-bottom: 25px;
-    }
-
-    h2 {
-      color: #ff7b00; /* laranja */
-      margin-top: 0;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .preco {
-      float: right;
-      font-weight: bold;
-      color: #6c2bd9;
-    }
-
-    .combo {
-      background-color: #fff7f0;
-      border-left: 5px solid #ff7b00;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-    }
-
-    footer {
       background-color: #6c2bd9;
       color: white;
       text-align: center;
       padding: 20px;
-      margin-top: 30px;
     }
 
-    a.botao {
-      display: inline-block;
-      background-color: #ff7b00;
-      color: white;
-      text-decoration: none;
-      padding: 10px 18px;
+    header h1 {
+      margin: 0;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+    section {
+      background: #fff;
       border-radius: 10px;
-      margin: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #ff7b00;
+      margin-top: 0;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
+    .item button {
+      background-color: #6c2bd9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: bold;
       transition: 0.3s;
     }
 
-    a.botao:hover {
-      background-color: #ff8f1f;
+    .item button:hover {
+      background-color: #8847ff;
+    }
+
+    #carrinho {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+    }
+
+    #lista-carrinho {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #lista-carrinho li {
+      border-bottom: 1px solid #eee;
+      padding: 5px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #total {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    #whatsapp-btn {
+      display: block;
+      text-align: center;
+      background-color: #25d366;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    #whatsapp-btn:hover {
+      background-color: #1ebe5a;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🍩 Doce Confete – Cardápio</h1>
-    <p>Os melhores salgados e churros da cidade!</p>
+    <h1>🍩 Doce Confete</h1>
+    <p>Adicione seus favoritos ao carrinho e finalize no WhatsApp!</p>
   </header>
 
   <main>
     <section>
       <h2>🥟 Salgados Sortidos</h2>
-      <ul>
-        <li>25 Salgados <span class="preco">R$ 12,99</span></li>
-        <li>50 Salgados <span class="preco">R$ 25,90</span></li>
-        <li>80 Salgados <span class="preco">R$ 40,50</span></li>
-        <li>100 Salgados <span class="preco">R$ 50,00</span></li>
-      </ul>
+      <div class="item"><span>25 Salgados</span><span>R$ 12,99</span><button onclick="adicionar('25 Salgados', 12.99)">Adicionar</button></div>
+      <div class="item"><span>50 Salgados</span><span>R$ 25,90</span><button onclick="adicionar('50 Salgados', 25.90)">Adicionar</button></div>
+      <div class="item"><span>80 Salgados</span><span>R$ 40,50</span><button onclick="adicionar('80 Salgados', 40.50)">Adicionar</button></div>
+      <div class="item"><span>100 Salgados</span><span>R$ 50,00</span><button onclick="adicionar('100 Salgados', 50.00)">Adicionar</button></div>
     </section>
 
     <section>
       <h2>🍩 Mini Churros</h2>
-      <ul>
-        <li>Poção 10 Mini Churros <span class="preco">R$ 6,99</span></li>
-        <li>Poção 50 Mini Churros <span class="preco">R$ 29,00</span></li>
-        <li>Poção 100 Mini Churros <span class="preco">R$ 50,90</span></li>
-        <li>Kit com 2 Churros Gourmet <span class="preco">R$ 8,00</span></li>
-      </ul>
+      <div class="item"><span>Poção 10 Mini Churros</span><span>R$ 6,99</span><button onclick="adicionar('Poção 10 Mini Churros', 6.99)">Adicionar</button></div>
+      <div class="item"><span>Poção 50 Mini Churros</span><span>R$ 29,00</span><button onclick="adicionar('Poção 50 Mini Churros', 29.00)">Adicionar</button></div>
+      <div class="item"><span>Poção 100 Mini Churros</span><span>R$ 50,90</span><button onclick="adicionar('Poção 100 Mini Churros', 50.90)">Adicionar</button></div>
+      <div class="item"><span>Kit com 2 Churros Gourmet</span><span>R$ 8,00</span><button onclick="adicionar('Kit com 2 Churros Gourmet', 8.00)">Adicionar</button></div>
     </section>
 
     <section>
       <h2>🍱 Combos Especiais</h2>
-
-      <div class="combo">
-        <strong>🎉 Festa Total</strong><br>
-        100 salgados variados + 10 mini churros<br>
-        <span class="preco">R$ 55,00</span>
-      </div>
-
-      <div class="combo">
-        <strong>😋 Tô com Fome</strong><br>
-        20 mini salgados + 10 mini churros<br>
-        <span class="preco">R$ 15,00</span>
-      </div>
-
-      <div class="combo">
-        <strong>🥤 Combo Lanche</strong><br>
-        40 mini salgados + 10 mini churros<br>
-        <span class="preco">R$ 35,00</span>
-      </div>
+      <div class="item"><span>Festa Total (100 salgados + 10 churros)</span><span>R$ 55,00</span><button onclick="adicionar('Festa Total', 55.00)">Adicionar</button></div>
+      <div class="item"><span>Tô com Fome (20 salgados + 10 churros)</span><span>R$ 15,00</span><button onclick="adicionar('Tô com Fome', 15.00)">Adicionar</button></div>
+      <div class="item"><span>Combo Lanche (40 salgados + 10 churros)</span><span>R$ 35,00</span><button onclick="adicionar('Combo Lanche', 35.00)">Adicionar</button></div>
     </section>
 
-    <section>
-      <h2>✨ Sabores dos Salgados</h2>
-      <ul>
-        <li>Coxinha</li>
-        <li>Pastelzinho</li>
-        <li>Balãozinho de Pizza</li>
-        <li>Travesseirinho de Carne</li>
-        <li>Bolinha de Queijo</li>
-        <li>Medalhão de Salsicha</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>📍 Localização</h2>
-      <p>Doce Confete – Trindade / PE</p>
-      <p><em>Confira no mapa abaixo:</em></p>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.1024087810183!2d-40.27325272404058!3d-9.358647180858637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x705dfb59b9d6d67%3A0xcadf630cf3e8a1a9!2sDoce%20Confete!5e0!3m2!1spt-BR!2sbr!4v1730456398480!5m2!1spt-BR!2sbr"
-        width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy">
-      </iframe>
-    </section>
-
-    <section style="text-align:center;">
-      <h2>📞 Contato</h2>
-      <a href="https://wa.me/5581921410844" target="_blank" class="botao">📱 WhatsApp</a>
-      <a href="https://www.instagram.com/doceconfete/" target="_blank" class="botao">📸 Instagram</a>
+    <section id="carrinho">
+      <h2>🛒 Seu Carrinho</h2>
+      <ul id="lista-carrinho"></ul>
+      <p id="total">Total: R$ 0,00</p>
+      <a id="whatsapp-btn" href="#" target="_blank">Enviar pedido no WhatsApp</a>
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 Doce Confete – Feito com 💜 por Mille</p>
-  </footer>
+  <script>
+    let carrinho = [];
+    let total = 0;
+
+    function adicionar(nome, preco) {
+      carrinho.push({ nome, preco });
+      total += preco;
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById("lista-carrinho");
+      const totalEl = document.getElementById("total");
+      const btn = document.getElementById("whatsapp-btn");
+
+      lista.innerHTML = "";
+      carrinho.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
+        lista.appendChild(li);
+      });
+
+      totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+
+      // mensagem formatada pro WhatsApp
+      let mensagem = "🍩 *Pedido Doce Confete*%0A%0A";
+      carrinho.forEach((item) => {
+        mensagem += `• ${item.nome} - R$ ${item.preco.toFixed(2)}%0A`;
+      });
+      mensagem += `%0ATotal: *R$ ${total.toFixed(2)}*%0A%0AEndereço: %0AForma de pagamento:`;
+
+      const telefone = "+5581921410844"; // 👉 troca pro teu número
+      btn.href = `https://wa.me/${telefone}?text=${mensagem}`;
+    }
+  </script>
 </body>
 </html>
+
