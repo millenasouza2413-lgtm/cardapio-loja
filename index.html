@@ -1,9 +1,9 @@
-<!doctype html>
+ file:///C:/Users/mille/Downloads/index.html                                                                                                      <!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Doce Confete — Cardápio (Retirada)</title>
+<title>Doce Confete — Cardápio</title>
 <style>
 :root{
   --brown:#6b3b1a; --brown-dark:#4d2c15; --orange:#ff6a00; --pastel:#fff6b8;
@@ -11,13 +11,12 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--pastel);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-header{background:var(--brown);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:12px;justify-content:center}
+header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;justify-content:center}
 .logo{width:72px;height:72px;border-radius:10px;overflow:hidden;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo img{width:100%;height:100%;object-fit:contain}
-.title h1{margin:0;font-size:20px;color:#fff;font-weight:800}
+.title h1{margin:0;font-size:22px;color:#fff;font-weight:800}
 .title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
-.top-note{background:var(--orange);color:#fff;padding:8px;text-align:center;font-weight:900}
-main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
+main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
 .produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px}
 .thumb{height:140px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f6f6}
@@ -32,7 +31,7 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
 .add-btn{background:var(--brown);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
 .add-btn:hover{filter:brightness(.96)}
 #carrinho{position:sticky;top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);height:fit-content}
-#lista-carrinho{list-style:none;margin:0;padding:0;max-height:340px;overflow:auto}
+#lista-carrinho{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
 #lista-carrinho li{display:flex;gap:8px;padding:8px 0;border-bottom:1px dashed #f0f0f0;align-items:center}
 .mini-thumb{width:56px;height:42px;border-radius:8px;overflow:hidden;background:#f3f3f3;flex-shrink:0}
 .mini-thumb img{width:100%;height:100%;object-fit:cover;display:block}
@@ -44,13 +43,8 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
 .cart-right .remove{display:block;font-size:12px;color:#999;cursor:pointer;margin-top:6px}
 #total{font-weight:900;text-align:right;font-size:18px;margin-top:10px;color:var(--brown-dark)}
 #whatsapp-btn{display:block;text-align:center;background:var(--brown-dark);color:var(--pastel,#fff);text-decoration:none;padding:12px 10px;border-radius:10px;margin-top:12px;font-weight:900}
-.cart-note{font-size:13px;color:#b33;margin-top:8px;font-weight:800}
 .sabores{margin-top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);color:var(--brown-dark)}
 .combos{margin-top:18px;background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
-.combo-item{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.combo-left{display:flex;align-items:center;gap:12px}
-.combo-thumb{width:86px;height:64px;border-radius:8px;overflow:hidden;background:#f6f6f6}
-.combo-thumb img{width:100%;height:100%;object-fit:cover}
 .page-break{page-break-before:always;break-before:page;-webkit-break-before:always}
 .fab{position:fixed;right:18px;bottom:18px;z-index:9999;background:var(--brown);width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,0.18);cursor:pointer;color:#fff}
 .fab .badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:#fff;width:22px;height:22px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
@@ -63,18 +57,18 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
 
 <header>
   <div class="logo">
-    <img src="images/logo-doce-confete.jpg" alt="logo" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'">
+    <!-- substitua pelo arquivo real da logo -->
+    <img src="images/logo-doce-confete.jpg" alt="logo"
+         onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'">
   </div>
   <div class="title"><h1>Doce Confete</h1><p>Encomendas, combos e porções — finalize pelo WhatsApp</p></div>
 </header>
-
-<div class="top-note">📍 ATENDIMENTO EXCLUSIVO PARA <strong>RETIRADA NO LOCAL</strong></div>
 
 <main>
   <div>
     <section style="margin-bottom:10px">
       <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados & Mini Churros</h2>
-      <p style="margin:0 0 10px 0;color:var(--muted)">Escolha a quantidade antes de adicionar. <strong style="color:#b33">(Somente retirada)</strong></p>
+      <p style="margin:0 0 10px 0;color:var(--muted)">Escolha a quantidade antes de adicionar.</p>
     </section>
 
     <!-- onde os produtos serão renderizados -->
@@ -97,12 +91,8 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
     <section class="combos page-break" id="combos-section">
       <h2 style="margin-top:0;color:var(--brown-dark)">🎉 Combos Especiais</h2>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
-
-        <div class="combo-item">
-          <div class="combo-left">
-            <div class="combo-thumb"><img src="images/combo-delicia.jpg" alt="Delícia da Casa" onerror="this.onerror=null;this.src='images/combo-fome.jpg'"></div>
-            <div><strong style="color:var(--orange)">Delícia da Casa</strong><br><small>40 salgados + 10 mini churros</small></div>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <div><strong style="color:var(--orange)">Delícia da Casa</strong><br><small>40 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
             <div class="qty" data-id="combo_delicia"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
             <div style="font-weight:900;color:var(--brown-dark)">R$ 35,00</div>
@@ -110,11 +100,8 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
           </div>
         </div>
 
-        <div class="combo-item">
-          <div class="combo-left">
-            <div class="combo-thumb"><img src="images/combo-festa.jpg" alt="Festa Total" onerror="this.onerror=null;this.src='images/combo-fome.jpg'"></div>
-            <div><strong style="color:var(--orange)">Festa Total</strong><br><small>100 salgados + 10 mini churros</small></div>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <div><strong style="color:var(--orange)">Festa Total</strong><br><small>100 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
             <div class="qty" data-id="combo_festa"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
             <div style="font-weight:900;color:var(--brown-dark)">R$ 55,00</div>
@@ -122,18 +109,14 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
           </div>
         </div>
 
-        <div class="combo-item">
-          <div class="combo-left">
-            <div class="combo-thumb"><img src="images/combo-fome.jpg" alt="Tô com Fome" onerror="this.onerror=null;this.src='images/combo-festa.jpg'"></div>
-            <div><strong style="color:var(--orange)">Tô com Fome</strong><br><small>20 salgados + 10 mini churros</small></div>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <div><strong style="color:var(--orange)">Tô com Fome</strong><br><small>20 salgados + 10 mini churros</small></div>
           <div style="display:flex;align-items:center;gap:10px">
             <div class="qty" data-id="combo_fome"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
             <div style="font-weight:900;color:var(--brown-dark)">R$ 15,00</div>
             <button class="add-btn combo-add" data-id="combo_fome" data-name="Tô com Fome" data-price="15">Adicionar</button>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -142,7 +125,6 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
   <!-- carrinho lateral -->
   <aside id="carrinho">
     <h2>🛒 Seu Carrinho</h2>
-    <p class="cart-note">ATENÇÃO: Pedidos apenas para <strong>RETIRADA NO LOCAL</strong>.</p>
     <ul id="lista-carrinho"></ul>
     <p id="total">Total: R$ 0,00</p>
     <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Enviar pedido no WhatsApp</a>
@@ -171,23 +153,23 @@ main{max-width:1100px;margin:14px auto;padding:14px;display:grid;grid-template-c
 <div class="toast" id="toast">Adicionado ao carrinho</div>
 
 <script>
-/* === dados (imagens padronizadas solicitadas) === */
+/* === dados (troque os caminhos das imagens) === */
 const produtosData = [
-  {id:'p25',  nome:'25 Salgados',                 preco:12.99, img:'images/25-salgados.jpg'},
-  {id:'p50',  nome:'50 Salgados',                 preco:25.90, img:'images/25-salgados.jpg'}, // fallback para imagem ainda não enviada
-  {id:'p80',  nome:'80 Salgados',                 preco:40.50, img:'images/80-salgados.jpg'},
-  {id:'p100', nome:'100 Salgados',                preco:50.00, img:'images/100-salgados.jpg'},
-  {id:'c10',  nome:'Porção 10 Mini Churros',      preco:6.99,  img:'images/kit-churros-gourmet.jpg'},
-  {id:'c50',  nome:'Porção 50 Mini Churros',      preco:29.00, img:'images/kit-churros-gourmet.jpg'},
-  {id:'c100', nome:'Porção 100 Mini Churros',     preco:50.90, img:'images/kit-churros-gourmet.jpg'},
-  {id:'kit2', nome:'Kit com 2 Churros Gourmet',   preco:8.00,  img:'images/kit-churros-gourmet.jpg'},
-  {id:'churro',nome:'Churros Gourmet (uni.)',     preco:4.99,  img:'images/kit-churros-gourmet.jpg'}
+  {id:'p25',nome:'25 Salgados',preco:12.99,img:'images/25-salgados.jpg'},
+  {id:'p50',nome:'50 Salgados',preco:25.90,img:'images/50-salgados.jpg'},
+  {id:'p80',nome:'80 Salgados',preco:40.50,img:'images/80-salgados.jpg'},
+  {id:'p100',nome:'100 Salgados',preco:50.00,img:'images/100-salgados.jpg'},
+  {id:'c10',nome:'Poção 10 Mini Churros',preco:6.99,img:'images/mini-churros-10.jpg'},
+  {id:'c50',nome:'Poção 50 Mini Churros',preco:29.00,img:'images/mini-churros-50.jpg'},
+  {id:'c100',nome:'Poção 100 Mini Churros',preco:50.90,img:'images/mini-churros-100.jpg'},
+  {id:'kit2',nome:'Kit com 2 Churros Gourmet',preco:8.00,img:'images/kit-churros-2.jpg'},
+  {id:'churro',nome:'Churros Gourmet (uni.)',preco:4.99,img:'images/churros-gourmet.jpg'}
 ];
 
 const combosInfo = {
-  'combo_delicia':{nome:'Delícia da Casa',preco:35.00,img:'images/combo-delicia.jpg'},
-  'combo_festa':  {nome:'Festa Total',    preco:55.00,img:'images/combo-festa.jpg'},
-  'combo_fome':   {nome:'Tô com Fome',    preco:15.00,img:'images/combo-fome.jpg'}
+  'combo_delicia':{nome:'Delícia da Casa',preco:35.00,img:'images/combo_delicia.jpg'},
+  'combo_festa':{nome:'Festa Total',preco:55.00,img:'images/combo_festa.jpg'},
+  'combo_fome':{nome:'Tô com Fome',preco:15.00,img:'images/combo_fome.jpg'}
 };
 
 const carrinho = new Map();
@@ -197,13 +179,13 @@ function formatBRL(n){ return n.toLocaleString('pt-BR',{style:'currency',currenc
 const produtosContainer = document.getElementById('produtos');
 produtosData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
-  card.innerHTML = `
+  card.innerHTML = 
     <div class="thumb"><img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f6f6%22 /><text x=%22120%22 y=%2270%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22Verdana%22>Sem imagem</text></svg>'"></div>
     <div class="info"><div class="nome">${p.nome}</div><div class="preco">${formatBRL(p.preco)}</div></div>
     <div class="controle">
       <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
       <button class="add-btn" data-id="${p.id}">Adicionar</button>
-    </div>`;
+    </div>;
   produtosContainer.appendChild(card);
   const qtyEl = card.querySelector('.qty');
   const nEl = qtyEl.querySelector('.n');
@@ -221,7 +203,7 @@ document.querySelectorAll('.combos .qty').forEach(qtyEl=>{
 document.querySelectorAll('.combo-add').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const id = btn.dataset.id;
-    const qtyEl = document.querySelector(`.combos .qty[data-id="${id}"]`);
+    const qtyEl = document.querySelector(.combos .qty[data-id="${id}"]);
     const qty = qtyEl ? parseInt(qtyEl.querySelector('.n').textContent,10) : 1;
     const info = combosInfo[id];
     if(!info) return;
@@ -259,30 +241,23 @@ function atualizarCarrinho(){
     img.onerror=function(){ this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' };
     thumb.appendChild(img);
     const meta=document.createElement('div'); meta.className='cart-meta';
-    meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
+    meta.innerHTML=<div class="cname">${entry.produto.nome}</div><div class="csub">Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>;
     const right=document.createElement('div'); right.className='cart-right';
     const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty;
-    right.innerHTML=`<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-id="${id}">Remover</div>`;
+    right.innerHTML=<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-id="${id}">Remover</div>;
     li.appendChild(thumb); li.appendChild(meta); li.appendChild(right);
     li.querySelector('.remove').addEventListener('click', (ev)=>{ removerDoCarrinho(ev.target.dataset.id) });
     lista.appendChild(li);
   }
-  totalEl.textContent=`Total: ${formatBRL(total)}`;
+  totalEl.textContent=Total: ${formatBRL(total)};
 
-  // montar mensagem em texto puro (sem codificação) - sem campo de endereço (RETIRADA)
-  let mensagemTextPlain = `Pedido - Doce Confete
-
-`;
+  // montar mensagem em texto puro (sem codificação)
+  let mensagemTextPlain = Pedido - Doce Confete\n\n;
   for (const [id, entry] of carrinho.entries()) {
-    const line = `• ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
-    mensagemTextPlain += line + '
-';
+    const line = • ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)};
+    mensagemTextPlain += line + '\n';
   }
-  mensagemTextPlain += `
-Total: ${formatBRL(total)}
-
-Retirada: Sim (no local)
-Forma de pagamento:`;
+  mensagemTextPlain += \nTotal: ${formatBRL(total)}\n\nEndereço:\nForma de pagamento:;
 
   // salvar para usar depois (no modal de nome)
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
@@ -305,16 +280,13 @@ function enviarPedidoWhatsApp(nome){
   const waBtn=document.getElementById('whatsapp-btn');
   const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
   const total = waBtn.dataset.total || '0,00';
-  const cabecalho = `Olá, meu nome é ${nome} e quero realizar meu pedido para RETIRADA:
-
-`;
-  const mensagemCompleta = cabecalho + pedidoSemNome + `
-Total pedido: ${formatBRL(Number(total))}`;
+  const cabecalho = Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n;
+  const mensagemCompleta = cabecalho + pedidoSemNome + \nTotal pedido: ${formatBRL(Number(total))};
   const mensagemCodificada = encodeURIComponent(mensagemCompleta);
 
-  // telefone (formato internacional sem símbolos)
-  const telefone = '558791060340';
-  const waHref = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
+  // telefone (troque pelo seu número no formato internacional sem símbolos)
+  const telefone = '558791060340'; // <-- ALTERE AQUI PELO SEU NÚMERO (apenas números)
+  const waHref = https://wa.me/${telefone}?text=${mensagemCodificada};
   window.open(waHref, '_blank');
   document.getElementById('modal').style.display='none';
 }
