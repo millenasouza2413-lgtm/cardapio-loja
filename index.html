@@ -3,85 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cardápio Virtual - Mini Salgados e Churros</title>
+  <title>Doce Confete – Cardápio</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fafafa; }
-    header { background: #ff5a5f; color: #fff; padding: 15px; text-align: center; }
-    h1 { margin: 0; }
-    .container { padding: 20px; max-width: 800px; margin: auto; }
-    .produto { border: 1px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; background: #fff; display: flex; justify-content: space-between; align-items: center; }
-    .produto img { width: 80px; border-radius: 8px; }
-    .btn { background: #ff5a5f; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
-    .btn:hover { background: #e0484c; }
-    #carrinho { margin-top: 30px; padding: 15px; border: 2px solid #ff5a5f; border-radius: 10px; background: #fff; }
-    #carrinho h2 { margin-top: 0; }
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #fdf6ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #6c2bd9; /* roxo */
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    section {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      color: #ff7b00; /* laranja */
+      margin-top: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .preco {
+      float: right;
+      font-weight: bold;
+      color: #6c2bd9;
+    }
+
+    .combo {
+      background-color: #fff7f0;
+      border-left: 5px solid #ff7b00;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: #6c2bd9;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    a.botao {
+      display: inline-block;
+      background-color: #ff7b00;
+      color: white;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      margin: 5px;
+      transition: 0.3s;
+    }
+
+    a.botao:hover {
+      background-color: #ff8f1f;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Cardápio Virtual 🍩🥟</h1>
-    <p>Escolha seus itens e finalize no WhatsApp</p>
+    <h1>🍩 Doce Confete – Cardápio</h1>
+    <p>Os melhores salgados e churros da cidade!</p>
   </header>
 
-  <div class="container">
-    <div class="produto">
-      <div>
-        <h3>Coxinha</h3>
-        <p>Unidade - R$ 2,00</p>
+  <main>
+    <section>
+      <h2>🥟 Salgados Sortidos</h2>
+      <ul>
+        <li>25 Salgados <span class="preco">R$ 12,99</span></li>
+        <li>50 Salgados <span class="preco">R$ 25,90</span></li>
+        <li>80 Salgados <span class="preco">R$ 40,50</span></li>
+        <li>100 Salgados <span class="preco">R$ 50,00</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🍩 Mini Churros</h2>
+      <ul>
+        <li>Poção 10 Mini Churros <span class="preco">R$ 6,99</span></li>
+        <li>Poção 50 Mini Churros <span class="preco">R$ 29,00</span></li>
+        <li>Poção 100 Mini Churros <span class="preco">R$ 50,90</span></li>
+        <li>Kit com 2 Churros Gourmet <span class="preco">R$ 8,00</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🍱 Combos Especiais</h2>
+
+      <div class="combo">
+        <strong>🎉 Festa Total</strong><br>
+        100 salgados variados + 10 mini churros<br>
+        <span class="preco">R$ 55,00</span>
       </div>
-      <button class="btn" onclick="adicionarCarrinho('Coxinha - R$ 2,00')">Adicionar</button>
-    </div>
 
-    <div class="produto">
-      <div>
-        <h3>Churros Doce de Leite</h3>
-        <p>Unidade - R$ 3,00</p>
+      <div class="combo">
+        <strong>😋 Tô com Fome</strong><br>
+        20 mini salgados + 10 mini churros<br>
+        <span class="preco">R$ 15,00</span>
       </div>
-      <button class="btn" onclick="adicionarCarrinho('Churros Doce de Leite - R$ 3,00')">Adicionar</button>
-    </div>
 
-    <div class="produto">
-      <div>
-        <h3>Bolinha de Queijo</h3>
-        <p>Unidade - R$ 2,00</p>
+      <div class="combo">
+        <strong>🥤 Combo Lanche</strong><br>
+        40 mini salgados + 10 mini churros<br>
+        <span class="preco">R$ 35,00</span>
       </div>
-      <button class="btn" onclick="adicionarCarrinho('Bolinha de Queijo - R$ 2,00')">Adicionar</button>
-    </div>
+    </section>
 
-    <div id="carrinho">
-      <h2>🛒 Carrinho</h2>
-      <ul id="itens"></ul>
-      <button class="btn" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</button>
-    </div>
-  </div>
+    <section>
+      <h2>✨ Sabores dos Salgados</h2>
+      <ul>
+        <li>Coxinha</li>
+        <li>Pastelzinho</li>
+        <li>Balãozinho de Pizza</li>
+        <li>Travesseirinho de Carne</li>
+        <li>Bolinha de Queijo</li>
+        <li>Medalhão de Salsicha</li>
+      </ul>
+    </section>
 
-  <script>
-    let carrinho = [];
+    <section>
+      <h2>📍 Localização</h2>
+      <p>Doce Confete – Trindade / PE</p>
+      <p><em>Confira no mapa abaixo:</em></p>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.1024087810183!2d-40.27325272404058!3d-9.358647180858637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x705dfb59b9d6d67%3A0xcadf630cf3e8a1a9!2sDoce%20Confete!5e0!3m2!1spt-BR!2sbr!4v1730456398480!5m2!1spt-BR!2sbr"
+        width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy">
+      </iframe>
+    </section>
 
-    function adicionarCarrinho(item) {
-      carrinho.push(item);
-      atualizarCarrinho();
-    }
+    <section style="text-align:center;">
+      <h2>📞 Contato</h2>
+      <a href="https://wa.me/5581921410844" target="_blank" class="botao">📱 WhatsApp</a>
+      <a href="https://www.instagram.com/doceconfete/" target="_blank" class="botao">📸 Instagram</a>
+    </section>
+  </main>
 
-    function atualizarCarrinho() {
-      const lista = document.getElementById("itens");
-      lista.innerHTML = "";
-      carrinho.forEach((item, i) => {
-        let li = document.createElement("li");
-        li.textContent = item;
-        lista.appendChild(li);
-      });
-    }
-
-    function finalizarPedido() {
-      if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio!");
-        return;
-      }
-      const mensagem = encodeURIComponent("Olá, quero fazer o pedido: " + carrinho.join(", "));
-      const telefone = "5585998578909"; // <- coloque o número do WhatsApp da loja aqui
-      window.open(`https://wa.me/${telefone}?text=${mensagem}`, "_blank");
-    }
-  </script>
+  <footer>
+    <p>© 2025 Doce Confete – Feito com 💜 por Mille</p>
+  </footer>
 </body>
 </html>
