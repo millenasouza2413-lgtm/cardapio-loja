@@ -6,10 +6,11 @@
   <title>Doce Confete — Cardápio Interativo</title>
   <style>
     :root{
-      --primary: #ff3b30;      /* cor estilo iFood (vermelho) */
-      --accent: #ff8a65;       /* tom secundário para botões/hover */
-      --bg: #fff;              
-      --muted: #666;
+      --purple: #5b1fae;   /* roxo do cardápio */
+      --purple-dark: #3f0b7a;
+      --yellow: #ffcc00;   /* amarelo do cardápio */
+      --bg: #fff7ef;
+      --muted: #6b6b6b;
       --card: #ffffff;
       --shadow: 0 6px 18px rgba(0,0,0,0.08);
       --radius: 12px;
@@ -20,21 +21,42 @@
     body{
       margin:0;
       font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg, #fff 0%, #fff7f6 100%);
+      background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
       color:#222;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
     }
 
     header{
-      background: var(--primary);
+      background: var(--purple);
       color:#fff;
-      padding:18px 16px;
-      text-align:center;
+      padding:16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      justify-content:center;
     }
-    header h1{ margin:0; font-size:22px; letter-spacing:0.2px }
-    header p{ margin:6px 0 0; font-size:13px; opacity:0.95 }
+    header .logo{
+      width:68px;
+      height:68px;
+      border-radius:8px;
+      overflow:hidden;
+      flex-shrink:0;
+      background:#fff3d6;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    header .logo img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+    header .title{
+      text-align:left;
+    }
+    header h1{ margin:0; font-size:22px; line-height:1; font-weight:800; letter-spacing:0.2px }
+    header p{ margin:4px 0 0 0; font-size:13px; opacity:0.95; color: #ffeaa7 }
 
     main{
       max-width: var(--max-width);
@@ -45,7 +67,6 @@
       gap:18px;
     }
 
-    /* lista de produtos */
     .produtos{
       display:grid;
       grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
@@ -86,7 +107,7 @@
       gap:8px;
     }
     .nome{ font-weight:700; font-size:15px }
-    .preco{ color:var(--primary); font-weight:900; font-size:16px }
+    .preco{ color:var(--purple-dark); font-weight:900; font-size:16px }
 
     .controle{
       display:flex;
@@ -100,7 +121,7 @@
       display:flex;
       align-items:center;
       gap:8px;
-      background:#fff4f3;
+      background:#fff4d9;
       padding:6px;
       border-radius:10px;
       border:1px solid rgba(0,0,0,0.03);
@@ -120,17 +141,17 @@
     .qty .n{ min-width:28px; text-align:center }
 
     .add-btn{
-      background:var(--primary);
-      color:#fff;
+      background: linear-gradient(90deg, var(--yellow), #ffd34d);
+      color: var(--purple-dark);
       border:none;
       padding:8px 12px;
       border-radius:10px;
       cursor:pointer;
-      font-weight:800;
-      box-shadow:0 6px 14px rgba(255,59,48,0.12);
-      transition:transform .12s;
+      font-weight:900;
+      box-shadow:0 6px 14px rgba(0,0,0,0.06);
+      transition:transform .12s, filter .12s;
     }
-    .add-btn:hover{ transform:translateY(-3px); background:var(--accent) }
+    .add-btn:hover{ transform:translateY(-3px); filter:brightness(.98) }
 
     /* carrinho */
     #carrinho{
@@ -159,51 +180,55 @@
     .cart-meta .csub{ color:var(--muted); font-size:13px }
 
     .cart-right{ text-align:right }
-    .cart-right .subtotal{ font-weight:900; color:var(--primary) }
+    .cart-right .subtotal{ font-weight:900; color:var(--purple-dark) }
     .cart-right .remove{ display:block; font-size:12px; color:#999; cursor:pointer; margin-top:6px }
 
     #total{ font-weight:900; text-align:right; font-size:18px; margin-top:10px }
     #whatsapp-btn{
       display:block;
       text-align:center;
-      background: linear-gradient(90deg,var(--primary),#e94c3c);
-      color:white;
+      background: linear-gradient(90deg, var(--purple), var(--purple-dark));
+      color:var(--yellow);
       text-decoration:none;
       padding:12px 10px;
       border-radius:10px;
       margin-top:12px;
       font-weight:900;
-      box-shadow:0 10px 24px rgba(255,59,48,0.12);
+      box-shadow:0 10px 24px rgba(74,17,122,0.12);
     }
     #whatsapp-btn.small{ padding:8px 10px; font-size:14px }
 
     .empty{ color:#888; font-size:14px; padding:12px 6px }
 
-    /* responsivo */
     @media (max-width:980px){
       main{ grid-template-columns: 1fr; padding:12px }
       #carrinho{ position:relative; top:auto; margin-top:8px }
+      header{ justify-content:flex-start; padding:12px 16px }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🍩 Doce Confete</h1>
-    <p>Escolha, ajuste a quantidade e finalize pelo WhatsApp — rápido e fácil!</p>
+    <!-- substitua pelo caminho da sua logo (ex: images/logo-doce-confete.jpg) -->
+    <div class="logo">
+      <img src="images/logo-doce-confete.jpg" alt="Logo Doce Confete" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2268%22 height=%2268%22><rect width=%2268%22 height=%2268%22 fill=%22%23fff3d6%22/><text x=%2234%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%235b1fae%22 font-family=%22Verdana%22>Logo<\/text></svg>'">
+    </div>
+    <div class="title">
+      <h1>🍩 Doce Confete</h1>
+      <p>Peça rápido — finalize pelo WhatsApp</p>
+    </div>
   </header>
 
   <main>
-    <!-- produtos -->
     <div>
       <section style="margin-bottom:12px">
         <h2 style="margin:0 0 8px 0; font-size:18px; color:#222">Salgados e Mini Churros</h2>
-        <p style="margin:0 0 10px 0; color:#666">Toque nas setas para definir quantidades antes de adicionar.</p>
+        <p style="margin:0 0 10px 0; color:var(--muted)">Toque nas setas para definir quantidades antes de adicionar.</p>
       </section>
 
       <div class="produtos" id="produtos"></div>
     </div>
 
-    <!-- carrinho -->
     <aside id="carrinho">
       <h2>🛒 Seu Carrinho</h2>
       <ul id="lista-carrinho"></ul>
@@ -214,9 +239,9 @@
   </main>
 
   <script>
-    /* ============ DADOS DOS PRODUTOS =============
+    /* ============ DADOS DOS PRODUTOS ============
        Substitua os campos `img` pelos caminhos reais das fotos
-       (ex: 'images/25salgados.jpg' ou URL externo). */
+       (ex: 'images/25-salgados.jpg' ou URL externo). */
     const produtosData = [
       { id: 'p25', nome: '25 Salgados', preco: 19.99, img: 'images/25-salgados.jpg' },
       { id: 'p50', nome: '50 Salgados', preco: 34.90, img: 'images/50-salgados.jpg' },
@@ -226,25 +251,20 @@
       { id: 'c50', nome: 'Poção 50 Mini Churros', preco: 49.00, img: 'images/mini-churros-50.jpg' },
       { id: 'c100', nome: 'Poção 100 Mini Churros', preco: 79.90, img: 'images/mini-churros-100.jpg' },
       { id: 'kit2', nome: 'Kit com 2 Churros Gourmet', preco: 9.00, img: 'images/kit-churros-2.jpg' },
-      // Você pode adicionar mais produtos aqui
     ];
 
-    // carrinho como mapa { id: { produto, qty } }
     const carrinho = new Map();
 
-    // ajuda para formatar moeda BRL
     function formatBRL(num){
       return num.toLocaleString('pt-BR', { style:'currency', currency:'BRL' });
     }
 
-    // renderiza lista de produtos (cards)
     const container = document.getElementById('produtos');
     produtosData.forEach(p => {
-      // elemento base
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <div class="thumb"><img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22130%22><rect width=%22240%22 height=%22130%22 fill=%22%23f4f4f4%22 /><text x=%22120%22 y=%2268%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22Verdana%22>${encodeURIComponent('Imagem')}<\/text></svg>'"></div>
+        <div class="thumb"><img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22130%22><rect width=%22240%22 height=%22130%22 fill=%22%23f6f6f6%22 /><text x=%22120%22 y=%2268%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22Verdana%22>${encodeURIComponent('Sem imagem')}<\/text></svg>'"></div>
         <div class="info">
           <div class="nome">${p.nome}</div>
           <div class="preco">${formatBRL(p.preco)}</div>
@@ -260,7 +280,6 @@
       `;
       container.appendChild(card);
 
-      // eventos quantidade +/-
       const qtyEl = card.querySelector('.qty');
       const minus = qtyEl.querySelector('.minus');
       const plus = qtyEl.querySelector('.plus');
@@ -277,7 +296,6 @@
         nEl.textContent = n;
       });
 
-      // evento adicionar com a quantidade atual
       const addBtn = card.querySelector('.add-btn');
       addBtn.addEventListener('click', () => {
         const qty = parseInt(nEl.textContent,10);
@@ -285,7 +303,6 @@
       });
     });
 
-    // adiciona produto ao carrinho (acumula quantidade)
     function adicionarAoCarrinho(id, quantidade){
       const produto = produtosData.find(x => x.id === id);
       if(!produto) return;
@@ -299,26 +316,11 @@
       atualizarCarrinho();
     }
 
-    // remove item do carrinho
     function removerDoCarrinho(id){
       carrinho.delete(id);
       atualizarCarrinho();
     }
 
-    // altera qty no carrinho (usar inputs futuros se quiser)
-    function setQtyNoCarrinho(id, novaQty){
-      if(carrinho.has(id)){
-        if(novaQty <= 0) removerDoCarrinho(id);
-        else {
-          const e = carrinho.get(id);
-          e.qty = novaQty;
-          carrinho.set(id, e);
-        }
-        atualizarCarrinho();
-      }
-    }
-
-    // renderiza o carrinho
     function atualizarCarrinho(){
       const lista = document.getElementById('lista-carrinho');
       const totalEl = document.getElementById('total');
@@ -334,7 +336,6 @@
         return;
       }
 
-      // percorre mapa e monta itens
       for(const [id, entry] of carrinho.entries()){
         const li = document.createElement('li');
 
@@ -362,35 +363,31 @@
         li.appendChild(meta);
         li.appendChild(right);
 
-        // remover handler
         li.querySelector('.remove').addEventListener('click', (ev) => {
           const idToRemove = ev.target.getAttribute('data-id');
           removerDoCarrinho(idToRemove);
         });
 
         lista.appendChild(li);
-      } // end for
+      }
 
       totalEl.textContent = `Total: ${formatBRL(total)}`;
 
-      // montar mensagem pro WhatsApp (UTF-8 friendly)
       let mensagem = encodeURIComponent(`🍩 *Pedido - Doce Confete*%0A%0A`);
       for(const [id, entry] of carrinho.entries()){
         mensagem += encodeURIComponent(`• ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}%0A`);
       }
       mensagem += encodeURIComponent(`%0ATotal: *${formatBRL(total)}*%0A%0AEndereço: %0AForma de pagamento:`);
 
-      // telefone: coloque apenas números no formato internacional (ex: 55879xxxxxxx)
-      const telefone = '558791060340'; // <- TROQUE AQUI PELO SEU NÚMERO (somente números)
+      // Troque abaixo pelo seu número em formato internacional sem símbolos (ex: 55879xxxxxxxx)
+      const telefone = '558791060340'; // <- ALTERE AQUI
       const waHref = `https://wa.me/${telefone}?text=${mensagem}`;
       waBtn.href = waHref;
       waBtn.classList.remove('small');
     }
-
-    // Exemplo: pré-carregar algumas imagens locais (opcional)
-    // atualizarCarrinho(); // não chamar pra não preencher por padrão
   </script>
 </body>
 </html>
+
 
 
