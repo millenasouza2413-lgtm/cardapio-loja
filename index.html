@@ -179,13 +179,13 @@ function formatBRL(n){ return n.toLocaleString('pt-BR',{style:'currency',currenc
 const produtosContainer = document.getElementById('produtos');
 produtosData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
-  card.innerHTML = 
+  card.innerHTML = `
     <div class="thumb"><img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f6f6%22 /><text x=%22120%22 y=%2270%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22 font-family=%22Verdana%22>Sem imagem</text></svg>'"></div>
     <div class="info"><div class="nome">${p.nome}</div><div class="preco">${formatBRL(p.preco)}</div></div>
     <div class="controle">
       <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
       <button class="add-btn" data-id="${p.id}">Adicionar</button>
-    </div>;
+    </div>`;
   produtosContainer.appendChild(card);
   const qtyEl = card.querySelector('.qty');
   const nEl = qtyEl.querySelector('.n');
@@ -203,7 +203,7 @@ document.querySelectorAll('.combos .qty').forEach(qtyEl=>{
 document.querySelectorAll('.combo-add').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const id = btn.dataset.id;
-    const qtyEl = document.querySelector(.combos .qty[data-id="${id}"]);
+    const qtyEl = document.querySelector(`.combos .qty[data-id="${id}"]`);
     const qty = qtyEl ? parseInt(qtyEl.querySelector('.n').textContent,10) : 1;
     const info = combosInfo[id];
     if(!info) return;
@@ -241,23 +241,23 @@ function atualizarCarrinho(){
     img.onerror=function(){ this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' };
     thumb.appendChild(img);
     const meta=document.createElement('div'); meta.className='cart-meta';
-    meta.innerHTML=<div class="cname">${entry.produto.nome}</div><div class="csub">Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>;
+    meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
     const right=document.createElement('div'); right.className='cart-right';
     const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty;
-    right.innerHTML=<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-id="${id}">Remover</div>;
+    right.innerHTML=`<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-id="${id}">Remover</div>`;
     li.appendChild(thumb); li.appendChild(meta); li.appendChild(right);
     li.querySelector('.remove').addEventListener('click', (ev)=>{ removerDoCarrinho(ev.target.dataset.id) });
     lista.appendChild(li);
   }
-  totalEl.textContent=Total: ${formatBRL(total)};
+  totalEl.textContent=`Total: ${formatBRL(total)}`;
 
   // montar mensagem em texto puro (sem codificação)
-  let mensagemTextPlain = Pedido - Doce Confete\n\n;
+  let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
   for (const [id, entry] of carrinho.entries()) {
-    const line = • ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)};
+    const line = `• ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
     mensagemTextPlain += line + '\n';
   }
-  mensagemTextPlain += \nTotal: ${formatBRL(total)}\n\nEndereço:\nForma de pagamento:;
+  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n\nEndereço:\nForma de pagamento:`;
 
   // salvar para usar depois (no modal de nome)
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
@@ -280,13 +280,13 @@ function enviarPedidoWhatsApp(nome){
   const waBtn=document.getElementById('whatsapp-btn');
   const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
   const total = waBtn.dataset.total || '0,00';
-  const cabecalho = Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n;
-  const mensagemCompleta = cabecalho + pedidoSemNome + \nTotal pedido: ${formatBRL(Number(total))};
+  const cabecalho = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
+  const mensagemCompleta = cabecalho + pedidoSemNome + `\nTotal pedido: ${formatBRL(Number(total))}`;
   const mensagemCodificada = encodeURIComponent(mensagemCompleta);
 
   // telefone (troque pelo seu número no formato internacional sem símbolos)
   const telefone = '558791060340'; // <-- ALTERE AQUI PELO SEU NÚMERO (apenas números)
-  const waHref = https://wa.me/${telefone}?text=${mensagemCodificada};
+  const waHref = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
   window.open(waHref, '_blank');
   document.getElementById('modal').style.display='none';
 }
@@ -302,4 +302,3 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Combos:', Ob
 </script>
 </body>
 </html>
-
