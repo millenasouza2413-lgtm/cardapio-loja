@@ -16,6 +16,7 @@ header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:
 .logo img{width:100%;height:100%;object-fit:contain}
 .title h1{margin:0;font-size:22px;color:#fff;font-weight:800}
 .title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
+.banner{background:#fffae5;color:#b36b00;text-align:center;font-weight:700;padding:10px;border-bottom:2px solid #ffc46b;}
 main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
 .produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px}
@@ -57,22 +58,15 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 
 <header>
   <div class="logo">
-    <!-- substitua pelo arquivo real da logo -->
     <img src="images/logo-doce-confete.jpg" alt="logo"
          onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'">
   </div>
   <div class="title"><h1>Doce Confete</h1><p>Encomendas, combos e porções — finalize pelo WhatsApp</p></div>
-  <!-- aviso -->
-  <div style="
-  background:#fffae5;
-  color:#b36b00;
-  text-align:center;
-  font-weight:700;
-  padding:10px;
-  border-bottom:2px solid #ffc46b;">
-  ⚠️ Pedido disponível <u>apenas para retirada no local</u>.
-  </div>
 </header>
+
+<div class="banner">
+  ⚠️ Pedido disponível <u>apenas para retirada no local</u>.
+</div>
 
 <main>
   <div>
@@ -138,16 +132,34 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <ul id="lista-carrinho"></ul>
     <p id="total">Total: R$ 0,00</p>
     <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Enviar pedido no WhatsApp</a>
-    <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome.</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome e opção de pagamento. Pedido disponível apenas para retirada.</p>
   </aside>
 </main>
 
 <!-- modal -->
 <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:9998">
   <div style="background:white;padding:20px;border-radius:12px;max-width:420px;width:92%;box-shadow:0 10px 30px rgba(0,0,0,0.25)">
-    <h3 style="margin:0 0 10px 0;color:var(--brown-dark)">Qual seu nome?</h3>
-    <p style="margin:0 0 10px 0;color:#444">Precisamos do seu nome para enviar o pedido.</p>
-    <input id="cliente-nome" placeholder="Seu nome (obrigatório)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:16px" />
+    <h3 style="margin:0 0 10px 0;color:var(--brown-dark)">Finalizar pedido</h3>
+    <p style="margin:0 0 10px 0;color:#444">Digite seu nome e escolha a forma de pagamento.</p>
+
+    <input id="cliente-nome" placeholder="Seu nome (obrigatório)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-bottom:12px" />
+
+    <div style="margin-bottom:12px">
+      <label style="font-weight:700;display:block;margin-bottom:6px">Forma de pagamento:</label>
+
+      <label style="display:inline-flex;align-items:center;gap:8px;margin-right:8px">
+        <input type="radio" name="pagamento" value="PIX" checked> PIX
+      </label>
+
+      <label style="display:inline-flex;align-items:center;gap:8px;margin-right:8px">
+        <input type="radio" name="pagamento" value="Cartão"> Cartão
+      </label>
+
+      <label style="display:inline-flex;align-items:center;gap:8px">
+        <input type="radio" name="pagamento" value="Dinheiro"> Dinheiro
+      </label>
+    </div>
+
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
       <button id="cancel-modal" style="background:#eee;border:none;padding:8px 10px;border-radius:8px;cursor:pointer">Cancelar</button>
       <button id="confirm-modal" style="background:var(--brown);color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer">Enviar pedido</button>
@@ -179,7 +191,7 @@ const produtosData = [
 const combosInfo = {
   'combo_delicia':{nome:'Delícia da Casa',preco:35.00,img:'images/combo_delicia.jpg'},
   'combo_festa':{nome:'Festa Total',preco:55.00,img:'images/combo_festa.jpg'},
-  'combo_fome':{nome:'Tô com Fome',preco:18.00,img:'images/combo_fome.jpg'}
+  'combo_fome':{nome:'Tô com Fome',preco:15.00,img:'images/combo_fome.jpg'}
 };
 
 const carrinho = new Map();
@@ -261,13 +273,13 @@ function atualizarCarrinho(){
   }
   totalEl.textContent=`Total: ${formatBRL(total)}`;
 
-  // montar mensagem em texto puro (sem codificação)
+  // montar mensagem em texto puro (somente itens e total) - sem "Endereço" ou "Forma de pagamento" placeholders
   let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
   for (const [id, entry] of carrinho.entries()) {
     const line = `• ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
     mensagemTextPlain += line + '\n';
   }
-  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n\nEndereço:\nForma de pagamento:`;
+  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`; // guarda só os itens + total
 
   // salvar para usar depois (no modal de nome)
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
@@ -281,22 +293,37 @@ function atualizarCarrinho(){
 function updateFab(count){ document.getElementById('fab-count').textContent = count; }
 document.getElementById('fab').addEventListener('click', ()=>{ document.getElementById('carrinho').scrollIntoView({behavior:'smooth',block:'center'}) });
 
-/* enviar pedido -> abre modal pedindo nome */
-document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ e.preventDefault(); if(carrinho.size===0){ alert('Seu carrinho está vazio.'); return;} document.getElementById('modal').style.display='flex'; document.getElementById('cliente-nome').focus();});
-document.getElementById('cancel-modal').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none';});
-document.getElementById('confirm-modal').addEventListener('click', ()=>{ const nome=document.getElementById('cliente-nome').value.trim(); if(!nome){ alert('Por favor digite seu nome.'); document.getElementById('cliente-nome').focus(); return; } enviarPedidoWhatsApp(nome); });
+/* enviar pedido -> abre modal pedindo nome + pagamento */
+document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ 
+  e.preventDefault(); 
+  if(carrinho.size===0){ alert('Seu carrinho está vazio.'); return;} 
+  // abrir modal
+  document.getElementById('modal').style.display='flex'; 
+  document.getElementById('cliente-nome').focus();
+});
 
-function enviarPedidoWhatsApp(nome){
+/* modal controls */
+document.getElementById('cancel-modal').addEventListener('click', ()=>{ document.getElementById('modal').style.display='none';});
+document.getElementById('confirm-modal').addEventListener('click', ()=>{ 
+  const nome=document.getElementById('cliente-nome').value.trim(); 
+  if(!nome){ alert('Por favor digite seu nome.'); document.getElementById('cliente-nome').focus(); return; } 
+  // pega opção de pagamento selecionada
+  const pagamentoEl = document.querySelector('input[name="pagamento"]:checked');
+  const pagamento = pagamentoEl ? pagamentoEl.value : 'PIX';
+  enviarPedidoWhatsApp(nome, pagamento); 
+});
+
+/* função que monta e envia a mensagem pro WhatsApp */
+function enviarPedidoWhatsApp(nome, pagamento){
   const waBtn=document.getElementById('whatsapp-btn');
   const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
   const total = waBtn.dataset.total || '0,00';
-  const cabecalho = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
-  const mensagemCompleta = cabecalho + pedidoSemNome + `\nTotal pedido: ${formatBRL(Number(total))}`;
-  const mensagemCodificada = encodeURIComponent(mensagemCompleta);
-
+  const cabecalho = `Olá, meu nome é ${nome} e quero realizar meu pedido:%0A%0A`;
+  // mensagem já codificada com items + total
+  const mensagemCompleta = cabecalho + encodeURIComponent(pedidoSemNome) + `%0AForma de pagamento: *${pagamento}*%0A%0A📦 *Retirada no local*`;
   // telefone (troque pelo seu número no formato internacional sem símbolos)
   const telefone = '558791060340'; // <-- ALTERE AQUI PELO SEU NÚMERO (apenas números)
-  const waHref = `https://wa.me/${telefone}?text=${mensagemCodificada}`;
+  const waHref = `https://wa.me/${telefone}?text=${mensagemCompleta}`;
   window.open(waHref, '_blank');
   document.getElementById('modal').style.display='none';
 }
@@ -312,5 +339,3 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Combos:', Ob
 </script>
 </body>
 </html>
-
-
