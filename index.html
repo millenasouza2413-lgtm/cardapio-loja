@@ -119,7 +119,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <ul id="lista-carrinho"></ul>
     <p id="total">Total: R$ 0,00</p>
     <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Enviar pedido no WhatsApp</a>
-    <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome, tipo (retirada/entrega) e opção de pagamento. Entrega aceita somente com PIX.</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome, tipo (retirada/entrega) e opção de pagamento.</p>
   </aside>
 </main>
 
@@ -133,12 +133,12 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <div style="margin-bottom:12px">
       <label style="font-weight:700;display:block;margin-bottom:6px">Como deseja receber?</label>
       <label style="display:inline-flex;align-items:center;gap:8px;margin-right:12px">
-        <input type="radio" name="tipo_entrega" value="Retirada" checked> Retirada
+        <input id="tipo-retirada" type="radio" name="tipo_entrega" value="Retirada" checked> Retirada
       </label>
       <label style="display:inline-flex;align-items:center;gap:8px">
-        <input type="radio" name="tipo_entrega" value="Entrega"> Entrega
+        <input id="tipo-entrega" type="radio" name="tipo_entrega" value="Entrega"> Entrega
       </label>
-      <div id="entrega-note" class="note-small field-hidden">Entrega disponível. *Entrega aceita somente com PIX.*</div>
+      <div id="entrega-note" class="note-small field-hidden">Entrega disponível.</div>
     </div>
 
     <input id="cliente-nome" placeholder="Seu nome (obrigatório)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-bottom:12px" />
@@ -164,7 +164,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
       <label id="pay-dinheiro-wrap" style="display:inline-flex;align-items:center;gap:8px">
         <input id="pay-dinheiro" type="radio" name="pagamento" value="Dinheiro"> Dinheiro
       </label>
-      <div id="pix-only-note" class="note-small field-hidden">Para entrega, aceite apenas PIX.</div>
+      <div id="pix-only-note" class="note-small field-hidden">Recomendamos PIX para entrega (mais rápido), mas você pode escolher outra forma se preferir.</div>
     </div>
 
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
@@ -318,7 +318,7 @@ function atualizarCarrinho(){
   }
   totalEl.textContent=`Total: ${formatBRL(total)}`;
 
-  // montar mensagem (itens + total)
+  // montar mensagem (itens + total) - texto plano com quebras \n
   let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
   for (const [id, entry] of carrinho.entries()) {
     const line = `• ${entry.produto.nome} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
@@ -351,16 +351,15 @@ const payPix = document.getElementById('pay-pix');
 
 function setModalToTipo(tipo){
   if(tipo === 'Entrega'){
-    // mostrar endereco e nota
+    // mostrar endereco e nota (mas NÃO forçar forma de pagamento)
     entregaNote.classList.remove('field-hidden');
     enderecoWrap.classList.remove('field-hidden');
-    pixOnlyNote.classList.remove('field-hidden');
-    // forçar PIX e desabilitar outras opções
-    payPix.checked = true;
-    payCartao.disabled = true;
-    payDinheiro.disabled = true;
-    payCartaoWrap.style.opacity = '0.5';
-    payDinheiroWrap.style.opacity = '0.5';
+    pixOnlyNote.classList.remove('field-hidden'); // mostra recomendação, mas continua opcional
+    // habilita todas as opções (caso algo estivesse desabilitado)
+    payCartao.disabled = false;
+    payDinheiro.disabled = false;
+    payCartaoWrap.style.opacity = '1';
+    payDinheiroWrap.style.opacity = '1';
   } else {
     entregaNote.classList.add('field-hidden');
     enderecoWrap.classList.add('field-hidden');
@@ -403,9 +402,8 @@ document.getElementById('confirm-modal').addEventListener('click', ()=>{
   const endereco = document.getElementById('cliente-endereco').value.trim();
 
   if(tipo === 'Entrega'){
-    // exige endereço e força PIX
+    // exige endereço (mas NÃO força PIX)
     if(!endereco){ alert('Para entrega, por favor informe o endereço completo.'); document.getElementById('cliente-endereco').focus(); return; }
-    pagamento = 'PIX'; // garante
   }
 
   enviarPedidoWhatsApp(nome, tipo, pagamento, endereco);
@@ -415,22 +413,19 @@ document.getElementById('confirm-modal').addEventListener('click', ()=>{
 function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco){
   const waBtn=document.getElementById('whatsapp-btn');
   const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
-  let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:%0A%0A`;
-  // adiciona itens (pedidoSemNome já contém quebras convertidas? não — ele é texto normal)
-  // pedimos para garantir, então usamos encodeURIComponent no final
-  const itensTexto = pedidoSemNome; // texto com itens e total
-  mensagem += encodeURIComponent(itensTexto);
-  mensagem += `%0ATipo: *${tipo}*%0A`;
+  // montar mensagem inteira em texto plano (com quebras \n) e só depois fazer encodeURIComponent uma vez
+  let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
+  mensagem += pedidoSemNome + '\n';
+  mensagem += `Tipo: ${tipo}\n`;
   if(tipo === 'Entrega'){
-    mensagem += `Endereço: ${encodeURIComponent(endereco)}%0A`;
-    mensagem += `Forma de pagamento: *${pagamento}*%0A%0A📦 *ENTREGA (aceita somente PIX)*`;
-  } else {
-    mensagem += `Forma de pagamento: *${pagamento}*%0A%0A📦 *Retirada no local*`;
+    mensagem += `Endereço: ${endereco}\n`;
   }
+  mensagem += `Forma de pagamento: ${pagamento}\n\n`;
+  mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
 
-  // número do WhatsApp (DDI + DDD + número) — altere aqui
-  const telefone = '558791060340'; // <-- TROCA PELO TEU NÚMERO
-  const waHref = `https://wa.me/${telefone}?text=${mensagem}`;
+  // telefone do WhatsApp - troque pelo seu (DDI + DDD + número sem símbolos)
+  const telefone = '558791060340'; // <-- coloque aqui o seu número real
+  const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
   window.open(waHref, '_blank');
   modalEl.style.display='none';
 }
@@ -446,4 +441,3 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Combos:', Ob
 </script>
 </body>
 </html>
-
