@@ -18,8 +18,9 @@ header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:
 .title h1{margin:0;font-size:22px;color:#fff;font-weight:800}
 .title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
 .banner{background:#fffae5;color:#b36b00;text-align:center;font-weight:700;padding:10px;border-bottom:2px solid #ffc46b;}
+.delivery-note{background:#fff3d6;padding:10px;text-align:center;color:#7a4a00;font-weight:800;border-bottom:1px dashed rgba(0,0,0,0.04)}
 main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
-.produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;justify-items:stretch}
 .card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px;position:relative;overflow:hidden}
 .thumb{height:140px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f6f6;position:relative}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .28s ease,filter .28s ease}
@@ -61,6 +62,15 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:#222;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:9999}
 .toast.show{opacity:1;pointer-events:auto}
 @media (max-width:980px){main{grid-template-columns:1fr;padding:12px}#carrinho{position:relative;top:auto;margin-top:12px}.fab{right:14px;bottom:14px}}
+/* mobile improvements: larger thumbs and centered layout */
+@media (max-width:600px){
+  .produtos{grid-template-columns:repeat(1,1fr);justify-items:center}
+  .thumb{height:200px}
+  .combo-card .thumb{height:160px}
+  .mini-thumb{width:72px;height:52px}
+  .card{min-height:230px}
+}
+
 /* small helpers for modal fields */
 .field-hidden{display:none}
 .note-small{font-size:13px;color:var(--muted);margin-top:6px}
@@ -69,6 +79,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 .sabor-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .sabor-item{background:#fff;padding:8px 10px;border-radius:999px;border:1px solid #f0e6d9;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .sabor-item input{margin-right:6px}
+.sabor-todos{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -85,34 +96,48 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
   Entrega e Retirada!
 </div>
 
+<div class="delivery-note">
+  Taxa de entrega é <strong>à parte</strong> — o valor será informado no chat quando confirmar o pedido.
+</div>
+
 <main>
   <div>
-    <!-- SALGADOS: destaque (apenas p50 e p100) -->
+    <!-- SALGADOS: destaque -->
     <section id="salgados-section">
       <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados</h2>
-      <p style="margin:0 0 12px 0;color:var(--muted)">Escolha a porção (50 ou 100) e selecione os sabores desejados abaixo.</p>
+      <p style="margin:0 0 12px 0;color:var(--muted)">Escolha a porção (25, 50 ou 100) e selecione os sabores desejados abaixo.</p>
       <div class="produtos" id="produtos"></div>
     </section>
 
     <!-- SABORES DOS SALGADOS (checkbox list: permite vários sabores) -->
     <section class="sabores" id="sabores-salgados">
       <h3>Sabores dos Salgados (selecione 1 ou mais)</h3>
+      <div class="sabor-todos">
+        <label class="sabor-item" style="border-style:dashed;background:#fffbe6">
+          <input type="checkbox" id="salgados_todos"> Todos os sabores
+        </label>
+      </div>
       <div class="sabor-list" id="sabor-list-salgados">
         <!-- checkboxes gerados por JS -->
       </div>
       <div style="margin-top:8px;font-size:12px;color:var(--muted)">Dica: selecione todos os sabores que você quer na porção (ex: Coxinha, Bolinha de Queijo e Balão de Pizza).</div>
     </section>
 
-    <!-- DOCES: porções 50/100 -->
+    <!-- DOCES: porções -->
     <section id="doces-section" style="margin-top:18px">
       <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Doces</h2>
-      <p style="margin:0 0 12px 0;color:var(--muted)">Escolha a porção (50 ou 100) e selecione os sabores desejados abaixo.</p>
+      <p style="margin:0 0 12px 0;color:var(--muted)">Escolha a porção e selecione os sabores desejados abaixo.</p>
       <div class="produtos" id="produtos-doces"></div>
     </section>
 
     <!-- SABORES DOS DOCES (checkboxes) -->
     <section class="sabores" id="sabores-doces">
       <h3>Sabores dos Doces (selecione 1 ou mais)</h3>
+      <div class="sabor-todos">
+        <label class="sabor-item" style="border-style:dashed;background:#fffbe6">
+          <input type="checkbox" id="doces_todos"> Todos os sabores
+        </label>
+      </div>
       <div class="sabor-list" id="sabor-list-doces">
         <!-- checkboxes gerados por JS -->
       </div>
@@ -123,13 +148,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <section class="combos" id="combos-visual" style="margin-top:18px">
       <h2 style="margin-top:18px;color:var(--brown-dark)">🎉 Combos</h2>
       <div class="combos-grid" id="combos-grid"></div>
-      <div style="margin-top:8px;font-size:12px;color:var(--muted)">
-        <!-- GUIA IMAGENS: coloque imagens para cada combo em /images/ ou substitua pelas suas -->
-        <!-- Exemplos de imagens que você enviou (use como modelo ou substitua):
-             /mnt/data/1f377a87-723c-48d4-8d43-f47737535995.jpeg
-             /mnt/data/71892fcc-7be6-486e-9349-8c04959ba793.jpeg
-        -->
-      </div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)"></div>
     </section>
 
     <!-- MINI CHURROS: mantém -->
@@ -148,7 +167,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <ul id="lista-carrinho"></ul>
     <p id="total">Total: R$ 0,00</p>
     <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Enviar pedido no WhatsApp</a>
-    <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome, tipo (retirada/entrega) e opção de pagamento.</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome, tipo (retirada/entrega) e opção de pagamento. Taxa de entrega é informada no chat.</p>
   </aside>
 </main>
 
@@ -175,7 +194,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <!-- endereço (aparece apenas quando Entrega selecionada) -->
     <div id="endereco-wrap" class="field-hidden" style="margin-bottom:12px">
       <input id="cliente-endereco" placeholder="Endereço completo (obrigatório para entrega)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:15px" />
-      <div class="note-small">Por favor inclua rua, número, bairro e referência, * valor da entrega é informada no chat.</div>
+      <div class="note-small">Por favor inclua rua, número, bairro e referência. * Valor da entrega é informado no chat.</div>
     </div>
 
     <!-- formas de pagamento -->
@@ -212,27 +231,29 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 
 <script>
 /* === DADOS ===
-   - removi p25 e p80; mantive p50 e p100
-   - docesData com d50/d100
-   - adicionei combos kit_5 e kit_10_15
-   - usei imagens de exemplo: paths dos arquivos que você enviou estão no comentário do HTML; substitua por images/xxx.jpg se preferir
+   - agora inclui 25,50,100 salgados (todos com badge de promoção)
+   - combos renomeados: To com Fome, Delícia da Casa, Festa Total
+   - contador inicia em 0
 */
 const produtosData = [
+  {id:'p25',nome:'25 Salgados',preco:15.00, precoOriginal:30.00, img:'images/25-salgados.jpg', categoria:'salgado'},
   {id:'p50',nome:'50 Salgados (Meio Cento)',preco:25.00, precoOriginal:35.00, img:'images/50-salgados.jpg', categoria:'salgado'},
   {id:'p100',nome:'100 Salgados (Cento)',preco:50.00, precoOriginal:65.00, img:'images/100-salgados.jpg', categoria:'salgado'}
 ];
 
 const docesData = [
+  {id:'d15',nome:'15 Doces',preco:15.00,img:'images/15-doces.jpg', categoria:'doce'},
+  {id:'d40',nome:'40 Doces',preco:40.00,img:'images/40-doces.jpg', categoria:'doce'},
   {id:'d50',nome:'50 Doces',preco:50.00,img:'images/50-doces.jpg', categoria:'doce'},
   {id:'d100',nome:'100 Doces',preco:100.00,img:'images/100-doces.jpg', categoria:'doce'}
 ];
 
 const combosInfo = {
-  'kit_5': { nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados variados + 40 doces variados' },
-  'kit_10_15': { nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados variados + 50 doces variados' },
+  'combo_fome':    { nome:'To com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' },
   'combo_delicia': { nome:'Delícia da Casa', preco:35.00, img:'images/combo_delicia.jpg', desc:'40 salgados + 10 mini churros' },
   'combo_festa':   { nome:'Festa Total', preco:55.00, img:'images/combo_festa.jpg', desc:'100 salgados + 10 mini churros' },
-  'combo_fome':    { nome:'Tô com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' }
+  'kit_5':         { nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados variados + 40 doces variados' },
+  'kit_10_15':     { nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados variados + 50 doces variados' }
 };
 
 const miniChurrosData = [
@@ -284,19 +305,20 @@ produtosData.forEach(p=>{
     </div>
     ${hasPromo ? `<div style="margin-top:-4px"><span class="preco-old">${formatBRL(p.precoOriginal)}</span></div>` : ''}
     <div class="controle">
-      <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
+      <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
       <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar</button>
     </div>`;
   produtosContainer.appendChild(card);
 
   const qtyEl = card.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
-  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n});
+  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>0) n--; nEl.textContent=n});
   qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
-  // add listener: exige pelo menos 1 sabor selecionado (multiseleção)
+  // add listener: exige pelo menos 1 sabor selecionado (multiseleção) e qty > 0
   card.querySelector('.add-btn').addEventListener('click', (ev)=>{
     const qty=parseInt(nEl.textContent,10);
     const cid = ev.currentTarget.dataset.id;
     const categoria = ev.currentTarget.dataset.categoria;
+    if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; }
     if(categoria === 'salgado'){
       const sabores = getSelectedSabores('salgados_sabor'); // array
       if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos salgados antes de adicionar.'); return; }
@@ -315,6 +337,16 @@ saboresSalgado.forEach((s,idx)=>{
   wrap.innerHTML = `<input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s}`;
   saborListSalgados.appendChild(wrap);
 });
+/* behavior: "Todos os sabores" toggle */
+document.getElementById('salgados_todos').addEventListener('change', (e)=>{
+  const checked = e.target.checked;
+  document.querySelectorAll('input[name="salgados_sabor"]').forEach(i=> i.checked = checked);
+});
+document.getElementById('sabor-list-salgados').addEventListener('change', ()=>{
+  const all = Array.from(document.querySelectorAll('input[name="salgados_sabor"]'));
+  const todos = all.length && all.every(i=>i.checked);
+  document.getElementById('salgados_todos').checked = !!todos;
+});
 
 /* ====== RENDER DOCES (porções) ====== */
 const produtosDocesContainer = document.getElementById('produtos-doces');
@@ -329,18 +361,19 @@ docesData.forEach(p=>{
       <div class="preco">${formatBRL(p.preco)}</div>
     </div>
     <div class="controle">
-      <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
+      <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
       <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar</button>
     </div>`;
   produtosDocesContainer.appendChild(card);
 
   const qtyEl = card.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
-  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n});
+  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>0) n--; nEl.textContent=n});
   qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
   card.querySelector('.add-btn').addEventListener('click', (ev)=>{
     const qty=parseInt(nEl.textContent,10);
     const cid = ev.currentTarget.dataset.id;
     const categoria = ev.currentTarget.dataset.categoria;
+    if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; }
     if(categoria === 'doce'){
       const sabores = getSelectedSabores('doces_sabor'); // array
       if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos doces antes de adicionar.'); return; }
@@ -358,6 +391,16 @@ saboresDoce.forEach((s,idx)=>{
   const wrap = document.createElement('label'); wrap.className='sabor-item';
   wrap.innerHTML = `<input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s}`;
   saborListDoces.appendChild(wrap);
+});
+/* behavior: "Todos os sabores" toggle doces */
+document.getElementById('doces_todos').addEventListener('change', (e)=>{
+  const checked = e.target.checked;
+  document.querySelectorAll('input[name="doces_sabor"]').forEach(i=> i.checked = checked);
+});
+document.getElementById('sabor-list-doces').addEventListener('change', ()=>{
+  const all = Array.from(document.querySelectorAll('input[name="doces_sabor"]'));
+  const todos = all.length && all.every(i=>i.checked);
+  document.getElementById('doces_todos').checked = !!todos;
 });
 
 /* ====== RENDER COMBOS (inclui kits) ====== */
@@ -405,16 +448,16 @@ miniChurrosData.forEach(item=>{
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <div class="qty" data-id="${item.id}"><button class="minus">−</button><div class="n">1</div><button class="plus">+</button></div>
+      <div class="qty" data-id="${item.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
       <button class="add-btn mini-add" data-id="${item.id}" style="min-width:110px">Adicionar</button>
     </div>
   `;
   miniList.appendChild(wrap);
 
   const qtyEl = wrap.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
-  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n});
+  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>0) n--; nEl.textContent=n});
   qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
-  wrap.querySelector('.mini-add').addEventListener('click',()=>{ const qty=parseInt(nEl.textContent,10); adicionarAoCarrinho(item.id,qty,{nome:item.nome,preco:item.preco,img:item.img})});
+  wrap.querySelector('.mini-add').addEventListener('click',()=>{ const qty=parseInt(nEl.textContent,10); if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; } adicionarAoCarrinho(item.id,qty,{nome:item.nome,preco:item.preco,img:item.img})});
 });
 
 /* ====== CARRINHO: adicionar / remover / atualizar ====== */
@@ -469,6 +512,7 @@ function atualizarCarrinho(){
     mensagemTextPlain += line + '\n';
   }
   mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`; // guarda só os itens + total
+  mensagemTextPlain += `\nObservação: taxa de entrega é à parte e será informada no chat se optar por ENTREGA.\n`;
 
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
   waBtn.dataset.total = total.toFixed(2);
@@ -552,6 +596,7 @@ function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco){
   mensagem += `Tipo: ${tipo}\n`;
   if(tipo === 'Entrega'){
     mensagem += `Endereço: ${endereco}\n`;
+    mensagem += `\nObs: favor confirmar valor da taxa de entrega no chat.\n`;
   }
   mensagem += `Forma de pagamento: ${pagamento}\n\n`;
   mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
@@ -581,7 +626,3 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', doc
 </script>
 </body>
 </html>
-
-
-
-
