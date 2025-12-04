@@ -151,9 +151,34 @@ main{
   .fab{right:14px;bottom:14px}
 }
 
-/* small/mobile tweaks */
+/* small/mobile tweaks - NOVO: correção do header */
 @media (max-width:600px){
   :root{ --max-card-width:calc(100% - 28px); }
+  
+  /* CORREÇÃO DO HEADER PARA CELULAR - NOVO */
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px 12px;
+    gap: 8px;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .title h1 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+  
+  .title p {
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  
+  /* resto do CSS existente... */
   .produtos{grid-template-columns:repeat(1,1fr);justify-items:center;padding:0 4px}
   .thumb{height:260px}
   .combo-card .thumb{height:200px}
@@ -161,10 +186,8 @@ main{
   .card{min-height:260px;padding:14px;border-width:0;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
   .info{gap:6px}
   .controle{flex-direction:row;align-items:center}
-  /* garante que o botão e contador fiquem lado a lado com espaço */
   .controle .qty{flex:0 0 auto}
   .controle .add-btn{flex:0 0 auto}
-  /* evita o FAB cobrir conteúdo ao final da página */
   main{padding-bottom:110px}
 }
 
@@ -344,7 +367,9 @@ const combosData = [
 
 const kitsData = [
   { id:'kit_5', nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
-  { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' }
+  { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' },
+  // NOVO KIT PARA 20 PESSOAS
+  { id:'kit_20', nome:'Kit 20 pessoas', preco:150.00, img:'images/20-pessoas.jpg', desc:'200 salgados + 80 docinhos' }
 ];
 
 const miniChurrosData = [
