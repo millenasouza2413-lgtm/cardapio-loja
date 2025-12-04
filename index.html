@@ -8,6 +8,7 @@
 :root{
   --brown:#6b3b1a; --brown-dark:#4d2c15; --orange:#ff6a00; --pastel:#fff6b8;
   --card:#fff; --muted:#6b6b6b; --radius:12px; --shadow:0 10px 30px rgba(0,0,0,0.08);
+  --max-card-width:420px;
 }
 /* Reset / base */
 *{box-sizing:border-box}
@@ -20,22 +21,22 @@ header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:
 .banner{background:#fffae5;color:#b36b00;text-align:center;font-weight:700;padding:10px;border-bottom:2px solid #ffc46b;}
 .delivery-note{background:#fff3d6;padding:10px;text-align:center;color:#7a4a00;font-weight:800;border-bottom:1px dashed rgba(0,0,0,0.04)}
 main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
-.produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;justify-items:stretch}
-.card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px;position:relative;overflow:hidden}
-.thumb{height:140px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f6f6;position:relative}
+.produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;justify-items:center}
+.card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px;position:relative;overflow:hidden;width:100%;max-width:var(--max-card-width);margin:0 auto}
+.thumb{height:220px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f6f6;position:relative}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .28s ease,filter .28s ease}
 .thumb:hover img{transform:scale(1.03);filter:brightness(1.03)}
 .promo-badge{position:absolute;top:12px;left:12px;background:linear-gradient(90deg,#ff3b30,#ffb347);color:#fff;font-weight:900;padding:8px 12px;border-radius:999px;font-size:13px;box-shadow:0 8px 22px rgba(255,59,48,0.18);transform:rotate(-8deg);display:inline-block;z-index:5;text-transform:uppercase;letter-spacing:0.6px;animation:promo-pulse 1600ms infinite}
 @keyframes promo-pulse{0%{transform:rotate(-8deg) scale(1);box-shadow:0 8px 22px rgba(255,59,48,0.18)}50%{transform:rotate(-8deg) scale(1.04);box-shadow:0 18px 36px rgba(255,59,48,0.22)}100%{transform:rotate(-8deg) scale(1);box-shadow:0 8px 22px rgba(255,59,48,0.18)}}
 
-.info{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .nome{font-weight:800;font-size:15px;color:var(--orange)}
 .preco{color:var(--brown-dark);font-weight:900;font-size:16px}
 .preco-old{color:#999;text-decoration:line-through;font-size:13px}
-.controle{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:auto}
+.controle{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:auto;width:100%}
 .qty{display:flex;align-items:center;gap:8px;background:#fff4e6;padding:6px;border-radius:10px;font-weight:800;border:1px solid rgba(0,0,0,0.04)}
 .qty button{background:transparent;border:none;font-size:18px;width:28px;height:28px;cursor:pointer;color:var(--brown-dark)}
-.qty .n{min-width:28px;text-align:center}
+.qty .n{min-width:34px;text-align:center}
 .add-btn{background:var(--brown);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
 .add-btn:hover{filter:brightness(.96)}
 #carrinho{position:sticky;top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);height:fit-content}
@@ -53,22 +54,33 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 #whatsapp-btn{display:block;text-align:center;background:var(--brown-dark);color:var(--pastel,#fff);text-decoration:none;padding:12px 10px;border-radius:10px;margin-top:12px;font-weight:900}
 .sabores{margin-top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);color:var(--brown-dark)}
 .combos{margin-top:18px;background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
-.combos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px}
-.combo-card{background:var(--card);border-radius:12px;padding:8px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-height:180px}
-.combo-card .thumb{height:120px;border-radius:10px}
+.combos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px;justify-items:center}
+.combo-card{background:var(--card);border-radius:12px;padding:8px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-height:180px;width:100%;max-width:var(--max-card-width);margin:0 auto}
+.combo-card .thumb{height:160px;border-radius:10px}
+.kits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px;justify-items:center}
 .page-break{page-break-before:always;break-before:page;-webkit-break-before:always}
 .fab{position:fixed;right:18px;bottom:18px;z-index:9999;background:var(--brown);width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,0.18);cursor:pointer;color:#fff}
 .fab .badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:#fff;width:22px;height:22px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:#222;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:9999}
 .toast.show{opacity:1;pointer-events:auto}
-@media (max-width:980px){main{grid-template-columns:1fr;padding:12px}#carrinho{position:relative;top:auto;margin-top:12px}.fab{right:14px;bottom:14px}}
-/* mobile improvements: larger thumbs and centered layout */
+
+/* mobile improvements */
+@media (max-width:980px){
+  main{grid-template-columns:1fr;padding:12px}
+  #carrinho{position:relative;top:auto;margin-top:12px}
+  .fab{right:14px;bottom:14px}
+}
+
+/* small/mobile */
 @media (max-width:600px){
-  .produtos{grid-template-columns:repeat(1,1fr);justify-items:center}
-  .thumb{height:200px}
-  .combo-card .thumb{height:160px}
+  :root{ --max-card-width:520px; }
+  .produtos{grid-template-columns:repeat(1,1fr);justify-items:center;padding:0 8px}
+  .thumb{height:260px}
+  .combo-card .thumb{height:200px}
   .mini-thumb{width:72px;height:52px}
-  .card{min-height:230px}
+  .card{min-height:260px}
+  .info{gap:6px}
+  .controle{flex-direction:row;align-items:center}
 }
 
 /* small helpers for modal fields */
@@ -144,11 +156,16 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
       <div style="margin-top:8px;font-size:12px;color:var(--muted)">Ex: selecione Prestígio, Beijinho e Churros para a porção de 50 docinhos.</div>
     </section>
 
-    <!-- COMBOS: agora depois dos doces (inclui novos kits) -->
+    <!-- COMBOS (separados dos kits) -->
     <section class="combos" id="combos-visual" style="margin-top:18px">
       <h2 style="margin-top:18px;color:var(--brown-dark)">🎉 Combos</h2>
       <div class="combos-grid" id="combos-grid"></div>
-      <div style="margin-top:8px;font-size:12px;color:var(--muted)"></div>
+    </section>
+
+    <!-- KIT FESTA separado -->
+    <section class="combos" id="kit-festa" style="margin-top:18px">
+      <h2 style="margin-top:18px;color:var(--brown-dark)">🎁 Kit Festa</h2>
+      <div class="kits-grid" id="kits-grid"></div>
     </section>
 
     <!-- MINI CHURROS: mantém -->
@@ -231,8 +248,8 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 
 <script>
 /* === DADOS ===
-   - agora inclui 25,50,100 salgados (todos com badge de promoção)
-   - combos renomeados: To com Fome, Delícia da Casa, Festa Total
+   - inclui 25,50,100 salgados (todos com badge de promoção)
+   - Combos separados de Kits (Kit Festa)
    - contador inicia em 0
 */
 const produtosData = [
@@ -248,13 +265,18 @@ const docesData = [
   {id:'d100',nome:'100 Doces',preco:100.00,img:'images/100-doces.jpg', categoria:'doce'}
 ];
 
-const combosInfo = {
-  'combo_fome':    { nome:'To com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' },
-  'combo_delicia': { nome:'Delícia da Casa', preco:35.00, img:'images/combo_delicia.jpg', desc:'40 salgados + 10 mini churros' },
-  'combo_festa':   { nome:'Festa Total', preco:55.00, img:'images/combo_festa.jpg', desc:'100 salgados + 10 mini churros' },
-  'kit_5':         { nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados variados + 40 doces variados' },
-  'kit_10_15':     { nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados variados + 50 doces variados' }
-};
+/* Combos (menores/lanches) */
+const combosData = [
+  { id:'combo_fome', nome:'To com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' },
+  { id:'combo_delicia', nome:'Delícia da Casa', preco:35.00, img:'images/combo_delicia.jpg', desc:'40 salgados + 10 mini churros' },
+  { id:'combo_festa', nome:'Festa Total', preco:55.00, img:'images/combo_festa.jpg', desc:'100 salgados + 10 mini churros' }
+];
+
+/* Kits (Kit Festa) */
+const kitsData = [
+  { id:'kit_5', nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
+  { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' }
+];
 
 const miniChurrosData = [
   {id:'c10', nome:'Poção 10 Mini Churros', preco:9.99, img:'images/mini-churros-10.jpg'},
@@ -296,7 +318,7 @@ produtosData.forEach(p=>{
   const hasPromo = p.precoOriginal && p.precoOriginal > p.preco;
   card.innerHTML = `
     <div class="thumb">
-      <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%2270%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
+      <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22220%22><rect width=%22240%22 height=%22220%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%22110%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
       ${hasPromo ? `<span class="promo-badge">🔥 PROMOÇÃO</span>` : ''}
     </div>
     <div class="info">
@@ -354,7 +376,7 @@ docesData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
   card.innerHTML = `
     <div class="thumb">
-      <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22140%22><rect width=%22240%22 height=%22140%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%2270%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
+      <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22220%22><rect width=%22240%22 height=%22220%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%22110%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
     </div>
     <div class="info">
       <div class="nome">${p.nome}</div>
@@ -403,13 +425,12 @@ document.getElementById('sabor-list-doces').addEventListener('change', ()=>{
   document.getElementById('doces_todos').checked = !!todos;
 });
 
-/* ====== RENDER COMBOS (inclui kits) ====== */
+/* ====== RENDER COMBOS ====== */
 const combosGrid = document.getElementById('combos-grid');
-Object.keys(combosInfo).forEach(key=>{
-  const c = combosInfo[key];
+combosData.forEach(c=>{
   const card = document.createElement('div'); card.className='combo-card';
   card.innerHTML = `
-    <div class="thumb"><img src="${c.img}" alt="${c.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22120%22><rect width=%22360%22 height=%22120%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2260%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
+    <div class="thumb"><img src="${c.img}" alt="${c.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22160%22><rect width=%22360%22 height=%22160%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2280%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
         <div style="font-weight:900;color:var(--orange)">${c.nome}</div>
@@ -417,14 +438,31 @@ Object.keys(combosInfo).forEach(key=>{
       </div>
       <div style="text-align:right">
         <div style="font-weight:900;color:var(--brown-dark)">${formatBRL(c.preco)}</div>
-        <button class="add-btn combo-add" data-id="${key}" style="margin-top:10px">Adicionar</button>
+        <button class="add-btn combo-add" data-id="${c.id}" style="margin-top:10px">Adicionar</button>
       </div>
     </div>`;
   combosGrid.appendChild(card);
-  card.querySelector('.combo-add').addEventListener('click', ()=>{
-    // combos não exigem sabores — mas podemos permitir que cliente adicione observação depois
-    adicionarAoCarrinho(key,1,{nome:c.nome,preco:c.preco,img:c.img});
-  });
+  card.querySelector('.combo-add').addEventListener('click', ()=> adicionarAoCarrinho(c.id,1,{nome:c.nome,preco:c.preco,img:c.img}));
+});
+
+/* ====== RENDER KITS (Kit Festa) ====== */
+const kitsGrid = document.getElementById('kits-grid');
+kitsData.forEach(k=>{
+  const card = document.createElement('div'); card.className='combo-card';
+  card.innerHTML = `
+    <div class="thumb"><img src="${k.img}" alt="${k.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22160%22><rect width=%22360%22 height=%22160%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2280%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-weight:900;color:var(--orange)">${k.nome}</div>
+        <div style="font-size:13px;color:var(--muted)">${k.desc || ''}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:900;color:var(--brown-dark)">${formatBRL(k.preco)}</div>
+        <button class="add-btn kit-add" data-id="${k.id}" style="margin-top:10px">Adicionar</button>
+      </div>
+    </div>`;
+  kitsGrid.appendChild(card);
+  card.querySelector('.kit-add').addEventListener('click', ()=> adicionarAoCarrinho(k.id,1,{nome:k.nome,preco:k.preco,img:k.img}));
 });
 
 /* ====== RENDER MINI CHURROS ====== */
@@ -471,6 +509,11 @@ function adicionarAoCarrinho(id,quant,override,flavors){
     else carrinho.set(key,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant,flavors:flavorArr});
   } else {
     let prod = produtosData.find(x=>x.id===id) || docesData.find(x=>x.id===id) || miniChurrosData.find(x=>x.id===id);
+    if(!prod){
+      // talvez seja um combo/kit — procurar em combosData/kitsData
+      const combo = combosData.find(x=>x.id===id) || kitsData.find(x=>x.id===id);
+      if(combo) prod = { id: combo.id, nome: combo.nome, preco: combo.preco, img: combo.img };
+    }
     if(!prod) return;
     if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); } 
     else carrinho.set(key,{produto:prod,qty:quant,flavors:flavorArr});
@@ -622,7 +665,7 @@ function getSelectedSabores(groupName){
 
 /* inicial */
 atualizarCarrinho();
-console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', docesData.length, 'Combos:', Object.keys(combosInfo).length);
+console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', docesData.length, 'Combos:', combosData.length, 'Kits:', kitsData.length);
 </script>
 </body>
 </html>
