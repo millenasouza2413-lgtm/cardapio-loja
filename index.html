@@ -9,10 +9,20 @@
   --brown:#6b3b1a; --brown-dark:#4d2c15; --orange:#ff6a00; --pastel:#fff6b8;
   --card:#fff; --muted:#6b6b6b; --radius:12px; --shadow:0 10px 30px rgba(0,0,0,0.08);
   --max-card-width:420px;
+  --page-padding:14px;
 }
+
 /* Reset / base */
 *{box-sizing:border-box}
-body{margin:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--pastel);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--pastel);
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+  padding-bottom:120px; /* evita sobreposição do FAB */
+}
 header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;justify-content:center}
 .logo{width:72px;height:72px;border-radius:10px;overflow:hidden;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo img{width:100%;height:100%;object-fit:contain}
@@ -20,25 +30,90 @@ header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:
 .title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
 .banner{background:#fffae5;color:#b36b00;text-align:center;font-weight:700;padding:10px;border-bottom:2px solid #ffc46b;}
 .delivery-note{background:#fff3d6;padding:10px;text-align:center;color:#7a4a00;font-weight:800;border-bottom:1px dashed rgba(0,0,0,0.04)}
-main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-columns:1fr 380px;gap:18px}
-.produtos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;justify-items:center}
-.card{background:var(--card);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-height:220px;position:relative;overflow:hidden;width:100%;max-width:var(--max-card-width);margin:0 auto}
-.thumb{height:220px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f6f6;position:relative}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .28s ease,filter .28s ease}
-.thumb:hover img{transform:scale(1.03);filter:brightness(1.03)}
-.promo-badge{position:absolute;top:12px;left:12px;background:linear-gradient(90deg,#ff3b30,#ffb347);color:#fff;font-weight:900;padding:8px 12px;border-radius:999px;font-size:13px;box-shadow:0 8px 22px rgba(255,59,48,0.18);transform:rotate(-8deg);display:inline-block;z-index:5;text-transform:uppercase;letter-spacing:0.6px;animation:promo-pulse 1600ms infinite}
-@keyframes promo-pulse{0%{transform:rotate(-8deg) scale(1);box-shadow:0 8px 22px rgba(255,59,48,0.18)}50%{transform:rotate(-8deg) scale(1.04);box-shadow:0 18px 36px rgba(255,59,48,0.22)}100%{transform:rotate(-8deg) scale(1);box-shadow:0 8px 22px rgba(255,59,48,0.18)}}
+main{
+  max-width:1100px;
+  margin:18px auto;
+  padding:var(--page-padding);
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:18px;
+  align-items:start;
+}
 
+/* Produtos layout */
+.produtos{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:14px;
+  justify-items:center;
+  padding:6px 0;
+}
+
+/* Card padrão (centralizado e responsivo) */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:12px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height:220px;
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  max-width:var(--max-card-width);
+  margin:0 auto 18px;
+  border: 6px solid transparent; /* evita "espaço visual" estranho */
+}
+
+/* Imagem do card */
+.thumb{
+  height:220px;
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f6f6f6;
+  position:relative;
+}
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .28s ease,filter .28s ease;
+}
+.thumb:hover img{transform:scale(1.03);filter:brightness(1.03)}
+
+/* Promo badge */
+.promo-badge{
+  position:absolute;top:12px;left:12px;
+  background:linear-gradient(90deg,#ff3b30,#ffb347);
+  color:#fff;font-weight:900;padding:8px 12px;border-radius:999px;
+  font-size:13px;box-shadow:0 8px 22px rgba(255,59,48,0.18);
+  transform:rotate(-8deg);display:inline-block;z-index:5;text-transform:uppercase;letter-spacing:0.6px;
+  animation:promo-pulse 1600ms infinite;
+}
+@keyframes promo-pulse{0%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(-8deg) scale(1.04)}100%{transform:rotate(-8deg) scale(1)}}
+
+/* Info / preço / nome */
 .info{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .nome{font-weight:800;font-size:15px;color:var(--orange)}
 .preco{color:var(--brown-dark);font-weight:900;font-size:16px}
 .preco-old{color:#999;text-decoration:line-through;font-size:13px}
+
+/* Controles (quantidade + adicionar) */
 .controle{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:auto;width:100%}
 .qty{display:flex;align-items:center;gap:8px;background:#fff4e6;padding:6px;border-radius:10px;font-weight:800;border:1px solid rgba(0,0,0,0.04)}
-.qty button{background:transparent;border:none;font-size:18px;width:28px;height:28px;cursor:pointer;color:var(--brown-dark)}
-.qty .n{min-width:34px;text-align:center}
-.add-btn{background:var(--brown);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
+.qty button{background:transparent;border:none;font-size:18px;width:34px;height:34px;cursor:pointer;color:var(--brown-dark)}
+.qty .n{min-width:44px;text-align:center}
+.add-btn{background:var(--brown);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
 .add-btn:hover{filter:brightness(.96)}
+
+/* Carrinho lateral */
 #carrinho{position:sticky;top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);height:fit-content}
 #lista-carrinho{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
 #lista-carrinho li{display:flex;gap:8px;padding:8px 0;border-bottom:1px dashed #f0f0f0;align-items:center}
@@ -52,15 +127,20 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 .cart-right .remove{display:block;font-size:12px;color:#999;cursor:pointer;margin-top:6px}
 #total{font-weight:900;text-align:right;font-size:18px;margin-top:10px;color:var(--brown-dark)}
 #whatsapp-btn{display:block;text-align:center;background:var(--brown-dark);color:var(--pastel,#fff);text-decoration:none;padding:12px 10px;border-radius:10px;margin-top:12px;font-weight:900}
+
+/* Sabores / combos */
 .sabores{margin-top:18px;background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);color:var(--brown-dark)}
 .combos{margin-top:18px;background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
 .combos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px;justify-items:center}
 .combo-card{background:var(--card);border-radius:12px;padding:8px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-height:180px;width:100%;max-width:var(--max-card-width);margin:0 auto}
 .combo-card .thumb{height:160px;border-radius:10px}
 .kits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px;justify-items:center}
+
 .page-break{page-break-before:always;break-before:page;-webkit-break-before:always}
-.fab{position:fixed;right:18px;bottom:18px;z-index:9999;background:var(--brown);width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,0.18);cursor:pointer;color:#fff}
-.fab .badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:#fff;width:22px;height:22px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
+
+/* FAB (botão flutuante) */
+.fab{position:fixed;right:18px;bottom:18px;z-index:1200;background:var(--brown);width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,0.18);cursor:pointer;color:#fff}
+.fab .badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:#fff;width:24px;height:24px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:100px;background:#222;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.25s;z-index:9999}
 .toast.show{opacity:1;pointer-events:auto}
 
@@ -71,23 +151,26 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
   .fab{right:14px;bottom:14px}
 }
 
-/* small/mobile */
+/* small/mobile tweaks */
 @media (max-width:600px){
-  :root{ --max-card-width:520px; }
-  .produtos{grid-template-columns:repeat(1,1fr);justify-items:center;padding:0 8px}
+  :root{ --max-card-width:calc(100% - 28px); }
+  .produtos{grid-template-columns:repeat(1,1fr);justify-items:center;padding:0 4px}
   .thumb{height:260px}
   .combo-card .thumb{height:200px}
   .mini-thumb{width:72px;height:52px}
-  .card{min-height:260px}
+  .card{min-height:260px;padding:14px;border-width:0;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
   .info{gap:6px}
   .controle{flex-direction:row;align-items:center}
+  /* garante que o botão e contador fiquem lado a lado com espaço */
+  .controle .qty{flex:0 0 auto}
+  .controle .add-btn{flex:0 0 auto}
+  /* evita o FAB cobrir conteúdo ao final da página */
+  main{padding-bottom:110px}
 }
 
-/* small helpers for modal fields */
+/* small helpers */
 .field-hidden{display:none}
 .note-small{font-size:13px;color:var(--muted);margin-top:6px}
-
-/* small layout tweaks for flavor lists */
 .sabor-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .sabor-item{background:#fff;padding:8px 10px;border-radius:999px;border:1px solid #f0e6d9;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .sabor-item input{margin-right:6px}
@@ -109,19 +192,19 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 </div>
 
 <div class="delivery-note">
-  Taxa de entrega é <strong>à parte</strong> — o valor será informado no chat quando confirmar o pedido.
+  🚚 Taxa de entrega é <strong>à parte</strong> — o valor será informado no chat quando confirmar o pedido.
 </div>
 
 <main>
   <div>
-    <!-- SALGADOS: destaque -->
+    <!-- SALGADOS -->
     <section id="salgados-section">
       <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados</h2>
       <p style="margin:0 0 12px 0;color:var(--muted)">Escolha a porção (25, 50 ou 100) e selecione os sabores desejados abaixo.</p>
       <div class="produtos" id="produtos"></div>
     </section>
 
-    <!-- SABORES DOS SALGADOS (checkbox list: permite vários sabores) -->
+    <!-- SABORES -->
     <section class="sabores" id="sabores-salgados">
       <h3>Sabores dos Salgados (selecione 1 ou mais)</h3>
       <div class="sabor-todos">
@@ -129,20 +212,18 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
           <input type="checkbox" id="salgados_todos"> Todos os sabores
         </label>
       </div>
-      <div class="sabor-list" id="sabor-list-salgados">
-        <!-- checkboxes gerados por JS -->
-      </div>
-      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Dica: selecione todos os sabores que você quer na porção (ex: Coxinha, Bolinha de Queijo e Balão de Pizza).</div>
+      <div class="sabor-list" id="sabor-list-salgados"></div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Dica: selecione todos os sabores que você quer na porção.</div>
     </section>
 
-    <!-- DOCES: porções -->
+    <!-- DOCES -->
     <section id="doces-section" style="margin-top:18px">
       <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Doces</h2>
       <p style="margin:0 0 12px 0;color:var(--muted)">Escolha a porção e selecione os sabores desejados abaixo.</p>
       <div class="produtos" id="produtos-doces"></div>
     </section>
 
-    <!-- SABORES DOS DOCES (checkboxes) -->
+    <!-- SABORES DOCES -->
     <section class="sabores" id="sabores-doces">
       <h3>Sabores dos Doces (selecione 1 ou mais)</h3>
       <div class="sabor-todos">
@@ -150,10 +231,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
           <input type="checkbox" id="doces_todos"> Todos os sabores
         </label>
       </div>
-      <div class="sabor-list" id="sabor-list-doces">
-        <!-- checkboxes gerados por JS -->
-      </div>
-      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Ex: selecione Prestígio, Beijinho e Churros para a porção de 50 docinhos.</div>
+      <div class="sabor-list" id="sabor-list-doces"></div>
     </section>
 
     <!-- COMBOS (separados dos kits) -->
@@ -168,7 +246,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
       <div class="kits-grid" id="kits-grid"></div>
     </section>
 
-    <!-- MINI CHURROS: mantém -->
+    <!-- MINI CHURROS -->
     <section class="combos page-break" id="mini-churros-section" style="margin-top:18px">
       <h2 style="margin-top:0;color:var(--brown-dark)">🍩 Mini Churros</h2>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
@@ -194,7 +272,6 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
     <h3 style="margin:0 0 6px 0;color:var(--brown-dark)">Finalizar pedido</h3>
     <p style="margin:0 0 12px 0;color:#444">Escolha Retirada ou Entrega, digite seu nome e escolha a forma de pagamento.</p>
 
-    <!-- tipo: Retirada / Entrega -->
     <div style="margin-bottom:12px">
       <label style="font-weight:700;display:block;margin-bottom:6px">Como deseja receber?</label>
       <label style="display:inline-flex;align-items:center;gap:8px;margin-right:12px">
@@ -208,13 +285,11 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 
     <input id="cliente-nome" placeholder="Seu nome (obrigatório)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-bottom:12px" />
 
-    <!-- endereço (aparece apenas quando Entrega selecionada) -->
     <div id="endereco-wrap" class="field-hidden" style="margin-bottom:12px">
       <input id="cliente-endereco" placeholder="Endereço completo (obrigatório para entrega)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:15px" />
       <div class="note-small">Por favor inclua rua, número, bairro e referência. * Valor da entrega é informado no chat.</div>
     </div>
 
-    <!-- formas de pagamento -->
     <div style="margin-bottom:12px">
       <label style="font-weight:700;display:block;margin-bottom:8px">Forma de pagamento:</label>
 
@@ -247,11 +322,7 @@ main{max-width:1100px;margin:18px auto;padding:14px;display:grid;grid-template-c
 <div class="toast" id="toast">Adicionado ao carrinho</div>
 
 <script>
-/* === DADOS ===
-   - inclui 25,50,100 salgados (todos com badge de promoção)
-   - Combos separados de Kits (Kit Festa)
-   - contador inicia em 0
-*/
+/* === DADOS === */
 const produtosData = [
   {id:'p25',nome:'25 Salgados',preco:15.00, precoOriginal:30.00, img:'images/25-salgados.jpg', categoria:'salgado'},
   {id:'p50',nome:'50 Salgados (Meio Cento)',preco:25.00, precoOriginal:35.00, img:'images/50-salgados.jpg', categoria:'salgado'},
@@ -265,14 +336,12 @@ const docesData = [
   {id:'d100',nome:'100 Doces',preco:100.00,img:'images/100-doces.jpg', categoria:'doce'}
 ];
 
-/* Combos (menores/lanches) */
 const combosData = [
   { id:'combo_fome', nome:'To com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' },
   { id:'combo_delicia', nome:'Delícia da Casa', preco:35.00, img:'images/combo_delicia.jpg', desc:'40 salgados + 10 mini churros' },
   { id:'combo_festa', nome:'Festa Total', preco:55.00, img:'images/combo_festa.jpg', desc:'100 salgados + 10 mini churros' }
 ];
 
-/* Kits (Kit Festa) */
 const kitsData = [
   { id:'kit_5', nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
   { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' }
@@ -286,29 +355,16 @@ const miniChurrosData = [
 ];
 
 const saboresSalgado = [
-  'Coxinha',
-  'Medalhão de Salsicha',
-  'Pastel de Carne com Açúcar',
-  'Pastel Misto',
-  'Bolinha de Queijo',
-  'Balão de Pizza',
-  'Travesseiro de Carne'
+  'Coxinha','Medalhão de Salsicha','Pastel de Carne com Açúcar','Pastel Misto',
+  'Bolinha de Queijo','Balão de Pizza','Travesseiro de Carne'
 ];
 
 const saboresDoce = [
-  'Ferrero Rocher',
-  'Prestígio',
-  'Beijinho',
-  'Casadinho',
-  'Churros',
-  'Brigadeiro',
-  'Ninho'
+  'Ferrero Rocher','Prestígio','Beijinho','Casadinho','Churros','Brigadeiro','Ninho'
 ];
 
 /* CART */
 const carrinho = new Map();
-/* key = `${productId}__${flavors.join('|')}` or combo id without flavors if none */
-
 function formatBRL(n){ return Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
 
 /* ====== RENDER SALGADOS ====== */
@@ -335,7 +391,6 @@ produtosData.forEach(p=>{
   const qtyEl = card.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
   qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>0) n--; nEl.textContent=n});
   qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
-  // add listener: exige pelo menos 1 sabor selecionado (multiseleção) e qty > 0
   card.querySelector('.add-btn').addEventListener('click', (ev)=>{
     const qty=parseInt(nEl.textContent,10);
     const cid = ev.currentTarget.dataset.id;
@@ -359,7 +414,6 @@ saboresSalgado.forEach((s,idx)=>{
   wrap.innerHTML = `<input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s}`;
   saborListSalgados.appendChild(wrap);
 });
-/* behavior: "Todos os sabores" toggle */
 document.getElementById('salgados_todos').addEventListener('change', (e)=>{
   const checked = e.target.checked;
   document.querySelectorAll('input[name="salgados_sabor"]').forEach(i=> i.checked = checked);
@@ -370,7 +424,7 @@ document.getElementById('sabor-list-salgados').addEventListener('change', ()=>{
   document.getElementById('salgados_todos').checked = !!todos;
 });
 
-/* ====== RENDER DOCES (porções) ====== */
+/* ====== RENDER DOCES ====== */
 const produtosDocesContainer = document.getElementById('produtos-doces');
 docesData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
@@ -414,7 +468,6 @@ saboresDoce.forEach((s,idx)=>{
   wrap.innerHTML = `<input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s}`;
   saborListDoces.appendChild(wrap);
 });
-/* behavior: "Todos os sabores" toggle doces */
 document.getElementById('doces_todos').addEventListener('change', (e)=>{
   const checked = e.target.checked;
   document.querySelectorAll('input[name="doces_sabor"]').forEach(i=> i.checked = checked);
@@ -500,7 +553,6 @@ miniChurrosData.forEach(item=>{
 
 /* ====== CARRINHO: adicionar / remover / atualizar ====== */
 function adicionarAoCarrinho(id,quant,override,flavors){
-  // flavors can be array of strings or a string; normalize
   const flavorArr = Array.isArray(flavors) ? flavors.map(f=>String(f).trim()).filter(Boolean) : (typeof flavors === 'string' ? (flavors.trim() ? [flavors.trim()] : []) : []);
   const flavorKey = flavorArr.length ? flavorArr.join('|') : '';
   const key = `${id}__${flavorKey}`;
@@ -510,7 +562,6 @@ function adicionarAoCarrinho(id,quant,override,flavors){
   } else {
     let prod = produtosData.find(x=>x.id===id) || docesData.find(x=>x.id===id) || miniChurrosData.find(x=>x.id===id);
     if(!prod){
-      // talvez seja um combo/kit — procurar em combosData/kitsData
       const combo = combosData.find(x=>x.id===id) || kitsData.find(x=>x.id===id);
       if(combo) prod = { id: combo.id, nome: combo.nome, preco: combo.preco, img: combo.img };
     }
@@ -547,14 +598,13 @@ function atualizarCarrinho(){
   }
   totalEl.textContent=`Total: ${formatBRL(total)}`;
 
-  // montar mensagem (itens + total) - texto plano com quebras \n
   let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
   for (const [key, entry] of carrinho.entries()) {
     const flavorNote = (entry.flavors && entry.flavors.length) ? ` (Sabores: ${entry.flavors.join(', ')})` : '';
     const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
     mensagemTextPlain += line + '\n';
   }
-  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`; // guarda só os itens + total
+  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`;
   mensagemTextPlain += `\nObservação: taxa de entrega é à parte e será informada no chat se optar por ENTREGA.\n`;
 
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
@@ -568,7 +618,7 @@ function atualizarCarrinho(){
 function updateFab(count){ document.getElementById('fab-count').textContent = count; }
 document.getElementById('fab').addEventListener('click', ()=>{ document.getElementById('carrinho').scrollIntoView({behavior:'smooth',block:'center'}) });
 
-/* Modal behavior: abrir, fechar, toggle entrega/retirada */
+/* Modal behavior */
 const modalEl = document.getElementById('modal');
 const tipoRadios = document.querySelectorAll('input[name="tipo_entrega"]');
 const entregaNote = document.getElementById('entrega-note');
@@ -585,21 +635,12 @@ function setModalToTipo(tipo){
     entregaNote.classList.remove('field-hidden');
     enderecoWrap.classList.remove('field-hidden');
     pixOnlyNote.classList.remove('field-hidden');
-    payCartao.disabled = false;
-    payDinheiro.disabled = false;
-    payCartaoWrap.style.opacity = '1';
-    payDinheiroWrap.style.opacity = '1';
   } else {
     entregaNote.classList.add('field-hidden');
     enderecoWrap.classList.add('field-hidden');
     pixOnlyNote.classList.add('field-hidden');
-    payCartao.disabled = false;
-    payDinheiro.disabled = false;
-    payCartaoWrap.style.opacity = '1';
-    payDinheiroWrap.style.opacity = '1';
   }
 }
-
 tipoRadios.forEach(r => r.addEventListener('change', (e)=> setModalToTipo(e.target.value)));
 
 document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ 
@@ -615,19 +656,15 @@ document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{
 });
 
 document.getElementById('cancel-modal').addEventListener('click', ()=>{ modalEl.style.display='none';});
-
 document.getElementById('confirm-modal').addEventListener('click', ()=>{ 
   const nome = document.getElementById('cliente-nome').value.trim();
   if(!nome){ alert('Por favor digite seu nome.'); document.getElementById('cliente-nome').focus(); return; }
-
   const tipo = document.querySelector('input[name="tipo_entrega"]:checked').value;
   let pagamento = document.querySelector('input[name="pagamento"]:checked') ? document.querySelector('input[name="pagamento"]:checked').value : 'PIX';
   const endereco = document.getElementById('cliente-endereco').value.trim();
-
   if(tipo === 'Entrega'){
     if(!endereco){ alert('Para entrega, por favor informe o endereço completo.'); document.getElementById('cliente-endereco').focus(); return; }
   }
-
   enviarPedidoWhatsApp(nome, tipo, pagamento, endereco);
 });
 
@@ -643,8 +680,7 @@ function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco){
   }
   mensagem += `Forma de pagamento: ${pagamento}\n\n`;
   mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
-
-  const telefone = '558791060340'; // <-- coloque aqui o seu número real
+  const telefone = '558791060340'; // <-- altere para o número real
   const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
   window.open(waHref, '_blank');
   modalEl.style.display='none';
@@ -657,10 +693,8 @@ function showToast(txt){ toastEl.textContent = txt || 'Adicionado ao carrinho'; 
 
 /* helpers */
 function getSelectedSabores(groupName){
-  // returns array of selected values
   const els = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
-  const checked = els.filter(i => i.checked).map(i => i.value);
-  return checked;
+  return els.filter(i => i.checked).map(i => i.value);
 }
 
 /* inicial */
