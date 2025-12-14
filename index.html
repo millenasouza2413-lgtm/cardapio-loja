@@ -214,6 +214,65 @@ main{
 @media (max-width:600px){
   #confirm-modal{width:100%;display:inline-block}
 }
+  /* ===== FIX HEADER + MOBILE IMPROVEMENTS ===== */
+/* remove problemas de centralização e alinhar título com logo */
+header{
+  justify-content:center !important;
+  text-align:center !important;
+  padding:18px 12px;
+}
+header .logo{
+  width:68px;
+  height:68px;
+  flex-shrink:0;
+}
+header .title{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+
+/* CTA maior e responsivo */
+#cta-start{
+  display:inline-block;
+  min-width:280px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+@media (max-width:600px){
+  /* tornar o CTA full width no celular */
+  #cta-start{
+    width:92%;
+    font-size:20px;
+    padding:16px 18px;
+    border-radius:12px;
+  }
+
+  /* cabeçalho: reduzir o logo, aumentar título, centralizar */
+  header .logo{ width:56px; height:56px; }
+  .title h1{ font-size:20px; line-height:1.05; }
+  .title p{ font-size:13px; }
+
+  /* cards e imagens maiores para toque */
+  .thumb{ height:320px; }
+  .card{ padding:16px; }
+
+  /* botões maiores e full width */
+  .add-btn{ padding:14px 18px; font-size:16px; }
+  .controle{ gap:10px; align-items:center; }
+  .controle .add-btn{ min-width:140px; }
+
+  /* passos (1,2,3) mais legíveis */
+  .step{ font-size:15px; padding:10px 14px; }
+}
+
+/* garante que em desktop continue alinhado horizontal, mas centralizado */
+@media (min-width:601px){
+  header{ padding:18px 24px; }
+  .title h1{ font-size:22px; }
+}
+
 
 </style>
 </head>
@@ -892,6 +951,7 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', doc
 </script>
 </body>
 </html>
+
 
 
 
