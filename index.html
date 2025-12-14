@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
@@ -359,90 +359,7 @@ main{
 .sabor-item input[type="checkbox"]{transform:scale(1.4);margin-right:8px}
 @media (max-width:600px){
   #confirm-modal{width:100%;display:inline-block}
-html, body {
-  width: 100%;
-  overflow-x: hidden; /* evita qualquer overflow que cause "deslocamento" lateral */
-  -webkit-tap-highlight-color: transparent;
 }
-
-/* garante que o fundo do header e banner cubra toda a largura */
-.header-container,
-.banner-section {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* wrapper centralizado - garante mesmo comportamento desktop/mobile */
-.header-content,
-.banner-content,
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 14px; /* garante espaço das laterais no mobile */
-  box-sizing: border-box;
-}
-
-/* ===== comportamento específico para telas pequenas ===== */
-@media (max-width: 600px) {
-  /* empilha logo + título e centraliza */
-  .header-content {
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center;
-    gap: 10px;
-    text-align: center;
-    padding: 14px 12px;
-  }
-  .header-container { padding: 8px 0; }
-
-  /* tamanho do logo mais proporcional */
-  .logo { width: 72px; height: 72px; }
-
-  /* título e subtítulo ficam centrados e legíveis */
-  .title-area { width: 100%; }
-  .title-area h1 { font-size: 20px; line-height: 1.08; }
-  .title-area p { font-size: 13px; }
-
-  /* banner / CTA empilhados e CTA full-width */
-  .banner-row { flex-direction: column; align-items: center; gap: 12px; }
-  .cta-button { width: 100%; max-width: 520px; padding: 14px; font-size: 18px; }
-
-  /* cards ocupam quase toda a largura visível (com padding confortável) */
-  .card { max-width: calc(100% - 28px); margin: 0 auto; padding: 14px; }
-  .thumb { height: 300px; } /* imagem maior pro toque */
-  .produtos { padding: 0 6px; grid-template-columns: 1fr; }
-
-  /* passo a passo e botões mais legíveis */
-  .step-list { width: 100%; justify-content: center; flex-wrap: wrap; }
-  .step { font-size: 13px; padding: 8px 12px; }
-
-  /* evita o carrinho pegando largura estranha */
-  #carrinho { position: relative; top: auto; margin-top: 12px; }
-}
-
-/* para telas médias (tablets) garantir comportamento apropriado */
-@media (max-width: 980px) {
-  main { grid-template-columns: 1fr; padding: 12px; }
-}
-/* === CORREÇÃO FINAL: alinhar layout do conteúdo ao header no mobile === */
-/* evita overflow lateral e garante largura correta */
-html, body {
-  width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
-}
-
-/* garante que os wrappers sigam o mesmo alinhamento (desktop e mobile) */
-.header-content,
-.banner-content,
-.steps-section,
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 14px;
-  box-sizing: border-box;
-}
-
 </style>
 </head>
 <body>
@@ -686,20 +603,20 @@ const produtosContainer = document.getElementById('produtos');
 produtosData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
   const hasPromo = p.precoOriginal && p.precoOriginal > p.preco;
-  card.innerHTML = `
+  card.innerHTML = 
     <div class="thumb">
       <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22220%22><rect width=%22240%22 height=%22220%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%22110%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
-      ${hasPromo ? `<span class="promo-badge">🔥 PROMOÇÃO</span>` : ''}
+      ${hasPromo ? <span class="promo-badge">🔥 PROMOÇÃO</span> : ''}
     </div>
     <div class="info">
       <div class="nome">${p.nome}</div>
       <div class="preco">${formatBRL(p.preco)}</div>
     </div>
-    ${hasPromo ? `<div style="margin-top:-4px"><span class="preco-old">${formatBRL(p.precoOriginal)}</span></div>` : ''}
+    ${hasPromo ? <div style="margin-top:-4px"><span class="preco-old">${formatBRL(p.precoOriginal)}</span></div> : ''}
     <div class="controle">
       <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
       <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
-    </div>`;
+    </div>;
   produtosContainer.appendChild(card);
 
   const qtyEl = card.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
@@ -736,9 +653,9 @@ produtosData.forEach(p=>{
 /* ====== RENDER SABORES DOS SALGADOS ====== */
 const saborListSalgados = document.getElementById('sabor-list-salgados');
 saboresSalgado.forEach((s,idx)=>{
-  const id = `salgado_sabor_${idx}`;
+  const id = salgado_sabor_${idx};
   const wrap = document.createElement('label'); wrap.className='sabor-item';
-  wrap.innerHTML = `<input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s}`;
+  wrap.innerHTML = <input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s};
   saborListSalgados.appendChild(wrap);
 });
 document.getElementById('salgados_todos').addEventListener('change', (e)=>{
@@ -755,7 +672,7 @@ document.getElementById('sabor-list-salgados').addEventListener('change', ()=>{
 const produtosDocesContainer = document.getElementById('produtos-doces');
 docesData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
-  card.innerHTML = `
+  card.innerHTML = 
     <div class="thumb">
       <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22220%22><rect width=%22240%22 height=%22220%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%22110%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
     </div>
@@ -766,7 +683,7 @@ docesData.forEach(p=>{
     <div class="controle">
       <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
       <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
-    </div>`;
+    </div>;
   produtosDocesContainer.appendChild(card);
 
   const qtyEl = card.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
@@ -811,9 +728,9 @@ docesData.forEach(p=>{
 /* ====== RENDER SABORES DOS DOCES ====== */
 const saborListDoces = document.getElementById('sabor-list-doces');
 saboresDoce.forEach((s,idx)=>{
-  const id = `doce_sabor_${idx}`;
+  const id = doce_sabor_${idx};
   const wrap = document.createElement('label'); wrap.className='sabor-item';
-  wrap.innerHTML = `<input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s}`;
+  wrap.innerHTML = <input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s};
   saborListDoces.appendChild(wrap);
 });
 document.getElementById('doces_todos').addEventListener('change', (e)=>{
@@ -830,7 +747,7 @@ document.getElementById('sabor-list-doces').addEventListener('change', ()=>{
 const combosGrid = document.getElementById('combos-grid');
 combosData.forEach(c=>{
   const card = document.createElement('div'); card.className='combo-card';
-  card.innerHTML = `
+  card.innerHTML = 
     <div class="thumb"><img src="${c.img}" alt="${c.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22160%22><rect width=%22360%22 height=%22160%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2280%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
@@ -841,7 +758,7 @@ combosData.forEach(c=>{
         <div style="font-weight:900;color:var(--brown-dark)">${formatBRL(c.preco)}</div>
         <button class="add-btn combo-add" data-id="${c.id}" style="margin-top:10px">Adicionar ao pedido</button>
       </div>
-    </div>`;
+    </div>;
   combosGrid.appendChild(card);
   card.querySelector('.combo-add').addEventListener('click', ()=> adicionarAoCarrinho(c.id,1,{nome:c.nome,preco:c.preco,img:c.img},[],null));
 });
@@ -850,7 +767,7 @@ combosData.forEach(c=>{
 const kitsGrid = document.getElementById('kits-grid');
 kitsData.forEach(k=>{
   const card = document.createElement('div'); card.className='combo-card';
-  card.innerHTML = `
+  card.innerHTML = 
     <div class="thumb"><img src="${k.img}" alt="${k.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22160%22><rect width=%22360%22 height=%22160%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2280%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div>
@@ -861,7 +778,7 @@ kitsData.forEach(k=>{
         <div style="font-weight:900;color:var(--brown-dark)">${formatBRL(k.preco)}</div>
         <button class="add-btn kit-add" data-id="${k.id}" style="margin-top:10px">Adicionar ao pedido</button>
       </div>
-    </div>`;
+    </div>;
   kitsGrid.appendChild(card);
   card.querySelector('.kit-add').addEventListener('click', ()=> adicionarAoCarrinho(k.id,1,{nome:k.nome,preco:k.preco,img:k.img},[],null));
 });
@@ -876,7 +793,7 @@ miniChurrosData.forEach(item=>{
   wrap.style.gap = '10px';
   wrap.style.padding = '8px 0';
 
-  wrap.innerHTML = `
+  wrap.innerHTML = 
     <div style="display:flex;gap:12px;align-items:center">
       <div class="thumb" style="width:96px;height:72px;border-radius:8px;overflow:hidden;flex-shrink:0">
         <img src="${item.img}" alt="${item.nome}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2296%22 height=%2272%22><rect width=%2296%22 height=%2272%22 fill=%22%23f6f6f6%22/><text x=%2248%22 y=%2240%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
@@ -890,7 +807,7 @@ miniChurrosData.forEach(item=>{
       <div class="qty" data-id="${item.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
       <button class="add-btn mini-add" data-id="${item.id}" style="min-width:110px">Adicionar ao pedido</button>
     </div>
-  `;
+  ;
   miniList.appendChild(wrap);
 
   const qtyEl = wrap.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
@@ -920,7 +837,7 @@ miniChurrosData.forEach(item=>{
 function adicionarAoCarrinho(id,quant,override,flavors,categoria){
   const flavorArr = Array.isArray(flavors) ? flavors.map(f=>String(f).trim()).filter(Boolean) : (typeof flavors === 'string' ? (flavors.trim() ? [flavors.trim()] : []) : []);
   const flavorKey = flavorArr.length ? flavorArr.join('|') : '';
-  const key = `${id}__${flavorKey}`;
+  const key = ${id}__${flavorKey};
   if(override){
     if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); }
     else carrinho.set(key,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant,flavors:flavorArr,categoria:categoria});
@@ -955,35 +872,35 @@ function atualizarCarrinho(){
     let flavorText = '';
     if(entry.flavors && entry.flavors.length){
       if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
-        flavorText = `Sabores: <strong>Todos os sabores</strong> • `;
+        flavorText = Sabores: <strong>Todos os sabores</strong> • ;
       } else {
-        flavorText = `Sabores: <strong>${entry.flavors.join(', ')}</strong> • `;
+        flavorText = Sabores: <strong>${entry.flavors.join(', ')}</strong> • ;
       }
     }
-    meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">${flavorText}Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
+    meta.innerHTML=<div class="cname">${entry.produto.nome}</div><div class="csub">${flavorText}Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>;
     const right=document.createElement('div'); right.className='cart-right';
     const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty;
-    right.innerHTML=`<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-key="${key}">Remover</div>`;
+    right.innerHTML=<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-key="${key}">Remover</div>;
     li.appendChild(thumb); li.appendChild(meta); li.appendChild(right);
     li.querySelector('.remove').addEventListener('click', (ev)=>{ removerDoCarrinho(ev.target.dataset.key) });
     lista.appendChild(li);
   }
-  totalEl.textContent=`Total: ${formatBRL(total)}`;
+  totalEl.textContent=Total: ${formatBRL(total)};
 
-  let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
+  let mensagemTextPlain = Pedido - Doce Confete\n\n;
   for (const [key, entry] of carrinho.entries()) {
     let flavorNote = '';
     if(entry.flavors && entry.flavors.length){
       if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
-        flavorNote = ` (Todos os sabores)`;
+        flavorNote =  (Todos os sabores);
       } else {
-        flavorNote = ` (${entry.flavors.join(', ')})`;
+        flavorNote =  (${entry.flavors.join(', ')});
       }
     }
-    const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
+    const line = • ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)};
     mensagemTextPlain += line + '\n';
   }
-  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`;
+  mensagemTextPlain += \nTotal: ${formatBRL(total)}\n;
 
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
   waBtn.dataset.total = total.toFixed(2);
@@ -1057,24 +974,24 @@ document.getElementById('confirm-modal').addEventListener('click', ()=>{
 function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido){
   const waBtn=document.getElementById('whatsapp-btn');
   const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
-  let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
+  let mensagem = Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n;
   mensagem += pedidoSemNome + '\n';
-  mensagem += `Tipo: ${tipo}\n`;
+  mensagem += Tipo: ${tipo}\n;
   if(tipo === 'Entrega'){
-    mensagem += `Endereço: ${endereco}\n`;
+    mensagem += Endereço: ${endereco}\n;
   }
   let dataHoraTexto = '';
   if(pedidoTipo === 'agendado'){
-    dataHoraTexto = `${dataAgendada}` + (horaPedido ? ` às ${horaPedido}` : '');
-    mensagem += `Data/Horário agendado: ${dataHoraTexto}\n`;
+    dataHoraTexto = ${dataAgendada} + (horaPedido ?  às ${horaPedido} : '');
+    mensagem += Data/Horário agendado: ${dataHoraTexto}\n;
   } else {
-    dataHoraTexto = horaPedido ? `Hoje às ${horaPedido}` : 'Hoje';
-    mensagem += `Data/Horário do pedido: ${dataHoraTexto}\n`;
+    dataHoraTexto = horaPedido ? Hoje às ${horaPedido} : 'Hoje';
+    mensagem += Data/Horário do pedido: ${dataHoraTexto}\n;
   }
-  mensagem += `Forma de pagamento: ${pagamento}\n\n`;
+  mensagem += Forma de pagamento: ${pagamento}\n\n;
   mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
   const telefone = '558791060340';
-  const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+  const waHref = https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)};
   window.open(waHref, '_blank');
   modalEl.style.display='none';
 }
@@ -1084,7 +1001,7 @@ let toastTimer = null;
 function showToast(txt){ toastEl.textContent = txt || 'Adicionado ao pedido'; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600); }
 
 function getSelectedSabores(groupName){
-  const els = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+  const els = Array.from(document.querySelectorAll(input[name="${groupName}"]));
   return els.filter(i => i.checked).map(i => i.value);
 }
 
@@ -1093,7 +1010,3 @@ console.log('Cardápio carregado.');
 </script>
 </body>
 </html>
-
-
-
-
