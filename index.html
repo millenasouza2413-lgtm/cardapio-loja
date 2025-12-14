@@ -40,6 +40,12 @@ main{
   align-items:start;
 }
 
+/* STEP INDICATOR */
+.steps{background:transparent;padding:10px 0 6px 0;margin-bottom:6px;text-align:center}
+.step-list{display:inline-flex;gap:10px;align-items:center}
+.step{background:#fff;padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);font-weight:700}
+.step.active{background:var(--brown);color:#fff;border-color:transparent}
+
 /* Produtos layout */
 .produtos{
   display:grid;
@@ -110,7 +116,7 @@ main{
 .qty{display:flex;align-items:center;gap:8px;background:#fff4e6;padding:6px;border-radius:10px;font-weight:800;border:1px solid rgba(0,0,0,0.04)}
 .qty button{background:transparent;border:none;font-size:18px;width:34px;height:34px;cursor:pointer;color:var(--brown-dark)}
 .qty .n{min-width:44px;text-align:center}
-.add-btn{background:var(--brown);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
+.add-btn{background:var(--brown);color:#fff;border:none;padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.06);font-size:15px}
 .add-btn:hover{filter:brightness(.96)}
 
 /* Carrinho lateral */
@@ -220,6 +226,15 @@ main{
 
 <main>
   <div>
+    <!-- STEP INDICATOR -->
+    <div class="steps" aria-hidden="false">
+      <div class="step-list">
+        <div class="step active">1. Escolha os produtos</div>
+        <div class="step">2. Revise o pedido</div>
+        <div class="step">3. Envie</div>
+      </div>
+    </div>
+
     <!-- SALGADOS -->
     <section id="salgados-section">
       <h2 style="margin:0 0 8px 0;color:var(--brown-dark)">Salgados</h2>
@@ -284,16 +299,16 @@ main{
     <h2>🛒 Seu Carrinho</h2>
     <ul id="lista-carrinho"></ul>
     <p id="total">Total: R$ 0,00</p>
-    <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Enviar pedido no WhatsApp</a>
+    <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Ver meu pedido e enviar</a>
     <p style="font-size:12px;color:var(--muted);margin-top:8px">Antes de enviar você será solicitado(a) a informar seu nome, tipo (retirada/entrega) e opção de pagamento. Taxa de entrega é informada no chat.</p>
   </aside>
 </main>
 
-<!-- modal: tipo, nome, endereco (se entrega), pagamento -->
+<!-- modal: tipo, nome, endereco (se entrega), pagamento, agendamento, hora -->
 <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;z-index:9998">
-  <div style="background:white;padding:20px;border-radius:12px;max-width:520px;width:94%;box-shadow:0 10px 30px rgba(0,0,0,0.25)">
+  <div style="background:white;padding:20px;border-radius:12px;max-width:620px;width:96%;box-shadow:0 10px 30px rgba(0,0,0,0.25)">
     <h3 style="margin:0 0 6px 0;color:var(--brown-dark)">Finalizar pedido</h3>
-    <p style="margin:0 0 12px 0;color:#444">Escolha Retirada ou Entrega, digite seu nome e escolha a forma de pagamento.</p>
+    <p style="margin:0 0 12px 0;color:#444">Escolha Retirada ou Entrega, digite seu nome, informe data/horário do pedido (se quiser agendar) e escolha a forma de pagamento.</p>
 
     <div style="margin-bottom:12px">
       <label style="font-weight:700;display:block;margin-bottom:6px">Como deseja receber?</label>
@@ -306,11 +321,30 @@ main{
       <div id="entrega-note" class="note-small field-hidden">Entrega disponível.</div>
     </div>
 
+    <div style="margin-bottom:12px">
+      <label style="font-weight:700;display:block;margin-bottom:6px">Pedido para:</label>
+      <label style="display:inline-flex;align-items:center;gap:8px;margin-right:12px">
+        <input id="pedido-hoje" type="radio" name="tipo_pedido" value="hoje" checked> Para hoje
+      </label>
+      <label style="display:inline-flex;align-items:center;gap:8px">
+        <input id="pedido-agendado" type="radio" name="tipo_pedido" value="agendado"> Agendar
+      </label>
+    </div>
+
+    <div id="data-agendada-wrap" class="field-hidden" style="margin-bottom:12px">
+      <input id="data-agendada" type="date" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:15px" />
+    </div>
+
+    <div style="margin-bottom:12px">
+      <label style="font-weight:700;display:block;margin-bottom:6px">Hora desejada (opcional)</label>
+      <input id="hora-pedido" type="time" style="padding:10px;border-radius:8px;border:1px solid #ddd;font-size:15px" />
+    </div>
+
     <input id="cliente-nome" placeholder="Seu nome (obrigatório)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-bottom:12px" />
 
     <div id="endereco-wrap" class="field-hidden" style="margin-bottom:12px">
       <input id="cliente-endereco" placeholder="Endereço completo (obrigatório para entrega)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:15px" />
-      <div class="note-small">Por favor inclua rua, número, bairro e referência. * Valor da entrega é informado no chat.</div>
+      <div class="note-small">Por favor inclua rua, número, bairro e referência.</div>
     </div>
 
     <div style="margin-bottom:12px">
@@ -345,11 +379,12 @@ main{
 <div class="toast" id="toast">Adicionado ao carrinho</div>
 
 <script>
-/* === DADOS === */
+/* === DADOS (ajustados conforme pedido) === */
 const produtosData = [
-  {id:'p25',nome:'25 Salgados',preco:15.00, precoOriginal:30.00, img:'images/25-salgados.jpg', categoria:'salgado'},
-  {id:'p50',nome:'50 Salgados (Meio Cento)',preco:25.00, precoOriginal:35.00, img:'images/50-salgados.jpg', categoria:'salgado'},
-  {id:'p100',nome:'100 Salgados (Cento)',preco:50.00, precoOriginal:65.00, img:'images/100-salgados.jpg', categoria:'salgado'}
+  {id:'p25',nome:'25 Salgados',preco:20.00, img:'images/25-salgados.jpg', categoria:'salgado'},
+  {id:'p50',nome:'50 Salgados (Meio Cento)',preco:30.00, img:'images/50-salgados.jpg', categoria:'salgado'},
+  // promoção só no cento (100 salgados: era 60 por 50)
+  {id:'p100',nome:'100 Salgados (Cento)',preco:50.00, precoOriginal:60.00, img:'images/100-salgados.jpg', categoria:'salgado'}
 ];
 
 const docesData = [
@@ -368,7 +403,6 @@ const combosData = [
 const kitsData = [
   { id:'kit_5', nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
   { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' },
-  // NOVO KIT PARA 20 PESSOAS
   { id:'kit_20', nome:'Kit 20 pessoas', preco:180.00, img:'images/20-pessoas.jpg', desc:'200 salgados + 80 docinhos' }
 ];
 
@@ -409,7 +443,7 @@ produtosData.forEach(p=>{
     ${hasPromo ? `<div style="margin-top:-4px"><span class="preco-old">${formatBRL(p.precoOriginal)}</span></div>` : ''}
     <div class="controle">
       <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
-      <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar</button>
+      <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
     </div>`;
   produtosContainer.appendChild(card);
 
@@ -421,13 +455,10 @@ produtosData.forEach(p=>{
     const cid = ev.currentTarget.dataset.id;
     const categoria = ev.currentTarget.dataset.categoria;
     if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; }
-    if(categoria === 'salgado'){
-      const sabores = getSelectedSabores('salgados_sabor'); // array
-      if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos salgados antes de adicionar.'); return; }
-      adicionarAoCarrinho(cid,qty,null,sabores);
-    } else {
-      adicionarAoCarrinho(cid,qty);
-    }
+    // salgados sempre precisam de sabores
+    const sabores = getSelectedSabores('salgados_sabor'); // array
+    if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos salgados antes de adicionar.'); return; }
+    adicionarAoCarrinho(cid,qty,null,sabores,categoria);
   });
 });
 
@@ -463,7 +494,7 @@ docesData.forEach(p=>{
     </div>
     <div class="controle">
       <div class="qty" data-id="${p.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
-      <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar</button>
+      <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
     </div>`;
   produtosDocesContainer.appendChild(card);
 
@@ -475,10 +506,15 @@ docesData.forEach(p=>{
     const cid = ev.currentTarget.dataset.id;
     const categoria = ev.currentTarget.dataset.categoria;
     if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; }
+    // regra: 15 doces (d15) NÃO precisa escolher sabores e não deve incluir sabores
     if(categoria === 'doce'){
-      const sabores = getSelectedSabores('doces_sabor'); // array
-      if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos doces antes de adicionar.'); return; }
-      adicionarAoCarrinho(cid,qty,null,sabores);
+      if(cid !== 'd15'){
+        const sabores = getSelectedSabores('doces_sabor'); // array
+        if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos doces antes de adicionar.'); return; }
+        adicionarAoCarrinho(cid,qty,null,sabores,categoria);
+      } else {
+        adicionarAoCarrinho(cid,qty,null,[],categoria);
+      }
     } else {
       adicionarAoCarrinho(cid,qty);
     }
@@ -516,11 +552,11 @@ combosData.forEach(c=>{
       </div>
       <div style="text-align:right">
         <div style="font-weight:900;color:var(--brown-dark)">${formatBRL(c.preco)}</div>
-        <button class="add-btn combo-add" data-id="${c.id}" style="margin-top:10px">Adicionar</button>
+        <button class="add-btn combo-add" data-id="${c.id}" style="margin-top:10px">Adicionar ao pedido</button>
       </div>
     </div>`;
   combosGrid.appendChild(card);
-  card.querySelector('.combo-add').addEventListener('click', ()=> adicionarAoCarrinho(c.id,1,{nome:c.nome,preco:c.preco,img:c.img}));
+  card.querySelector('.combo-add').addEventListener('click', ()=> adicionarAoCarrinho(c.id,1,{nome:c.nome,preco:c.preco,img:c.img},[],null));
 });
 
 /* ====== RENDER KITS (Kit Festa) ====== */
@@ -536,11 +572,11 @@ kitsData.forEach(k=>{
       </div>
       <div style="text-align:right">
         <div style="font-weight:900;color:var(--brown-dark)">${formatBRL(k.preco)}</div>
-        <button class="add-btn kit-add" data-id="${k.id}" style="margin-top:10px">Adicionar</button>
+        <button class="add-btn kit-add" data-id="${k.id}" style="margin-top:10px">Adicionar ao pedido</button>
       </div>
     </div>`;
   kitsGrid.appendChild(card);
-  card.querySelector('.kit-add').addEventListener('click', ()=> adicionarAoCarrinho(k.id,1,{nome:k.nome,preco:k.preco,img:k.img}));
+  card.querySelector('.kit-add').addEventListener('click', ()=> adicionarAoCarrinho(k.id,1,{nome:k.nome,preco:k.preco,img:k.img},[],null));
 });
 
 /* ====== RENDER MINI CHURROS ====== */
@@ -565,7 +601,7 @@ miniChurrosData.forEach(item=>{
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <div class="qty" data-id="${item.id}"><button class="minus">−</button><div class="n">0</div><button class="plus">+</button></div>
-      <button class="add-btn mini-add" data-id="${item.id}" style="min-width:110px">Adicionar</button>
+      <button class="add-btn mini-add" data-id="${item.id}" style="min-width:110px">Adicionar ao pedido</button>
     </div>
   `;
   miniList.appendChild(wrap);
@@ -573,17 +609,17 @@ miniChurrosData.forEach(item=>{
   const qtyEl = wrap.querySelector('.qty'); const nEl = qtyEl.querySelector('.n');
   qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>0) n--; nEl.textContent=n});
   qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n});
-  wrap.querySelector('.mini-add').addEventListener('click',()=>{ const qty=parseInt(nEl.textContent,10); if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; } adicionarAoCarrinho(item.id,qty,{nome:item.nome,preco:item.preco,img:item.img})});
+  wrap.querySelector('.mini-add').addEventListener('click',()=>{ const qty=parseInt(nEl.textContent,10); if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; } adicionarAoCarrinho(item.id,qty,{nome:item.nome,preco:item.preco,img:item.img},[],null)});
 });
 
 /* ====== CARRINHO: adicionar / remover / atualizar ====== */
-function adicionarAoCarrinho(id,quant,override,flavors){
+function adicionarAoCarrinho(id,quant,override,flavors,categoria){
   const flavorArr = Array.isArray(flavors) ? flavors.map(f=>String(f).trim()).filter(Boolean) : (typeof flavors === 'string' ? (flavors.trim() ? [flavors.trim()] : []) : []);
   const flavorKey = flavorArr.length ? flavorArr.join('|') : '';
   const key = `${id}__${flavorKey}`;
   if(override){
     if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); }
-    else carrinho.set(key,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant,flavors:flavorArr});
+    else carrinho.set(key,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant,flavors:flavorArr,categoria:categoria});
   } else {
     let prod = produtosData.find(x=>x.id===id) || docesData.find(x=>x.id===id) || miniChurrosData.find(x=>x.id===id);
     if(!prod){
@@ -592,9 +628,9 @@ function adicionarAoCarrinho(id,quant,override,flavors){
     }
     if(!prod) return;
     if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); } 
-    else carrinho.set(key,{produto:prod,qty:quant,flavors:flavorArr});
+    else carrinho.set(key,{produto:prod,qty:quant,flavors:flavorArr,categoria:categoria});
   }
-  showToast('Adicionado ao carrinho');
+  showToast('Adicionado ao pedido');
   atualizarCarrinho();
 }
 
@@ -612,7 +648,15 @@ function atualizarCarrinho(){
     img.onerror=function(){ this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' };
     thumb.appendChild(img);
     const meta=document.createElement('div'); meta.className='cart-meta';
-    const flavorText = (entry.flavors && entry.flavors.length) ? `Sabores: <strong>${entry.flavors.join(', ')}</strong> • ` : '';
+    let flavorText = '';
+    if(entry.flavors && entry.flavors.length){
+      // se for salgados e escolheu todos os sabores, mostrar 'Todos os sabores'
+      if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
+        flavorText = `Sabores: <strong>Todos os sabores</strong> • `;
+      } else {
+        flavorText = `Sabores: <strong>${entry.flavors.join(', ')}</strong> • `;
+      }
+    }
     meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">${flavorText}Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
     const right=document.createElement('div'); right.className='cart-right';
     const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty;
@@ -623,14 +667,21 @@ function atualizarCarrinho(){
   }
   totalEl.textContent=`Total: ${formatBRL(total)}`;
 
+  // montar mensagem sem taxa de entrega (conforme pedido)
   let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
   for (const [key, entry] of carrinho.entries()) {
-    const flavorNote = (entry.flavors && entry.flavors.length) ? ` (Sabores: ${entry.flavors.join(', ')})` : '';
+    let flavorNote = '';
+    if(entry.flavors && entry.flavors.length){
+      if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
+        flavorNote = ` (Todos os sabores)`;
+      } else {
+        flavorNote = ` (${entry.flavors.join(', ')})`;
+      }
+    }
     const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
     mensagemTextPlain += line + '\n';
   }
   mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`;
-  mensagemTextPlain += `\nObservação: taxa de entrega é à parte e será informada no chat se optar por ENTREGA.\n`;
 
   waBtn.dataset.mensagemRaw = mensagemTextPlain;
   waBtn.dataset.total = total.toFixed(2);
@@ -649,10 +700,6 @@ const tipoRadios = document.querySelectorAll('input[name="tipo_entrega"]');
 const entregaNote = document.getElementById('entrega-note');
 const enderecoWrap = document.getElementById('endereco-wrap');
 const pixOnlyNote = document.getElementById('pix-only-note');
-const payCartao = document.getElementById('pay-cartao');
-const payDinheiro = document.getElementById('pay-dinheiro');
-const payCartaoWrap = document.getElementById('pay-cartao-wrap');
-const payDinheiroWrap = document.getElementById('pay-dinheiro-wrap');
 const payPix = document.getElementById('pay-pix');
 
 function setModalToTipo(tipo){
@@ -668,6 +715,14 @@ function setModalToTipo(tipo){
 }
 tipoRadios.forEach(r => r.addEventListener('change', (e)=> setModalToTipo(e.target.value)));
 
+// pedido hoje vs agendado
+const pedidoRadios = document.querySelectorAll('input[name="tipo_pedido"]');
+const dataAgendadaWrap = document.getElementById('data-agendada-wrap');
+pedidoRadios.forEach(r => r.addEventListener('change', (e)=>{
+  if(e.target.value === 'agendado') dataAgendadaWrap.classList.remove('field-hidden');
+  else dataAgendadaWrap.classList.add('field-hidden');
+}));
+
 document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ 
   e.preventDefault(); 
   if(carrinho.size===0){ alert('Seu carrinho está vazio.'); return;} 
@@ -675,6 +730,8 @@ document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{
   document.getElementById('cliente-endereco').value = '';
   document.querySelector('input[name="tipo_entrega"][value="Retirada"]').checked = true;
   setModalToTipo('Retirada');
+  document.querySelector('input[name="tipo_pedido"][value="hoje"]').checked = true;
+  dataAgendadaWrap.classList.add('field-hidden');
   payPix.checked = true;
   modalEl.style.display='flex'; 
   document.getElementById('cliente-nome').focus();
@@ -690,10 +747,14 @@ document.getElementById('confirm-modal').addEventListener('click', ()=>{
   if(tipo === 'Entrega'){
     if(!endereco){ alert('Para entrega, por favor informe o endereço completo.'); document.getElementById('cliente-endereco').focus(); return; }
   }
-  enviarPedidoWhatsApp(nome, tipo, pagamento, endereco);
+  const pedidoTipo = document.querySelector('input[name="tipo_pedido"]:checked').value;
+  const dataAgendada = document.getElementById('data-agendada').value;
+  const horaPedido = document.getElementById('hora-pedido').value;
+  if(pedidoTipo === 'agendado' && !dataAgendada){ alert('Para agendar, por favor escolha uma data.'); document.getElementById('data-agendada').focus(); return; }
+  enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido);
 });
 
-function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco){
+function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido){
   const waBtn=document.getElementById('whatsapp-btn');
   const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
   let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
@@ -701,7 +762,15 @@ function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco){
   mensagem += `Tipo: ${tipo}\n`;
   if(tipo === 'Entrega'){
     mensagem += `Endereço: ${endereco}\n`;
-    mensagem += `\nObs: favor confirmar valor da taxa de entrega no chat.\n`;
+  }
+  // Data e horário do pedido (se agendado usa a data, senão "Hoje")
+  let dataHoraTexto = '';
+  if(pedidoTipo === 'agendado'){
+    dataHoraTexto = `${dataAgendada}` + (horaPedido ? ` às ${horaPedido}` : '');
+    mensagem += `Data/Horário agendado: ${dataHoraTexto}\n`;
+  } else {
+    dataHoraTexto = horaPedido ? `Hoje às ${horaPedido}` : 'Hoje';
+    mensagem += `Data/Horário do pedido: ${dataHoraTexto}\n`;
   }
   mensagem += `Forma de pagamento: ${pagamento}\n\n`;
   mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
@@ -714,7 +783,7 @@ function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco){
 /* toast */
 const toastEl = document.getElementById('toast');
 let toastTimer = null;
-function showToast(txt){ toastEl.textContent = txt || 'Adicionado ao carrinho'; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600); }
+function showToast(txt){ toastEl.textContent = txt || 'Adicionado ao pedido'; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600); }
 
 /* helpers */
 function getSelectedSabores(groupName){
@@ -728,4 +797,3 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', doc
 </script>
 </body>
 </html>
-
