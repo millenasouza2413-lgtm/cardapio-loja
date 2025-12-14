@@ -424,6 +424,89 @@ main {
 @media (max-width: 980px) {
   main { grid-template-columns: 1fr; padding: 12px; }
 }
+/* === CORREÇÃO FINAL: alinhar layout do conteúdo ao header no mobile === */
+/* evita overflow lateral e garante largura correta */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* garante que os wrappers sigam o mesmo alinhamento (desktop e mobile) */
+.header-content,
+.banner-content,
+.steps-section,
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+/* FORÇA o layout do main e dos cards no mobile para não "grudar" à esquerda */
+@media (max-width: 600px) {
+  /* main vira coluna única (garante que aside fique abaixo) */
+  main {
+    grid-template-columns: 1fr !important;
+    padding: 0 12px !important;
+    margin: 12px auto !important;
+  }
+
+  /* produtos -> uma coluna, itens ocupam toda a largura disponível */
+  .produtos {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+    justify-items: stretch !important;
+    padding: 0 4px !important;
+  }
+
+  /* os cards ocupam 100% do espaço do container (com folga nas laterais) */
+  .card {
+    max-width: calc(100% - 16px) !important;
+    width: 100% !important;
+    margin: 0 auto 18px !important;
+    padding: 14px !important;
+    box-sizing: border-box;
+  }
+
+  /* imagem maior e full-width dentro do card */
+  .thumb {
+    width: 100% !important;
+    height: 300px !important;
+  }
+  .thumb img { width:100%; height:100%; object-fit:cover; }
+
+  /* carrinho lateral vira bloco e fica abaixo do conteúdo */
+  #carrinho {
+    position: relative !important;
+    top: auto !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+    box-sizing: border-box;
+  }
+
+  /* passo a passo centralizado e sem ficar cortado */
+  .step-list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  /* garante título/subtitulo centralizados */
+  .header-content { flex-direction: column !important; align-items:center; text-align:center; padding: 12px 8px; }
+  .title-area { width:100%; }
+  .title-area h1 { font-size:20px; }
+  .title-area p { font-size:13px; }
+
+  /* evita que qualquer elemento fixo crie deslocamento lateral */
+  * { -webkit-overflow-scrolling: touch; }
+
+  /* diminui distância do FAB no mobile */
+  .fab { right:12px; bottom:12px; }
+}
 }
   /* ==== FIX: garantir header/banner full-bleed e layout centralizado no mobile ==== */
 
@@ -1077,5 +1160,6 @@ console.log('Cardápio carregado.');
 </script>
 </body>
 </html>
+
 
 
