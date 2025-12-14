@@ -453,26 +453,6 @@ document.getElementById('cta-start').addEventListener('click', ()=>{
     </div>
   </div>
 </div>
-<!-- BOTÃO: mostrar/esconder combos (opcional para usuários mais velhos) -->
-<div style="text-align:center;margin-top:12px">
-  <button id="toggle-combos" style="padding:10px 14px;border-radius:10px;border:1px solid #ddd;background:#fff">Ver combos e kits (opcional)</button>
-</div>
-<script>
-try{
-  const combosEl = document.getElementById('combos-visual');
-  const kitsEl = document.getElementById('kit-festa');
-  if(combosEl) combosEl.style.display = 'none';
-  if(kitsEl) kitsEl.style.display = 'none';
-  document.getElementById('toggle-combos').addEventListener('click', ()=>{
-    const visible = combosEl && combosEl.style.display !== 'none';
-    if(combosEl) combosEl.style.display = visible ? 'none' : 'block';
-    if(kitsEl) kitsEl.style.display = visible ? 'none' : 'block';
-    document.getElementById('toggle-combos').textContent = visible ? 'Ver combos e kits (opcional)' : 'Esconder combos';
-  });
-}catch(e){ /* se der ruim, segue sem a função */ }
-</script>
-<!-- FIM toggle combos -->
-
 <!-- fab + toast -->
 <div class="fab" id="fab" title="Ver carrinho">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 4h-2l-1 2h2l1.2 6.4A3 3 0 0 0 10.2 15h7.1a3 3 0 0 0 2.9-2.4L22 6H7z" fill="#fff"/><circle cx="10.5" cy="19.5" r="1.5" fill="#fff"/><circle cx="17.5" cy="19.5" r="1.5" fill="#fff"/></svg>
@@ -950,6 +930,7 @@ console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', doc
 </script>
 </body>
 </html>
+
 
 
 
