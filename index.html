@@ -360,6 +360,73 @@ main{
 @media (max-width:600px){
   #confirm-modal{width:100%;display:inline-block}
 }
+  /* ==== FIX: garantir header/banner full-bleed e layout centralizado no mobile ==== */
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* evita qualquer overflow que cause "deslocamento" lateral */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* garante que o fundo do header e banner cubra toda a largura */
+.header-container,
+.banner-section {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* wrapper centralizado - garante mesmo comportamento desktop/mobile */
+.header-content,
+.banner-content,
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 14px; /* garante espaço das laterais no mobile */
+  box-sizing: border-box;
+}
+
+/* ===== comportamento específico para telas pequenas ===== */
+@media (max-width: 600px) {
+  /* empilha logo + título e centraliza */
+  .header-content {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 14px 12px;
+  }
+  .header-container { padding: 8px 0; }
+
+  /* tamanho do logo mais proporcional */
+  .logo { width: 72px; height: 72px; }
+
+  /* título e subtítulo ficam centrados e legíveis */
+  .title-area { width: 100%; }
+  .title-area h1 { font-size: 20px; line-height: 1.08; }
+  .title-area p { font-size: 13px; }
+
+  /* banner / CTA empilhados e CTA full-width */
+  .banner-row { flex-direction: column; align-items: center; gap: 12px; }
+  .cta-button { width: 100%; max-width: 520px; padding: 14px; font-size: 18px; }
+
+  /* cards ocupam quase toda a largura visível (com padding confortável) */
+  .card { max-width: calc(100% - 28px); margin: 0 auto; padding: 14px; }
+  .thumb { height: 300px; } /* imagem maior pro toque */
+  .produtos { padding: 0 6px; grid-template-columns: 1fr; }
+
+  /* passo a passo e botões mais legíveis */
+  .step-list { width: 100%; justify-content: center; flex-wrap: wrap; }
+  .step { font-size: 13px; padding: 8px 12px; }
+
+  /* evita o carrinho pegando largura estranha */
+  #carrinho { position: relative; top: auto; margin-top: 12px; }
+}
+
+/* para telas médias (tablets) garantir comportamento apropriado */
+@media (max-width: 980px) {
+  main { grid-template-columns: 1fr; padding: 12px; }
+}
+
 </style>
 </head>
 <body>
@@ -1010,3 +1077,4 @@ console.log('Cardápio carregado.');
 </script>
 </body>
 </html>
+
