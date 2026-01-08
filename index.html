@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=5.0, user-scalable=yes" />
+<!-- bloqueia o zoom automático no iOS/Android (ajuda quem não entende pinch) -->
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <title>Doce Confete — Cardápio</title>
 <style>
 :root{
@@ -709,7 +710,7 @@ button, [role="button"] {
   <h3>Como fazer seu pedido:</h3>
   <ol style="margin:12px 0;padding-left:20px;">
     <li><strong>Escolha os produtos</strong> que deseja (salgados, doces, kits)</li>
-    <li><strong>Selecione os sabores</strong> de cada produto</li>
+    <li><strong>Selecione os sabores</strong> de cada produto (obrigatório nos kits)</li>
     <li><strong>Clique em "Adicionar ao pedido"</strong></li>
     <li><strong>Revise seu carrinho</strong> e finalize pelo WhatsApp</li>
   </ol>
@@ -920,6 +921,7 @@ const produtosData = [
 ];
 
 const docesData = [
+  // opçao de 15 doces removida conforme seu pedido
   {id:'d40',nome:'40 Doces',preco:40.00,img:'images/40-doces.jpg', categoria:'doce'},
   {id:'d50',nome:'50 Doces',preco:50.00,img:'images/50-doces.jpg', categoria:'doce'},
   {id:'d100',nome:'100 Doces',preco:100.00,img:'images/100-doces.jpg', categoria:'doce'}
@@ -932,11 +934,11 @@ const combosData = [
 ];
 
 const kitsData = [
-  { id:'kit_5', nome:'Kit 5 pessoas', preco:70.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
+  { id:'kit_5', nome:'Kit 5 pessoas', preco:70.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' }, // atualizado pra 70
   { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' },
   { id:'kit_20', nome:'Kit 20 pessoas', preco:180.00, img:'images/20-pessoas.jpg', desc:'200 salgados + 80 docinhos' },
-  { id:'kit_40', nome:'Kit 40 pessoas', preco:360.00, img:'images/40-pessoas.jpg', desc:'400 salgados + 160 docinhos' },
-  { id:'kit_lanche', nome:'Kit Lanche', preco:45.00, img:'images/kit-lanche.jpg', desc:'50 salgados + 15 docinhos' }
+  { id:'kit_40', nome:'Kit 40 pessoas', preco:360.00, img:'images/40-pessoas.jpg', desc:'400 salgados + 160 docinhos' }, // novo
+  { id:'kit_lanche', nome:'Kit Lanche', preco:45.00, img:'images/kit-lanche.jpg', desc:'50 salgados + 15 docinhos' } // novo
 ];
 
 const miniChurrosData = [
@@ -966,7 +968,24 @@ let saboresSelecionados = {
 /* FUNÇÕES DE FORMATAÇÃO */
 function formatBRL(n){ return Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
 
-/* ====== RENDER SALGADOS ====== */
+/* === Utils simples === */
+function getSelectedSabores(groupName){
+  const els = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+  return els.filter(i => i.checked).map(i => i.value);
+}
+function updateFab(count){ document.getElementById('fab-count').textContent = count; }
+
+/* toast útil com tipo */
+function showToast(msg='Feito', type='info'){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = (type === 'success' ? 'var(--success)' : (type === 'error' ? '#b71c1c' : '#222'));
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=> el.classList.remove('show'),2000);
+}
+
+/* === RENDER SALGADOS === */
 const produtosContainer = document.getElementById('produtos');
 produtosData.forEach(p=>{
   const card = document.createElement('div'); card.className='card';
@@ -984,7 +1003,7 @@ produtosData.forEach(p=>{
     <div class="controle">
       <div class="qty" data-id="${p.id}">
         <button class="minus">−</button>
-        <div class="n">0</div>
+        <div class="n">1</div>
         <button class="plus">+</button>
       </div>
       <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
@@ -1038,18 +1057,13 @@ produtosData.forEach(p=>{
       return; 
     }
     
-    // Verificar sabores selecionados
+    // Verificar sabores selecionados (salgados)
     const sabores = getSelectedSabores('salgados_sabor');
     if(!sabores.length){ 
       showToast('❌ Selecione pelo menos um sabor de salgados!', 'error');
       document.getElementById('sabores-salgados').scrollIntoView({behavior:'smooth'});
-      
-      // Destacar a seção de sabores
       document.getElementById('sabores-salgados').style.backgroundColor = '#fff9e6';
-      setTimeout(() => {
-        document.getElementById('sabores-salgados').style.backgroundColor = '';
-      }, 2000);
-      
+      setTimeout(() => { document.getElementById('sabores-salgados').style.backgroundColor = ''; }, 1800);
       return; 
     }
     
@@ -1065,37 +1079,12 @@ saboresSalgado.forEach((s,idx)=>{
   wrap.className='sabor-item';
   wrap.innerHTML = `<input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s}`;
   saborListSalgados.appendChild(wrap);
-  
-  // Adicionar evento para atualizar sabores selecionados
-  wrap.querySelector('input').addEventListener('change', function() {
-    if(this.checked) {
-      if(!saboresSelecionados.salgados.includes(s)) {
-        saboresSelecionados.salgados.push(s);
-      }
-    } else {
-      saboresSelecionados.salgados = saboresSelecionados.salgados.filter(item => item !== s);
-    }
-    updateKitSaboresDisplay();
-  });
 });
 
+/* "Selecionar todos" */
 document.getElementById('salgados_todos').addEventListener('change', (e)=>{
   const checked = e.target.checked;
   document.querySelectorAll('input[name="salgados_sabor"]').forEach(i=> i.checked = checked);
-  
-  // Atualizar sabores selecionados
-  if(checked) {
-    saboresSelecionados.salgados = [...saboresSalgado];
-  } else {
-    saboresSelecionados.salgados = [];
-  }
-  updateKitSaboresDisplay();
-});
-
-document.getElementById('sabor-list-salgados').addEventListener('change', ()=>{
-  const all = Array.from(document.querySelectorAll('input[name="salgados_sabor"]'));
-  const todos = all.length && all.every(i=>i.checked);
-  document.getElementById('salgados_todos').checked = !!todos;
 });
 
 /* ====== RENDER DOCES ====== */
@@ -1113,7 +1102,7 @@ docesData.forEach(p=>{
     <div class="controle">
       <div class="qty" data-id="${p.id}">
         <button class="minus">−</button>
-        <div class="n">0</div>
+        <div class="n">1</div>
         <button class="plus">+</button>
       </div>
       <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
@@ -1170,13 +1159,8 @@ docesData.forEach(p=>{
     if(!sabores.length){ 
       showToast('❌ Selecione pelo menos um sabor de doces!', 'error');
       document.getElementById('sabores-doces').scrollIntoView({behavior:'smooth'});
-      
-      // Destacar a seção de sabores
       document.getElementById('sabores-doces').style.backgroundColor = '#fff9e6';
-      setTimeout(() => {
-        document.getElementById('sabores-doces').style.backgroundColor = '';
-      }, 2000);
-      
+      setTimeout(() => { document.getElementById('sabores-doces').style.backgroundColor = ''; }, 1800);
       return; 
     }
     
@@ -1191,37 +1175,12 @@ saboresDoce.forEach((s,idx)=>{
   const wrap = document.createElement('label'); wrap.className='sabor-item';
   wrap.innerHTML = `<input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s}`;
   saborListDoces.appendChild(wrap);
-  
-  // Adicionar evento para atualizar sabores selecionados
-  wrap.querySelector('input').addEventListener('change', function() {
-    if(this.checked) {
-      if(!saboresSelecionados.doces.includes(s)) {
-        saboresSelecionados.doces.push(s);
-      }
-    } else {
-      saboresSelecionados.doces = saboresSelecionados.doces.filter(item => item !== s);
-    }
-    updateKitSaboresDisplay();
-  });
 });
 
+/* "Selecionar todos" doces */
 document.getElementById('doces_todos').addEventListener('change', (e)=>{
   const checked = e.target.checked;
   document.querySelectorAll('input[name="doces_sabor"]').forEach(i=> i.checked = checked);
-  
-  // Atualizar sabores selecionados
-  if(checked) {
-    saboresSelecionados.doces = [...saboresDoce];
-  } else {
-    saboresSelecionados.doces = [];
-  }
-  updateKitSaboresDisplay();
-});
-
-document.getElementById('sabor-list-doces').addEventListener('change', ()=>{
-  const all = Array.from(document.querySelectorAll('input[name="doces_sabor"]'));
-  const todos = all.length && all.every(i=>i.checked);
-  document.getElementById('doces_todos').checked = !!todos;
 });
 
 /* ====== RENDER COMBOS ====== */
@@ -1268,7 +1227,7 @@ kitsData.forEach(k=>{
   
   kitsGrid.appendChild(card);
   
-  // NOVO: Quando clicar no kit, mostrar os sabores
+  // Quando clicar no kit, mostrar os sabores
   card.querySelector('.kit-select-btn').addEventListener('click', (e)=>{
     e.preventDefault();
     
@@ -1276,19 +1235,14 @@ kitsData.forEach(k=>{
     kitSelecionadoAtual = k;
     
     // Destacar o card selecionado
-    document.querySelectorAll('.combo-card').forEach(c => {
-      c.classList.remove('card-highlight');
-    });
+    document.querySelectorAll('.combo-card').forEach(c => { c.classList.remove('card-highlight'); });
     card.classList.add('card-highlight');
     
     // Mostrar seção de sabores para o kit
     mostrarSaboresParaKit(k);
     
     // Rolagem suave para a seção de sabores
-    document.getElementById('kit-sabores-dinamico').scrollIntoView({ 
-      behavior: 'smooth', 
-      block: 'start' 
-    });
+    document.getElementById('kit-sabores-dinamico').scrollIntoView({ behavior: 'smooth', block: 'start' });
     
     // Atualizar display dos sabores
     updateKitSaboresDisplay();
@@ -1333,7 +1287,7 @@ function mostrarSaboresParaKit(kit) {
         </div>
         
         <button id="adicionar-kit-com-sabores" class="add-btn" style="min-width:200px;padding:16px 24px;">
-          <span>✅</span> ADICIONAR KIT AO PEDIDO
+          <span>⏳</span> SELECIONE OS SABORES
         </button>
       </div>
       
@@ -1470,9 +1424,8 @@ function updateKitSaboresDisplay() {
 function resetarSelecaoKit() {
   kitSelecionadoAtual = null;
   document.getElementById('kit-sabores-dinamico').innerHTML = '';
-  document.querySelectorAll('.combo-card').forEach(c => {
-    c.classList.remove('card-highlight');
-  });
+  document.querySelectorAll('.combo-card').forEach(c => { c.classList.remove('card-highlight'); });
+  saboresSelecionados = { salgados: [], doces: [] };
 }
 
 /* ====== RENDER MINI CHURROS ====== */
@@ -1499,7 +1452,7 @@ miniChurrosData.forEach(item=>{
     <div style="display:flex;align-items:center;gap:10px">
       <div class="qty" data-id="${item.id}">
         <button class="minus">−</button>
-        <div class="n">0</div>
+        <div class="n">1</div>
         <button class="plus">+</button>
       </div>
       <button class="add-btn mini-add" data-id="${item.id}" style="min-width:140px">Adicionar</button>
@@ -1710,5 +1663,136 @@ function atualizarCarrinho(){
   
   totalEl.textContent=`Total: ${formatBRL(total)}`;
 
-  // Montar mensagem para WhatsApp
-  let mensagemTextPlain = `*PEDIDO - DOCE CONFET
+  // Preparar mensagem padrão sem nome (será completada no modal)
+  let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
+  for (const [key, entry] of carrinho.entries()) {
+    let flavorNote = '';
+    if(entry.flavors){
+      if(Array.isArray(entry.flavors) && entry.flavors.length){
+        flavorNote = ` (${entry.flavors.join(', ')})`;
+      } else if(typeof entry.flavors === 'object'){
+        const s = entry.flavors.salgados || [];
+        const d = entry.flavors.doces || [];
+        const sText = s.length ? `S: ${s.join(', ')}` : '';
+        const dText = d.length ? `D: ${d.join(', ')}` : '';
+        flavorNote = ` (${[sText,dText].filter(Boolean).join(' • ')})`;
+      }
+    }
+    const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
+    mensagemTextPlain += line + '\n';
+  }
+  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`;
+
+  waBtn.dataset.mensagemRaw = mensagemTextPlain;
+  waBtn.dataset.total = total.toFixed(2);
+  waBtn.classList.remove('small');
+  waBtn.href = '#';
+  updateFab(count);
+}
+
+/* fab */
+document.getElementById('fab').addEventListener('click', ()=>{ document.getElementById('carrinho').scrollIntoView({behavior:'smooth',block:'center'}) });
+
+/* modal behavior (abrir + validar + enviar) */
+const modalEl = document.getElementById('modal');
+const tipoRadios = document.querySelectorAll('input[name="tipo_entrega"]');
+const entregaNote = document.getElementById('entrega-note');
+const enderecoWrap = document.getElementById('endereco-wrap');
+const pixOnlyNote = document.getElementById('pix-only-note');
+const payPix = document.getElementById('pay-pix');
+
+function setModalToTipo(tipo){
+  if(tipo === 'Entrega'){
+    entregaNote.classList.remove('field-hidden');
+    enderecoWrap.classList.remove('field-hidden');
+    pixOnlyNote.classList.remove('field-hidden');
+  } else {
+    entregaNote.classList.add('field-hidden');
+    enderecoWrap.classList.add('field-hidden');
+    pixOnlyNote.classList.add('field-hidden');
+  }
+}
+tipoRadios.forEach(r => r.addEventListener('change', (e)=> setModalToTipo(e.target.value)));
+
+// pedido hoje vs agendado
+const pedidoRadios = document.querySelectorAll('input[name="tipo_pedido"]');
+const dataAgendadaWrap = document.getElementById('data-agendada-wrap');
+pedidoRadios.forEach(r => r.addEventListener('change', (e)=>{
+  if(e.target.value === 'agendado') dataAgendadaWrap.classList.remove('field-hidden');
+  else dataAgendadaWrap.classList.add('field-hidden');
+}));
+
+/* quando clicar no botão do WhatsApp -> abrir modal (se tiver itens) */
+document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ 
+  e.preventDefault(); 
+  if(carrinho.size===0){ showToast('Seu carrinho está vazio.', 'error'); return;} 
+  document.getElementById('cliente-nome').value = '';
+  document.getElementById('cliente-endereco').value = '';
+  document.querySelector('input[name="tipo_entrega"][value="Retirada"]').checked = true;
+  setModalToTipo('Retirada');
+  document.querySelector('input[name="tipo_pedido"][value="hoje"]').checked = true;
+  dataAgendadaWrap.classList.add('field-hidden');
+  payPix.checked = true;
+  modalEl.style.display='flex'; 
+  document.getElementById('cliente-nome').focus();
+});
+
+/* cancelar modal */
+document.getElementById('cancel-modal').addEventListener('click', ()=>{ modalEl.style.display='none';});
+
+/* confirmar modal -> validar campos e enviar whatsapp */
+document.getElementById('confirm-modal').addEventListener('click', ()=>{ 
+  const nome = document.getElementById('cliente-nome').value.trim();
+  if(!nome){ showToast('Por favor digite seu nome.', 'error'); document.getElementById('cliente-nome').focus(); return; }
+  const tipo = document.querySelector('input[name="tipo_entrega"]:checked').value;
+  let pagamento = document.querySelector('input[name="pagamento"]:checked') ? document.querySelector('input[name="pagamento"]:checked').value : 'PIX';
+  const endereco = document.getElementById('cliente-endereco').value.trim();
+  if(tipo === 'Entrega'){
+    if(!endereco){ showToast('Para entrega, por favor informe o endereço completo.', 'error'); document.getElementById('cliente-endereco').focus(); return; }
+  }
+  const pedidoTipo = document.querySelector('input[name="tipo_pedido"]:checked').value;
+  const dataAgendada = document.getElementById('data-agendada').value;
+  const horaPedido = document.getElementById('hora-pedido').value;
+  if(pedidoTipo === 'agendado' && !dataAgendada){ showToast('Para agendar, por favor escolha uma data.', 'error'); document.getElementById('data-agendada').focus(); return; }
+
+  enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido);
+});
+
+/* função que monta a mensagem e abre o WhatsApp */
+function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido){
+  const waBtn=document.getElementById('whatsapp-btn');
+  const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
+  let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
+  mensagem += pedidoSemNome + '\n';
+  mensagem += `Tipo: ${tipo}\n`;
+  if(tipo === 'Entrega'){
+    mensagem += `Endereço: ${endereco}\n`;
+  }
+  // Data e horário do pedido (se agendado usa a data, senão "Hoje")
+  let dataHoraTexto = '';
+  if(pedidoTipo === 'agendado'){
+    dataHoraTexto = `${dataAgendada}` + (horaPedido ? ` às ${horaPedido}` : '');
+    mensagem += `Data/Horário agendado: ${dataHoraTexto}\n`;
+  } else {
+    dataHoraTexto = horaPedido ? `Hoje às ${horaPedido}` : 'Hoje';
+    mensagem += `Data/Horário do pedido: ${dataHoraTexto}\n`;
+  }
+  mensagem += `Forma de pagamento: ${pagamento}\n\n`;
+  mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
+  const telefone = '558791060340'; // <-- altere para o número real
+  const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+  window.open(waHref, '_blank');
+  modalEl.style.display='none';
+}
+
+/* inicial */
+atualizarCarrinho();
+console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', docesData.length, 'Combos:', combosData.length, 'Kits:', kitsData.length);
+
+/* CTA start */
+document.getElementById('cta-start').addEventListener('click', ()=>{
+  document.getElementById('salgados-section').scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+</body>
+</html>
