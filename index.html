@@ -27,7 +27,7 @@ header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:
 .logo{width:72px;height:72px;border-radius:10px;overflow:hidden;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .logo img{width:100%;height:100%;object-fit:contain}
 .title h1{margin:0;font-size:22px;color:#fff;font-weight:800}
-.title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7'}
+.title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
 .banner{background:#fffae5;color:#b36b00;text-align:center;font-weight:700;padding:10px;border-bottom:2px solid #ffc46b;}
 .delivery-note{background:#fff3d6;padding:10px;text-align:center;color:#7a4a00;font-weight:800;border-bottom:1px dashed rgba(0,0,0,0.04)}
 main{
@@ -137,6 +137,55 @@ main{
 .sabor-item{padding:12px 16px;font-size:16px;border-radius:14px}
 .sabor-item input[type="checkbox"]{transform:scale(1.4);margin-right:8px}
 @media (max-width:420px){.combos-grid, .kits-grid, .produtos { padding-left:6px; padding-right:6px; }}
+
+/* ===== Ajustes sugeridos pelo usuário: remover tracejado, centralizar CTA e melhorar mobile ===== */
+/* substitui o tracejado feio por um estilo mais suave */
+.sabor-todos .sabor-item,
+.sabor-todos .sabor-todos-toggle {
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: #f0e6d9 !important;
+  background: #fffbe6 !important;
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  box-shadow: none;
+}
+
+/* foco sutil e acessível */
+.sabor-item:focus-within {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,106,0,0.12);
+  border-color: var(--orange);
+}
+
+.sabor-item input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 8px;
+}
+
+#cta-start { 
+  display: inline-block !important; 
+  margin: 12px auto !important; 
+  position: static !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.kits-grid, .combos-grid, .produtos {
+  justify-content: center !important;
+}
+
+main { padding-left: 16px !important; padding-right: 16px !important; }
+
+h2, h3 { color: var(--brown-dark); }
+
+@media (max-width:600px){
+  #cta-start { width:92% !important; }
+  .sabor-item { padding: 10px 14px !important; font-size: 16px !important; }
+  .kit-flavors .sabor-list { gap:10px; }
+}
 </style>
 </head>
 <body>
@@ -179,7 +228,7 @@ main{
     <section class="sabores" id="sabores-salgados">
       <h3>Sabores dos Salgados (selecione 1 ou mais)</h3>
       <div class="sabor-todos">
-        <label class="sabor-item" style="border-style:dashed;background:#fffbe6">
+        <label class="sabor-item sabor-todos-toggle">
           <input type="checkbox" id="salgados_todos"> Todos os sabores
         </label>
       </div>
@@ -198,7 +247,7 @@ main{
     <section class="sabores" id="sabores-doces">
       <h3>Sabores dos Doces (selecione 1 ou mais)</h3>
       <div class="sabor-todos">
-        <label class="sabor-item" style="border-style:dashed;background:#fffbe6">
+        <label class="sabor-item sabor-todos-toggle">
           <input type="checkbox" id="doces_todos"> Todos os sabores
         </label>
       </div>
@@ -402,7 +451,7 @@ produtosData.forEach(p=>{
 
 /* ====== RENDER SABORES DOS SALGADOS (GLOBAL) ====== */
 const saborListSalgados = document.getElementById('sabor-list-salgados');
-saboresSalgado.forEach((s,idx)=>{ const id = `salgado_sabor_${idx}`; const wrap = document.createElement('label'); wrap.className='sabor-item'; wrap.innerHTML = `<input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s}`; saborListSalgados.appendChild(wrap); });
+saboresSalgado.forEach((s,idx)=>{ const id = `salgado_sabor_${idx}`; const wrap = document.createElement('label'); wrap.className='sabor-item'; wrap.innerHTML = `<input type=\"checkbox\" name=\"salgados_sabor\" id=\"${id}\" value=\"${s}\"> ${s}`; saborListSalgados.appendChild(wrap); });
 document.getElementById('salgados_todos').addEventListener('change', (e)=>{ const checked = e.target.checked; document.querySelectorAll('input[name="salgados_sabor"]').forEach(i=> i.checked = checked); });
 document.getElementById('sabor-list-salgados').addEventListener('change', ()=>{ const all = Array.from(document.querySelectorAll('input[name="salgados_sabor"]')); const todos = all.length && all.every(i=>i.checked); document.getElementById('salgados_todos').checked = !!todos; });
 
@@ -449,7 +498,7 @@ docesData.forEach(p=>{
 
 /* ====== RENDER SABORES DOS DOCES (GLOBAL) ====== */
 const saborListDoces = document.getElementById('sabor-list-doces');
-saboresDoce.forEach((s,idx)=>{ const id = `doce_sabor_${idx}`; const wrap = document.createElement('label'); wrap.className='sabor-item'; wrap.innerHTML = `<input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s}`; saborListDoces.appendChild(wrap); });
+saboresDoce.forEach((s,idx)=>{ const id = `doce_sabor_${idx}`; const wrap = document.createElement('label'); wrap.className='sabor-item'; wrap.innerHTML = `<input type=\"checkbox\" name=\"doces_sabor\" id=\"${id}\" value=\"${s}\"> ${s}`; saborListDoces.appendChild(wrap); });
 document.getElementById('doces_todos').addEventListener('change', (e)=>{ const checked = e.target.checked; document.querySelectorAll('input[name="doces_sabor"]').forEach(i=> i.checked = checked); });
 document.getElementById('sabor-list-doces').addEventListener('change', ()=>{ const all = Array.from(document.querySelectorAll('input[name="doces_sabor"]')); const todos = all.length && all.every(i=>i.checked); document.getElementById('doces_todos').checked = !!todos; });
 
@@ -488,7 +537,7 @@ kitsData.forEach(k=>{
       <div class="sabor-list" data-type="doce"></div>
       <div class="kit-actions">
         <button class="add-btn kit-save-add" data-id="${k.id}">Salvar sabores e adicionar</button>
-        <button class="add-btn" style="background:#ddd;color:#333" class="kit-cancel">Cancelar</button>
+        <button class="add-btn kit-cancel" style="background:#ddd;color:#333">Cancelar</button>
       </div>
       <div class="kit-warning field-hidden">Por favor selecione sabores de salgados e doces.</div>
     </div>`;
@@ -586,6 +635,7 @@ function atualizarCarrinho(){
   for(const [key,entry] of carrinho.entries()){
     const li=document.createElement('li'); const thumb=document.createElement('div'); thumb.className='mini-thumb'; const img=document.createElement('img'); img.src=entry.produto.img || ''; img.alt=entry.produto.nome; img.onerror=function(){ this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' }; thumb.appendChild(img);
     const meta=document.createElement('div'); meta.className='cart-meta'; let flavorText = '';
+    if(entry.flavours){};
     if(entry.flavors){ if(Array.isArray(entry.flavors) && entry.flavors.length){ if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){ flavorText = `Sabores: <strong>Todos os sabores</strong> • `; } else { flavorText = `Sabores: <strong>${entry.flavors.join(', ')}</strong> • `; } } else if(typeof entry.flavors === 'object'){ const s = entry.flavors.salgados || []; const d = entry.flavors.doces || []; const sText = s.length ? s.join(', ') : '—'; const dText = d.length ? d.join(', ') : '—'; flavorText = `Sabores salgados: <strong>${sText}</strong> • Sabores doces: <strong>${dText}</strong> • `; } }
     meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">${flavorText}Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
     const right=document.createElement('div'); right.className='cart-right'; const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty; right.innerHTML=`<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-key="${key}">Remover</div>`;
@@ -593,14 +643,19 @@ function atualizarCarrinho(){
     li.querySelector('.remove').addEventListener('click', (ev)=>{ removerDoCarrinho(ev.target.dataset.key) }); lista.appendChild(li);
   }
   totalEl.textContent=`Total: ${formatBRL(total)}`;
-  let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
+  let mensagemTextPlain = `Pedido - Doce Confete
+
+`;
   for (const [key, entry] of carrinho.entries()) {
     let flavorNote = '';
     if(entry.flavors){ if(Array.isArray(entry.flavors) && entry.flavors.length){ if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){ flavorNote = ` (Todos os sabores)`; } else { flavorNote = ` (${entry.flavors.join(', ')})`; } } else if(typeof entry.flavors === 'object'){ const s = entry.flavors.salgados || []; const d = entry.flavors.doces || []; const sText = s.length ? `Salgados: ${s.join(', ')}` : ''; const dText = d.length ? `Doces: ${d.join(', ')}` : ''; flavorNote = ` (${[sText,dText].filter(Boolean).join(' • ')})`; } }
     const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
-    mensagemTextPlain += line + '\n';
+    mensagemTextPlain += line + '
+';
   }
-  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`;
+  mensagemTextPlain += `
+Total: ${formatBRL(total)}
+`;
   waBtn.dataset.mensagemRaw = mensagemTextPlain; waBtn.dataset.total = total.toFixed(2); waBtn.classList.remove('small'); waBtn.href = '#'; updateFab(count);
 }
 function updateFab(count){ document.getElementById('fab-count').textContent = count; }
@@ -617,13 +672,33 @@ document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ e.preve
 document.getElementById('cancel-modal').addEventListener('click', ()=>{ modalEl.style.display='none';});
 document.getElementById('confirm-modal').addEventListener('click', ()=>{ const nome = document.getElementById('cliente-nome').value.trim(); if(!nome){ alert('Por favor digite seu nome.'); document.getElementById('cliente-nome').focus(); return; } const tipo = document.querySelector('input[name="tipo_entrega"]:checked').value; let pagamento = document.querySelector('input[name="pagamento"]:checked') ? document.querySelector('input[name="pagamento"]:checked').value : 'PIX'; const endereco = document.getElementById('cliente-endereco').value.trim(); if(tipo === 'Entrega'){ if(!endereco){ alert('Para entrega, por favor informe o endereço completo.'); document.getElementById('cliente-endereco').focus(); return; } } const pedidoTipo = document.querySelector('input[name="tipo_pedido"]:checked').value; const dataAgendada = document.getElementById('data-agendada').value; const horaPedido = document.getElementById('hora-pedido').value; if(pedidoTipo === 'agendado' && !dataAgendada'){ alert('Para agendar, por favor escolha uma data.'); document.getElementById('data-agendada').focus(); return; } enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido); });
 
-function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido){ const waBtn=document.getElementById('whatsapp-btn'); const pedidoSemNome = waBtn.dataset.mensagemRaw || ''; let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`; mensagem += pedidoSemNome + '\n'; mensagem += `Tipo: ${tipo}\n`; if(tipo === 'Entrega'){ mensagem += `Endereço: ${endereco}\n`; } let dataHoraTexto = ''; if(pedidoTipo === 'agendado'){ dataHoraTexto = `${dataAgendada}` + (horaPedido ? ` às ${horaPedido}` : ''); mensagem += `Data/Horário agendado: ${dataHoraTexto}\n`; } else { dataHoraTexto = horaPedido ? `Hoje às ${horaPedido}` : 'Hoje'; mensagem += `Data/Horário do pedido: ${dataHoraTexto}\n`; } mensagem += `Forma de pagamento: ${pagamento}\n\n`; mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA'; const telefone = '558791060340'; const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`; window.open(waHref, '_blank'); modalEl.style.display='none'; }
+function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido){ const waBtn=document.getElementById('whatsapp-btn'); const pedidoSemNome = waBtn.dataset.mensagemRaw || ''; let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:
+
+`; mensagem += pedidoSemNome + '
+'; mensagem += `Tipo: ${tipo}
+`; if(tipo === 'Entrega'){ mensagem += `Endereço: ${endereco}
+`; } let dataHoraTexto = ''; if(pedidoTipo === 'agendado'){ dataHoraTexto = `${dataAgendada}` + (horaPedido ? ` às ${horaPedido}` : ''); mensagem += `Data/Horário agendado: ${dataHoraTexto}
+`; } else { dataHoraTexto = horaPedido ? `Hoje às ${horaPedido}` : 'Hoje'; mensagem += `Data/Horário do pedido: ${dataHoraTexto}
+`; } mensagem += `Forma de pagamento: ${pagamento}
+
+`; mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA'; const telefone = '558791060340'; const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`; window.open(waHref, '_blank'); modalEl.style.display='none'; }
 
 /* toast */
 const toastEl = document.getElementById('toast'); let toastTimer = null; function showToast(txt){ toastEl.textContent = txt || 'Adicionado ao pedido'; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(()=> toastEl.classList.remove('show'),1600); }
 
 /* helpers */
 function getSelectedSabores(groupName){ const els = Array.from(document.querySelectorAll(`input[name="${groupName}"]`)); return els.filter(i => i.checked).map(i => i.value); }
+
+/* foco no primeiro checkbox do painel do kit quando abrir (melhora usabilidade) */
+setTimeout(()=>{
+  document.querySelectorAll('.kit-select').forEach(btn=>{
+    btn.addEventListener('click',(ev)=>{
+      const card = ev.currentTarget.closest('.combo-card');
+      const panel = card.querySelector('.kit-flavors');
+      setTimeout(()=>{ const first = panel.querySelector('input[type="checkbox"]'); if(first) first.focus(); },250);
+    });
+  });
+},500);
 
 /* inicial */
 atualizarCarrinho();
