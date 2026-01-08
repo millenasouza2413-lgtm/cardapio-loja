@@ -139,7 +139,6 @@ main{
 .combos{margin-top:18px;background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
 .combos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px;justify-items:center}
 .combo-card{background:var(--card);border-radius:12px;padding:8px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-height:180px;width:100%;max-width:var(--max-card-width);margin:0 auto}
-.combo-card .thumb{height:160px;border-radius:10px}
 .kits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:12px;justify-items:center}
 
 .page-break{page-break-before:always;break-before:page;-webkit-break-before:always}
@@ -273,7 +272,10 @@ header .title{
   .title h1{ font-size:22px; }
 }
 
-
+/* pequenas garantias pra centralizar grid no celular */
+@media (max-width:420px){
+  .combos-grid, .kits-grid, .produtos { padding-left:6px; padding-right:6px; }
+}
 </style>
 </head>
 <body>
@@ -364,6 +366,7 @@ document.getElementById('cta-start').addEventListener('click', ()=>{
     <!-- KIT FESTA separado -->
     <section class="combos" id="kit-festa" style="margin-top:18px">
       <h2 style="margin-top:18px;color:var(--brown-dark)">🎁 Kit Festa</h2>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Ao adicionar um kit, selecione os sabores desejados de salgados e doces antes.</div>
       <div class="kits-grid" id="kits-grid"></div>
     </section>
 
@@ -470,7 +473,7 @@ const produtosData = [
 ];
 
 const docesData = [
-  {id:'d15',nome:'15 Doces',preco:15.00,img:'images/15-doces.jpg', categoria:'doce'},
+  // REMOVIDO: 15 Doces conforme solicitado
   {id:'d40',nome:'40 Doces',preco:40.00,img:'images/40-doces.jpg', categoria:'doce'},
   {id:'d50',nome:'50 Doces',preco:50.00,img:'images/50-doces.jpg', categoria:'doce'},
   {id:'d100',nome:'100 Doces',preco:100.00,img:'images/100-doces.jpg', categoria:'doce'}
@@ -483,9 +486,13 @@ const combosData = [
 ];
 
 const kitsData = [
-  { id:'kit_5', nome:'Kit 5 pessoas', preco:65.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
+  { id:'kit_5', nome:'Kit 5 pessoas', preco:70.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
   { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' },
-  { id:'kit_20', nome:'Kit 20 pessoas', preco:180.00, img:'images/20-pessoas.jpg', desc:'200 salgados + 80 docinhos' }
+  { id:'kit_20', nome:'Kit 20 pessoas', preco:180.00, img:'images/20-pessoas.jpg', desc:'200 salgados + 80 docinhos' },
+
+  // NOVOS KITS solicitados:
+  { id:'kit_40', nome:'Kit 40 pessoas', preco:360.00, img:'images/40-pessoas.jpg', desc:'400 salgados + 160 docinhos' },
+  { id:'kit_lanche', nome:'Kit Lanche', preco:45.00, img:'images/kit-lanche.jpg', desc:'50 salgados + 15 docinhos' }
 ];
 
 const miniChurrosData = [
@@ -557,7 +564,7 @@ produtosData.forEach(p=>{
     // salgados sempre precisam de sabores
     const sabores = getSelectedSabores('salgados_sabor'); // array
     if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos salgados antes de adicionar.'); return; }
-    adicionarAoCarrinho(cid,qty,null,sabores,categoria);
+    adicionarAoCarrinho(cid,qty,null,{salgados: sabores},'salgado');
   });
 });
 
@@ -622,18 +629,10 @@ docesData.forEach(p=>{
     const cid = ev.currentTarget.dataset.id;
     const categoria = ev.currentTarget.dataset.categoria;
     if(qty <= 0){ alert('Defina a quantidade desejada (maior que 0) antes de adicionar.'); return; }
-    // regra: 15 doces (d15) NÃO precisa escolher sabores e não deve incluir sabores
-    if(categoria === 'doce'){
-      if(cid !== 'd15'){
-        const sabores = getSelectedSabores('doces_sabor'); // array
-        if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos doces antes de adicionar.'); return; }
-        adicionarAoCarrinho(cid,qty,null,sabores,categoria);
-      } else {
-        adicionarAoCarrinho(cid,qty,null,[],categoria);
-      }
-    } else {
-      adicionarAoCarrinho(cid,qty);
-    }
+    // regra: agora TODOS os doces precisam de seleção de sabores
+    const sabores = getSelectedSabores('doces_sabor'); // array
+    if(!sabores.length){ alert('Por favor selecione pelo menos um sabor dos doces antes de adicionar.'); return; }
+    adicionarAoCarrinho(cid,qty,null,{doces: sabores},'doce');
   });
 });
 
@@ -692,7 +691,14 @@ kitsData.forEach(k=>{
       </div>
     </div>`;
   kitsGrid.appendChild(card);
-  card.querySelector('.kit-add').addEventListener('click', ()=> adicionarAoCarrinho(k.id,1,{nome:k.nome,preco:k.preco,img:k.img},[],null));
+  card.querySelector('.kit-add').addEventListener('click', ()=>{
+    // agora kits exigem seleção de sabores de salgados e doces
+    const salgadosSelected = getSelectedSabores('salgados_sabor');
+    const docesSelected = getSelectedSabores('doces_sabor');
+    if(!salgadosSelected.length){ alert('Por favor selecione ao menos 1 sabor de salgados antes de adicionar um kit.'); return; }
+    if(!docesSelected.length){ alert('Por favor selecione ao menos 1 sabor de doces antes de adicionar um kit.'); return; }
+    adicionarAoCarrinho(k.id,1,{nome:k.nome,preco:k.preco,img:k.img},{salgados: salgadosSelected, doces: docesSelected},'kit');
+  });
 });
 
 /* ====== RENDER MINI CHURROS ====== */
@@ -747,12 +753,36 @@ miniChurrosData.forEach(item=>{
 
 /* ====== CARRINHO: adicionar / remover / atualizar ====== */
 function adicionarAoCarrinho(id,quant,override,flavors,categoria){
-  const flavorArr = Array.isArray(flavors) ? flavors.map(f=>String(f).trim()).filter(Boolean) : (typeof flavors === 'string' ? (flavors.trim() ? [flavors.trim()] : []) : []);
-  const flavorKey = flavorArr.length ? flavorArr.join('|') : '';
-  const key = `${id}__${flavorKey}`;
+  // flavors pode ser:
+  // - array: sabores simples (antigo estilo)
+  // - objeto: {salgados: [...], doces: [...]} para kits ou {salgados: [...]} ou {doces: [...]}
+  let flavorKey = '';
+  let storedFlavors = null;
+
+  if(!flavors) {
+    storedFlavors = [];
+    flavorKey = '';
+  } else if(Array.isArray(flavors)){
+    storedFlavors = flavors.map(f=>String(f).trim()).filter(Boolean);
+    flavorKey = storedFlavors.join('|');
+  } else if(typeof flavors === 'object'){
+    // objeto: normalizar para string chave
+    const s = (flavors.salgados || []).map(x=>String(x).trim()).filter(Boolean);
+    const d = (flavors.doces || []).map(x=>String(x).trim()).filter(Boolean);
+    storedFlavors = {};
+    if(s.length) storedFlavors.salgados = s;
+    if(d.length) storedFlavors.doces = d;
+    flavorKey = `S:${s.join(',')};D:${d.join(',')}`;
+  } else {
+    storedFlavors = [];
+    flavorKey = '';
+  }
+
+  const key = `${id}__${flavorKey || ''}__${categoria || ''}`;
+
   if(override){
     if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); }
-    else carrinho.set(key,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant,flavors:flavorArr,categoria:categoria});
+    else carrinho.set(key,{produto:{nome:override.nome,preco:override.preco,img:override.img},qty:quant,flavors:storedFlavors,categoria:categoria});
   } else {
     let prod = produtosData.find(x=>x.id===id) || docesData.find(x=>x.id===id) || miniChurrosData.find(x=>x.id===id);
     if(!prod){
@@ -761,7 +791,7 @@ function adicionarAoCarrinho(id,quant,override,flavors,categoria){
     }
     if(!prod) return;
     if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); } 
-    else carrinho.set(key,{produto:prod,qty:quant,flavors:flavorArr,categoria:categoria});
+    else carrinho.set(key,{produto:prod,qty:quant,flavors:storedFlavors,categoria:categoria});
   }
   showToast('Adicionado ao pedido');
   atualizarCarrinho();
@@ -782,12 +812,20 @@ function atualizarCarrinho(){
     thumb.appendChild(img);
     const meta=document.createElement('div'); meta.className='cart-meta';
     let flavorText = '';
-    if(entry.flavors && entry.flavors.length){
-      // se for salgados e escolheu todos os sabores, mostrar 'Todos os sabores'
-      if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
-        flavorText = `Sabores: <strong>Todos os sabores</strong> • `;
-      } else {
-        flavorText = `Sabores: <strong>${entry.flavors.join(', ')}</strong> • `;
+    if(entry.flavors){
+      if(Array.isArray(entry.flavors) && entry.flavors.length){
+        // se for salgados e escolheu todos os sabores, mostrar 'Todos os sabores'
+        if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
+          flavorText = `Sabores: <strong>Todos os sabores</strong> • `;
+        } else {
+          flavorText = `Sabores: <strong>${entry.flavors.join(', ')}</strong> • `;
+        }
+      } else if(typeof entry.flavors === 'object'){
+        const s = entry.flavors.salgados || [];
+        const d = entry.flavors.doces || [];
+        const sText = s.length ? s.join(', ') : '—';
+        const dText = d.length ? d.join(', ') : '—';
+        flavorText = `Sabores salgados: <strong>${sText}</strong> • Sabores doces: <strong>${dText}</strong> • `;
       }
     }
     meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">${flavorText}Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
@@ -804,11 +842,19 @@ function atualizarCarrinho(){
   let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
   for (const [key, entry] of carrinho.entries()) {
     let flavorNote = '';
-    if(entry.flavors && entry.flavors.length){
-      if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
-        flavorNote = ` (Todos os sabores)`;
-      } else {
-        flavorNote = ` (${entry.flavors.join(', ')})`;
+    if(entry.flavors){
+      if(Array.isArray(entry.flavors) && entry.flavors.length){
+        if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length){
+          flavorNote = ` (Todos os sabores)`;
+        } else {
+          flavorNote = ` (${entry.flavors.join(', ')})`;
+        }
+      } else if(typeof entry.flavors === 'object'){
+        const s = entry.flavors.salgados || [];
+        const d = entry.flavors.doces || [];
+        const sText = s.length ? `Salgados: ${s.join(', ')}` : '';
+        const dText = d.length ? `Doces: ${d.join(', ')}` : '';
+        flavorNote = ` (${[sText,dText].filter(Boolean).join(' • ')})`;
       }
     }
     const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
