@@ -2,465 +2,238 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<!-- Zoom permitido: user-scalable e maximum-scale -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Doce Confete — Cardápio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Baloo+2:wght@400;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --brown:#6b3b1a; --brown-dark:#4d2c15; --orange:#ff6a00; --pastel:#fff6b8;
-  --card:#fff; --muted:#6b6b6b; --radius:12px; --shadow:0 10px 30px rgba(0,0,0,0.08);
-  --max-card-width:420px;
-  --page-padding:14px;
-  --success:#27ae60; --warning:#f39c12; --error:#e74c3c;
+    --bg: #FFF9ED;
+    --pastel-yellow: #FFEC8B;
+    --brand-yellow: #FFC125;
+    --brown-dark: #5b220f;
+    --brown-mid: #9d603b;
+    --accent: #e5712a;
+    --card-radius: 14px;
+    --shadow: 0 12px 30px rgba(91,34,15,0.08);
 }
-
-/* Reset / base */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  font-family:Poppins, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  background:var(--pastel);
-  -webkit-print-color-adjust:exact;
-  print-color-adjust:exact;
-  padding-bottom:120px;
-  font-size:16px;
-  line-height:1.5;
-}
-header{background:var(--brown);color:#fff;padding:16px;display:flex;align-items:center;gap:12px;justify-content:center;text-align:center;}
-.logo{width:72px;height:72px;border-radius:10px;overflow:hidden;background:#fff3d6;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo img{width:100%;height:100%;object-fit:contain}
-.title h1{margin:0;font-size:22px;color:#fff;font-weight:800}
-.title p{margin:4px 0 0 0;font-size:13px;color:#ffeaa7}
-.banner{background:#fffae5;color:#b36b00;text-align:center;font-weight:700;padding:12px;border-bottom:2px solid #ffc46b;font-size:16px;}
-.delivery-note{background:#fff3d6;padding:12px;text-align:center;color:#7a4a00;font-weight:800;border-bottom:1px dashed rgba(0,0,0,0.04);font-size:15px;}
-main{
-  max-width:1100px;
-  margin:18px auto;
-  padding:var(--page-padding);
-  display:grid;
-  grid-template-columns:1fr 380px;
-  gap:18px;
-  align-items:start;
+    margin:0;
+    background: linear-gradient(180deg, var(--bg) 0%, #FFFDF8 100%);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color:var(--brown-dark);
+    padding-bottom:60px;
 }
 
-/* Instruções destacadas */
-.instructions-box {
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 16px;
-  margin: 16px 0;
-  border-left: 4px solid var(--orange);
-  box-shadow: var(--shadow);
+/* header */
+.header{
+    position:sticky; top:0; z-index:30;
+    background: linear-gradient(90deg, var(--pastel-yellow), #FFF6D6);
+    padding:16px;
+    border-bottom:1px solid rgba(0,0,0,0.04);
+    display:flex; justify-content:space-between; align-items:center;
 }
-.instructions-box h3 {
-  margin-top: 0;
-  color: var(--brown-dark);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.brand{ display:flex; gap:12px; align-items:center;}
+.logo{
+    display:flex; gap:8px; align-items:center;
+    background:linear-gradient(180deg,var(--brand-yellow), #FFB83A);
+    padding:10px 14px; border-radius:12px; color:var(--brown-dark);
+    font-family: "Baloo 2", cursive; font-weight:800;
+    box-shadow:var(--shadow);
 }
-.instructions-box h3::before {
-  content: "📌";
-  font-size: 18px;
-}
+.logo img{ height:34px; display:block; border-radius:6px }
+.tagline{ font-size:13px; color:#6b4a3b; margin-top:2px; }
 
-/* Alertas */
-.alert {
-  padding: 12px 16px;
-  border-radius: var(--radius);
-  margin: 12px 0;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.alert-warning {
-  background: #fff3cd;
-  border: 2px solid #ffc107;
-  color: #856404;
-}
-.alert-info {
-  background: #d1ecf1;
-  border: 2px solid #0dcaf0;
-  color: #0c5460;
-}
+.contact{ display:flex; gap:8px; align-items:center }
+.contact a{ text-decoration:none; color:var(--brown-dark); background:rgba(0,0,0,0.03); padding:8px 10px; border-radius:10px; font-size:13px }
 
-/* STEP INDICATOR */
-.steps{background:transparent;padding:10px 0 6px 0;margin-bottom:6px;text-align:center}
-.step-list{display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
-.step{background:#fff;padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);font-weight:700}
-.step.active{background:var(--brown);color:#fff;border-color:transparent}
+/* layout */
+.wrap{ max-width:1150px; margin:20px auto; padding:16px; display:grid; grid-template-columns:1fr 360px; gap:20px; }
+@media(max-width:980px){ .wrap{ grid-template-columns:1fr; padding:12px } }
 
-/* Produtos layout */
-.produtos{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:14px;
-  justify-items:center;
-  padding:6px 0;
-}
+/* section & cards */
+.section{ background:white; border-radius:var(--card-radius); padding:16px; box-shadow:var(--shadow); border-top:6px solid var(--pastel-yellow) }
+.section h2{ margin:0 0 6px 0; font-family:"Baloo 2", cursive; color:var(--brown-dark) }
+.muted{ color:#6b4a3b; font-size:14px }
 
-/* Card padrão (centralizado e responsivo) */
-.card{
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:16px;
-  box-shadow:var(--shadow);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  min-height:240px;
-  position:relative;
-  overflow:hidden;
-  width:100%;
-  max-width:var(--max-card-width);
-  margin:0 auto 18px;
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-}
-.card:hover { border-color: var(--orange); transform: translateY(-4px); }
-.card-highlight { border: 2px solid var(--orange) !important; background: #fffaf0; }
+.product-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:14px; margin-top:12px }
 
-/* Imagem do card */
-.thumb{ height:220px; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f6f6f6; position:relative; }
-.thumb img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; transition:transform .28s ease,filter .28s ease; }
-.thumb:hover img{ transform:scale(1.03); filter:brightness(1.03) }
+.product{ border-radius:12px; overflow:hidden; background: linear-gradient(180deg,#fff,#FFFDFB); border:1px solid rgba(0,0,0,0.04); display:flex; flex-direction:column; transition:transform .14s }
+.product:hover{ transform:translateY(-6px) }
 
-/* Promo badge */
-.promo-badge{ position:absolute;top:12px;left:12px; background:linear-gradient(90deg,#ff3b30,#ffb347); color:#fff;font-weight:900;padding:8px 12px;border-radius:999px; font-size:13px; box-shadow:0 8px 22px rgba(255,59,48,0.18); transform:rotate(-8deg); display:inline-block; z-index:5; text-transform:uppercase; letter-spacing:0.6px; animation:promo-pulse 1600ms infinite;}
-@keyframes promo-pulse{0%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(-8deg) scale(1.04)}100%{transform:rotate(-8deg) scale(1)}}
+.media{ height:150px; display:flex; align-items:center; justify-content:center; background:var(--pastel-yellow) }
+.media img{ max-height:140px; width:auto; object-fit:cover; border-radius:8px }
 
-/* Info / preço / nome */
-.info{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.nome{font-weight:800;font-size:17px;color:var(--orange)}
-.preco{color:var(--brown-dark);font-weight:900;font-size:18px}
-.preco-old{color:#999;text-decoration:line-through;font-size:14px}
+.info{ padding:12px; display:flex; flex-direction:column; gap:8px }
+.title{ font-weight:700; color:var(--brown-dark) }
+.desc{ font-size:13px; color:#7a5a4a }
+.price-row{ display:flex; justify-content:space-between; align-items:center }
+.price{ font-weight:800; color:var(--brand-yellow); font-size:18px }
+.old-price{ text-decoration:line-through; color:#B0896B; font-size:13px }
 
-/* Controles (quantidade + adicionar) */
-.controle{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:auto;width:100%}
-.qty{display:flex;align-items:center;gap:8px;background:#fff4e6;padding:8px;border-radius:10px;font-weight:800;border:1px solid rgba(0,0,0,0.04)}
-.qty button{background:transparent;border:none;font-size:22px;width:44px;height:44px;cursor:pointer;color:var(--brown-dark);border-radius:8px;}
-.qty button:hover{background:rgba(0,0,0,0.05)}
-.qty .n{min-width:44px;text-align:center;font-size:18px;}
-.add-btn{background:var(--brown);color:#fff;border:none;padding:14px 20px;border-radius:12px;cursor:pointer;font-weight:900;box-shadow:0 6px 12px rgba(0,0,0,0.1);font-size:16px;flex:1;transition:all 0.2s ease;}
-.add-btn:hover{filter:brightness(.96);transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,0.15)}
-.add-btn:active{transform:translateY(0)}
-.add-btn.disabled{background:#ccc;cursor:not-allowed;transform:none !important;box-shadow:none !important;}
+.controls{ display:flex; gap:8px; align-items:center; margin-top:6px }
+.qty{ display:flex; align-items:center; gap:8px; background:#fff; border-radius:10px; padding:6px; border:1px solid rgba(0,0,0,0.06) }
+.qty button{ border:0; background:transparent; font-weight:700; color:var(--brown-dark); cursor:pointer; width:28px; height:28px }
+.qty .val{ min-width:24px; text-align:center; font-weight:700 }
 
-/* Seletores de quantidade melhorados */
-.qty-selector { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
-.qty-selector select { padding: 10px 14px; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; background: white; flex: 1; }
+/* Add button disabled style */
+.btn{ background: linear-gradient(180deg, var(--brown-mid), var(--brown-dark)); color:white; padding:8px 12px; border-radius:10px; border:0; cursor:pointer; font-weight:700; font-size:14px }
+.btn[disabled]{ opacity:0.45; cursor:not-allowed; transform:none }
 
-/* SABORES - AGORA VISÍVEIS JUNTO COM OS KITS */
-.kit-sabores-container { background: #fff; border-radius: var(--radius); padding: 18px; margin: 16px 0; box-shadow: var(--shadow); border: 2px solid #ffc46b; animation: fadeIn 0.5s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.kit-sabores-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.kit-sabores-header h3 { margin: 0; color: var(--brown-dark); font-size: 18px; }
-.sabores-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 16px; }
-@media (max-width: 768px) { .sabores-section { grid-template-columns: 1fr; } }
-.sabor-group { background: #f9f9f9; padding: 16px; border-radius: 8px; }
-.sabor-group h4 { margin-top: 0; color: var(--brown); font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-.sabor-group h4::before { content: "👇"; }
-.sabor-list{ display:flex; flex-wrap:wrap; gap:8px; }
-.sabor-item{ background:#fff; padding:10px 14px; border-radius:12px; border:2px solid #f0e6d9; cursor:pointer; display:inline-flex; align-items:center; gap:8px; font-size:15px; transition:all 0.2s ease; }
-.sabor-item:hover { border-color: var(--orange); background: #fffaf0; }
-.sabor-item.selected { background: var(--pastel); border-color: var(--orange); font-weight: 600; }
-.sabor-item input{ margin:0; width:18px; height:18px; }
-.sabor-todos{ display:flex; align-items:center; gap:10px; margin-bottom:12px; padding:10px; background:#fffbe6; border-radius:8px; }
-.sabor-todos label { display: flex; align-items: center; gap: 10px; font-weight: 600; cursor: pointer; }
+/* flavors */
+.flavors{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
+.flavor{ background:#fff; padding:6px 10px; border-radius:20px; border:1px solid rgba(0,0,0,0.04); cursor:pointer; font-size:13px }
+.flavor.selected{ background: var(--brand-yellow); color:var(--brown-dark); font-weight:700 }
 
-/* Carrinho lateral */
-#carrinho{ position:sticky; top:18px; background:var(--card); padding:18px; border-radius:var(--radius); box-shadow:var(--shadow); height:fit-content; border: 2px solid var(--brown); }
-#lista-carrinho{ list-style:none; margin:0; padding:0; max-height:380px; overflow:auto; }
-#lista-carrinho li{ display:flex; gap:10px; padding:12px 0; border-bottom:2px dashed #f0f0f0; align-items:center; }
-.mini-thumb{ width:64px; height:48px; border-radius:8px; overflow:hidden; background:#f3f3f3; flex-shrink:0; }
-.mini-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-.cart-meta{ flex:1; font-size:14px; }
-.cart-meta .cname{ font-weight:800; color:var(--orange); font-size:15px; }
-.cart-meta .csub{ color:var(--muted); font-size:13px; margin-top:4px; }
-.cart-right{ text-align:right; display:flex; flex-direction:column; gap:4px; }
-.cart-right .subtotal{ font-weight:900; color:var(--brown-dark); font-size:15px; }
-.cart-right .remove{ font-size:12px; color:#e74c3c; cursor:pointer; text-decoration:underline; }
-#total{ font-weight:900; text-align:right; font-size:20px; margin-top:14px; color:var(--brown-dark); padding-top:12px; border-top:2px solid #eee; }
-#whatsapp-btn{ display:block; text-align:center; background:var(--brown-dark); color:var(--pastel,#fff); text-decoration:none; padding:16px 10px; border-radius:12px; margin-top:16px; font-weight:900; font-size:17px; transition:all 0.2s ease; }
-#whatsapp-btn:hover{ background:var(--brown); transform:translateY(-2px); box-shadow:0 8px 16px rgba(0,0,0,0.15); }
+/* cart sidebar */
+.cart{ position:sticky; top:90px }
+.box{ background:white; border-radius:12px; padding:16px; box-shadow:var(--shadow); border-top:6px solid var(--pastel-yellow) }
+.cart h3{ margin:0 0 8px 0; font-family:"Baloo 2", cursive; color:var(--brown-dark) }
+.cart-items{ max-height:320px; overflow:auto; margin-top:8px; display:flex; flex-direction:column; gap:10px }
+.cart-item{ display:flex; justify-content:space-between; gap:8px; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.04); padding-bottom:8px }
+.cart-total{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-weight:800; color:var(--brown-dark); font-size:18px }
 
-/* COMBOS */
-.combos{ margin-top:18px; background:var(--card); padding:18px; border-radius:var(--radius); box-shadow:var(--shadow); }
-.combos-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:12px; justify-items:center; }
-.combo-card{ background:var(--card); border-radius:12px; padding:14px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px; min-height:200px; width:100%; max-width:var(--max-card-width); margin:0 auto; border: 2px solid transparent; transition: all 0.3s ease; }
-.combo-card:hover { border-color: var(--orange); }
-.combo-card .thumb{ height:180px; }
-.kits-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:16px; justify-items:center; }
+.checkout{ margin-top:12px; display:flex; gap:8px }
+.whatsapp-btn{ background: linear-gradient(90deg,#25D366,#1DA851); color:white; padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:700; display:flex; gap:8px; align-items:center; flex:1; justify-content:center }
+.checkout-secondary{ background:var(--brand-yellow); color:var(--brown-dark); padding:10px 12px; border-radius:12px; font-weight:700; border:0; cursor:pointer; flex:1 }
 
-.page-break{ page-break-before:always; break-before:page; -webkit-break-before:always }
+/* info pills */
+.info-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:10px }
+.pill{ background:#FFF8E6; border-radius:10px; padding:10px; border:1px solid rgba(0,0,0,0.02) }
 
-/* FAB (botão flutuante) */
-.fab{ position:fixed; right:20px; bottom:20px; z-index:1200; background:var(--brown); width:70px; height:70px; border-radius:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(0,0,0,0.25); cursor:pointer; color:#fff; transition:all 0.3s ease; }
-.fab:hover{ transform:scale(1.1); box-shadow:0 16px 40px rgba(0,0,0,0.3); }
-.fab .badge{ position:absolute; top:-8px; right:-8px; background:var(--orange); color:#fff; width:28px; height:28px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px; border:2px solid white; }
-.toast{ position:fixed; left:50%; transform:translateX(-50%); bottom:110px; background:#222; color:#fff; padding:12px 18px; border-radius:12px; opacity:0; pointer-events:none; transition:.3s; z-index:9999; font-weight:600; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
-.toast.show{ opacity:1; pointer-events:auto; }
+/* modal */
+.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:60; align-items:center; justify-content:center; padding:18px }
+.modal .card{ width:100%; max-width:620px; border-radius:12px; padding:18px; background:white }
 
-/* mobile improvements */
-@media (max-width:980px){
-  main{ grid-template-columns:1fr; padding:12px; }
-  #carrinho{ position:relative; top:auto; margin-top:16px; order: 999; }
-  .fab{ right:16px; bottom:16px; }
-}
+/* flavor modal chips */
+.chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }
+.chip{ padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,0.06); cursor:pointer; background:#fff }
+.chip.selected{ background:var(--brand-yellow); color:var(--brown-dark); font-weight:700 }
 
-/* MELHORIAS PARA CELULAR - TUDO MAIOR E MAIS FÁCIL */
-@media (max-width:600px){
-  :root{ --max-card-width:100%; --page-padding:12px; }
-  body { font-size: 17px; }
-  header { flex-direction: row; padding: 14px 12px; gap: 12px; text-align: left; }
-  .logo { width: 60px; height: 60px; }
-  .title h1 { font-size: 18px; line-height: 1.2; }
-  .title p { font-size: 13px; margin-top: 2px; }
-  .banner, .delivery-note { padding: 14px 12px; font-size: 16px; }
-  .card { padding: 18px; min-height: auto; margin-bottom: 20px; }
-  .thumb { height: 260px; }
-  .combo-card .thumb { height: 200px; }
-  .add-btn { padding: 18px 16px; font-size: 18px; min-height: 60px; display: flex; align-items: center; justify-content: center; }
-  .qty { padding: 10px; }
-  .qty button { width: 50px; height: 50px; font-size: 26px; }
-  .qty .n { font-size: 20px; min-width: 50px; }
-  .nome { font-size: 18px; }
-  .preco { font-size: 20px; }
-  .sabor-item { padding: 14px 18px; font-size: 16px; margin: 4px; }
-  .sabor-item input[type="checkbox"] { transform: scale(1.5); margin-right: 12px; }
-  .step { font-size: 15px; padding: 10px 14px; margin: 4px; }
-  .mini-thumb { width: 70px; height: 55px; }
-  .cart-meta .cname { font-size: 16px; }
-  #whatsapp-btn { padding: 18px; font-size: 18px; min-height: 60px; display: flex; align-items: center; justify-content: center; }
-  .fab { width: 75px; height: 75px; border-radius: 22px; }
-  .fab .badge { width: 32px; height: 32px; font-size: 16px; }
-  .instructions-box { padding: 18px; font-size: 16px; }
-  * { -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
-  /* REMOVI a regra que forçava inputs a 16px com !important (isso evita impedir zoom). Agora quem quiser dar zoom pode. */
-}
-
-/* Garantir que os grids sejam centralizados no celular */
-@media (max-width:420px){
-  .combos-grid, .kits-grid, .produtos { padding-left:0; padding-right:0; }
-  .card, .combo-card { width: 100%; }
-}
-
-/* Pequenas melhorias de usabilidade */
-:focus { outline: 2px solid var(--orange); outline-offset: 2px; }
-button, [role="button"] { cursor: pointer; }
+/* tiny */
+.promo-badge{ background:var(--accent); color:white; font-weight:800; padding:4px 8px; border-radius:8px; font-size:12px }
+.empty{ text-align:center; color:#bda08a; padding:28px 12px }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <img src="images/logo-doce-confete.jpg" alt="logo"
-         onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22><rect width=%2272%22 height=%2272%22 fill=%22%23fff3d6%22/><text x=%2236%22 y=%2238%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b3b1a%22>Logo</text></svg>'">
-  </div>
-  <div class="title"><h1>Doce Confete</h1><p>Encomendas, doces e salgados! — finalize pelo WhatsApp</p></div>
+<header class="header">
+    <div class="brand">
+        <div class="logo" id="logo-wrap">
+            <!-- logo image (fallback emoji if não carregar) -->
+            <img src="" alt="logo" id="logo-img" onerror="this.style.display='none'">
+            <div style="display:flex;flex-direction:column;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:18px">🎉</span>
+                    <div>Doce Confete</div>
+                </div>
+                <div class="tagline">doces & salgados!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact">
+        <a href="tel:558791060340">📞 (87) 9106-0340</a>
+        <a href="https://wa.me/558791060340" target="_blank">💬 WhatsApp</a>
+    </div>
 </header>
 
-<div class="banner">🚚 Entrega e Retirada!</div>
+<main class="wrap">
+    <div>
+        <div class="section">
+            <h2>🍕 Salgados</h2>
+            <div class="muted">Escolha o produto — depois escolha sabores ao adicionar</div>
+            <div id="salgados" class="product-grid"></div>
+        </div>
 
-<div class="delivery-note">💡 Taxa de entrega é <strong>à parte</strong> — o valor será informado no chat quando confirmar o pedido.</div>
+        <div class="section" style="margin-top:16px;">
+            <h2>🍬 Doces</h2>
+            <div class="muted">Ao clicar em "Adicionar" escolha os sabores</div>
+            <div id="doces" class="product-grid"></div>
+        </div>
 
-<!-- CTA INICIAL -->
-<div style="text-align:center;margin:18px 0;">
-  <button id="cta-start" style="background:var(--orange);border:none;color:#fff;padding:18px 24px;border-radius:12px;font-weight:900;font-size:20px;cursor:pointer;box-shadow:0 8px 20px rgba(255,106,0,0.3);display:inline-flex;align-items:center;gap:10px;margin:0 auto;">
-    <span>👉</span> CLIQUE AQUI PARA COMEÇAR SEU PEDIDO
-  </button>
-  <p style="margin-top:12px;color:#666;font-size:15px;">É fácil e rápido! Siga os passos abaixo:</p>
-</div>
+        <div class="section" style="margin-top:16px;">
+            <h2>🎁 Kits e Combos</h2>
+            <div class="muted">Kits para festas — escolha e adicione</div>
+            <div id="combos" class="product-grid"></div>
+        </div>
 
-<!-- INSTRUÇÕES CLARAS -->
-<div class="instructions-box">
-  <h3>Como fazer seu pedido:</h3>
-  <ol style="margin:12px 0;padding-left:20px;">
-    <li><strong>Escolha os produtos</strong> que deseja (salgados, doces, kits)</li>
-    <li><strong>Selecione os sabores</strong> de cada produto (aparecem quando necessário)</li>
-    <li><strong>Clique em "Adicionar ao pedido"</strong></li>
-    <li><strong>Revise seu carrinho</strong> e finalize pelo WhatsApp</li>
-  </ol>
-</div>
+        <div class="section" style="margin-top:16px;">
+            <h2>🍩 Mini Churros</h2>
+            <div id="churros" class="product-grid"></div>
+        </div>
 
-<main>
-  <div>
-    <!-- STEP INDICATOR -->
-    <div class="steps" aria-hidden="false">
-      <div class="step-list">
-        <div class="step active">1. Escolha os produtos</div>
-        <div class="step">2. Selecione os sabores</div>
-        <div class="step">3. Finalize o pedido</div>
-      </div>
+        <div class="section" style="margin-top:16px;">
+            <h2>ℹ️ Informações importantes</h2>
+            <div class="info-grid">
+                <div class="pill">
+                    <strong>⏰ Horário</strong>
+                    <p style="margin:6px 0 0 0; font-size:14px; color:#6b4a3b">
+                        Trabalhamos de domingo a domingo.<br>
+                        Segunda a sábado:<br>
+                        • 10:00 – 12:00 (manhã: retirada/entrega de encomendas)<br>
+                        • 14:00 – 18:00 (aberto ao público)<br>
+                        Domingo: 08:00 – 10:00
+                    </p>
+                </div>
+
+                <div class="pill">
+                    <strong>🚚 Entrega</strong>
+                    <p style="margin:6px 0 0 0; font-size:14px; color:#6b4a3b">
+                        A entrega depende do bairro/região de Caruaru — o valor será informado no chat.
+                    </p>
+                </div>
+
+                <div class="pill">
+                    <strong>💳 Pagamento</strong>
+                    <p style="margin:6px 0 0 0; font-size:14px; color:#6b4a3b">
+                        PIX, Cartão e Dinheiro.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- CONTAINER PARA SABORES DOS KITS (será injetado dinamicamente) -->
-    <div id="kit-sabores-dinamico"></div>
+    <aside class="cart">
+        <div class="box">
+            <h3>🛒 Seu Pedido</h3>
+            <div id="cart-items" class="cart-items">
+                <div class="empty">Seu carrinho está vazio. Adicione algo gostoso! 😋</div>
+            </div>
 
-    <!-- SALGADOS -->
-    <section id="salgados-section">
-      <h2 style="margin:0 0 12px 0;color:var(--brown-dark);display:flex;align-items:center;gap:8px;"><span>🍕</span> Salgados</h2>
-      <div class="alert alert-info"><span>💡</span> Escolha a porção e depois <strong>selecione os sabores abaixo</strong> antes de adicionar ao carrinho.</div>
-      <div class="produtos" id="produtos"></div>
-    </section>
+            <div class="cart-total" id="cart-total">Total: R$ 0,00</div>
 
-    <!-- SABORES DOS SALGADOS -->
-    <section class="sabores" id="sabores-salgados">
-      <h3 style="display:flex;align-items:center;gap:8px;"><span>👇</span> Escolha os sabores dos Salgados</h3>
-      <div class="sabor-todos">
-        <label class="sabor-item" style="border-style:dashed;background:#fffbe6;flex:1;">
-          <input type="checkbox" id="salgados_todos"> <strong>Selecionar todos os sabores</strong>
-        </label>
-      </div>
-      <div class="sabor-list" id="sabor-list-salgados"></div>
-      <p style="margin-top:12px;font-size:14px;color:var(--muted);padding:8px;background:#f9f9f9;border-radius:8px;">
-        <strong>Dica:</strong> Selecione os sabores que você quer na porção. Depois escolha a quantidade e clique em "Adicionar ao pedido".
-      </p>
-    </section>
+            <div class="checkout">
+                <button id="open-checkout" class="checkout-secondary">Finalizar</button>
+                <button id="whatsapp-quick" class="whatsapp-btn">💬 Enviar WhatsApp</button>
+            </div>
 
-    <!-- DOCES -->
-    <section id="doces-section" style="margin-top:24px">
-      <h2 style="margin:0 0 12px 0;color:var(--brown-dark);display:flex;align-items:center;gap:8px;"><span>🍬</span> Doces</h2>
-      <div class="alert alert-info"><span>💡</span> Escolha a porção e depois <strong>selecione os sabores abaixo</strong> antes de adicionar ao carrinho.</div>
-      <div class="produtos" id="produtos-doces"></div>
-    </section>
-
-    <!-- SABORES DOS DOCES -->
-    <section class="sabores" id="sabores-doces">
-      <h3 style="display:flex;align-items:center;gap:8px;"><span>👇</span> Escolha os sabores dos Doces</h3>
-      <div class="sabor-todos">
-        <label class="sabor-item" style="border-style:dashed;background:#fffbe6;flex:1;">
-          <input type="checkbox" id="doces_todos"> <strong>Selecionar todos os sabores</strong>
-        </label>
-      </div>
-      <div class="sabor-list" id="sabor-list-doces"></div>
-    </section>
-
-    <!-- COMBOS -->
-    <section class="combos" id="combos-visual" style="margin-top:24px">
-      <h2 style="margin-top:0;color:var(--brown-dark);display:flex;align-items:center;gap:8px;"><span>🎉</span> Combos Prontos</h2>
-      <div class="combos-grid" id="combos-grid"></div>
-    </section>
-
-    <!-- KIT FESTA - AGORA COM SABORES VISÍVEIS -->
-    <section class="combos" id="kit-festa" style="margin-top:24px">
-      <h2 style="margin-top:0;color:var(--brown-dark);display:flex;align-items:center;gap:8px;"><span>🎁</span> Kit Festa (Para muitas pessoas)</h2>
-      <div class="alert alert-warning"><span>⚠️</span> <strong>ATENÇÃO:</strong> Ao escolher um kit, você <strong>PRECISA</strong> selecionar os sabores de salgados e doces que deseja. Os sabores aparecerão aqui automaticamente quando você clicar em um kit.</div>
-      <div class="kits-grid" id="kits-grid"></div>
-    </section>
-
-    <!-- MINI CHURROS -->
-    <section class="combos page-break" id="mini-churros-section" style="margin-top:24px">
-      <h2 style="margin-top:0;color:var(--brown-dark);display:flex;align-items:center;gap:8px;"><span>🍩</span> Mini Churros</h2>
-      <div style="display:flex;flex-direction:column;gap:16px;margin-top:16px">
-        <div id="mini-churros-list"></div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- CARRINHO LATERAL -->
-  <aside id="carrinho">
-    <h2 style="display:flex;align-items:center;gap:8px;margin-top:0;">🛒 Seu Carrinho</h2>
-    <ul id="lista-carrinho"></ul>
-    <p id="total">Total: R$ 0,00</p>
-    <a id="whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">
-      <span>📱</span> Ver meu pedido e enviar pelo WhatsApp
-    </a>
-    <p style="font-size:14px;color:var(--muted);margin-top:12px;padding:10px;background:#f9f9f9;border-radius:8px;">
-      <strong>Informações importantes:</strong> Antes de enviar, você precisará informar seu nome, tipo (retirada/entrega) e opção de pagamento. A taxa de entrega será informada no chat do WhatsApp.
-    </p>
-  </aside>
+            <div style="margin-top:12px; font-size:13px; color:#7a5a4a">
+                <strong>Observações:</strong>
+                <p style="margin:6px 0 0 0">Endereço e agendamento são solicitados na finalização.</p>
+            </div>
+        </div>
+    </aside>
 </main>
 
-<!-- MODAL DE FINALIZAÇÃO -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:9998;padding:20px;">
-  <div style="background:white;padding:24px;border-radius:16px;max-width:620px;width:100%;box-shadow:0 15px 40px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
-    <h3 style="margin:0 0 12px 0;color:var(--brown-dark);font-size:22px;">Finalizar pedido</h3>
-    <p style="margin:0 0 20px 0;color:#444;font-size:16px;">Complete as informações abaixo para enviar seu pedido:</p>
+<footer style="text-align:center;color:#6b4a3b;padding:18px 12px;">© Doce Confete — (87) 9106-0340 • Instagram: doc_confete </footer>
 
-    <div style="margin-bottom:16px">
-      <label style="font-weight:700;display:block;margin-bottom:10px;font-size:16px;">Como deseja receber?</label>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;">
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:120px;">
-          <input id="tipo-retirada" type="radio" name="tipo_entrega" value="Retirada" checked style="width:20px;height:20px;"> Retirada
-        </label>
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:120px;">
-          <input id="tipo-entrega" type="radio" name="tipo_entrega" value="Entrega" style="width:20px;height:20px;"> Entrega
-        </label>
-      </div>
-      <div id="entrega-note" class="note-small field-hidden" style="margin-top:8px;color:#666;">Entrega disponível.</div>
+<!-- MODAL GERAL -->
+<div id="modal" class="modal" aria-hidden="true">
+    <div class="card">
+        <!-- content trocado dinamicamente -->
+        <div id="modal-body"></div>
     </div>
-
-    <div style="margin-bottom:16px">
-      <label style="font-weight:700;display:block;margin-bottom:10px;font-size:16px;">Pedido para:</label>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;">
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:120px;">
-          <input id="pedido-hoje" type="radio" name="tipo_pedido" value="hoje" checked style="width:20px;height:20px;"> Para hoje
-        </label>
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:120px;">
-          <input id="pedido-agendado" type="radio" name="tipo_pedido" value="agendado" style="width:20px;height:20px;"> Agendar
-        </label>
-      </div>
-    </div>
-
-    <div id="data-agendada-wrap" class="field-hidden" style="margin-bottom:16px">
-      <label style="font-weight:700;display:block;margin-bottom:8px;font-size:16px;">Data para retirada/entrega:</label>
-      <input id="data-agendada" type="date" style="width:100%;padding:14px;border-radius:10px;border:2px solid #ddd;font-size:16px;" />
-    </div>
-
-    <div style="margin-bottom:16px">
-      <label style="font-weight:700;display:block;margin-bottom:8px;font-size:16px;">Hora desejada (opcional):</label>
-      <input id="hora-pedido" type="time" style="width:100%;padding:14px;border-radius:10px;border:2px solid #ddd;font-size:16px;" />
-    </div>
-
-    <div style="margin-bottom:16px">
-      <label style="font-weight:700;display:block;margin-bottom:8px;font-size:16px;">Seu nome completo:</label>
-      <input id="cliente-nome" placeholder="Digite seu nome (obrigatório)" style="width:100%;padding:14px;border-radius:10px;border:2px solid #ddd;font-size:16px;" />
-    </div>
-
-    <div id="endereco-wrap" class="field-hidden" style="margin-bottom:16px">
-      <label style="font-weight:700;display:block;margin-bottom:8px;font-size:16px;">Endereço completo para entrega:</label>
-      <input id="cliente-endereco" placeholder="Rua, número, bairro, complemento..." style="width:100%;padding:14px;border-radius:10px;border:2px solid #ddd;font-size:16px;" />
-      <div style="margin-top:8px;font-size:14px;color:#666;">Por favor inclua rua, número, bairro e ponto de referência.</div>
-    </div>
-
-    <div style="margin-bottom:20px">
-      <label style="font-weight:700;display:block;margin-bottom:12px;font-size:16px;">Forma de pagamento:</label>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:100px;">
-          <input id="pay-pix" type="radio" name="pagamento" value="PIX" checked style="width:20px;height:20px;"> PIX
-        </label>
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:100px;">
-          <input id="pay-cartao" type="radio" name="pagamento" value="Cartão" style="width:20px;height:20px;"> Cartão
-        </label>
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f9f9f9;border-radius:8px;flex:1;min-width:100px;">
-          <input id="pay-dinheiro" type="radio" name="pagamento" value="Dinheiro" style="width:20px;height:20px;"> Dinheiro
-        </label>
-      </div>
-      <div id="pix-only-note" class="note-small field-hidden" style="margin-top:8px;color:#666;background:#fff3cd;padding:10px;border-radius:8px;">
-        💡 O valor da entrega será informado no chat do WhatsApp. Por favor informe seu bairro no endereço.
-      </div>
-    </div>
-
-    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px">
-      <button id="cancel-modal" style="background:#eee;border:none;padding:14px 20px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:600;flex:1;">Cancelar</button>
-      <button id="confirm-modal" style="background:var(--brown);color:white;border:none;padding:14px 20px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:600;flex:2;">📤 Enviar pedido pelo WhatsApp</button>
-    </div>
-  </div>
 </div>
-
-<!-- FAB + TOAST -->
-<div class="fab" id="fab" title="Ver carrinho">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M7 4h-2l-1 2h2l1.2 6.4A3 3 0 0 0 10.2 15h7.1a3 3 0 0 0 2.9-2.4L22 6H7z" fill="#fff"/><circle cx="10.5" cy="19.5" r="1.5" fill="#fff"/><circle cx="17.5" cy="19.5" r="1.5" fill="#fff"/></svg>
-  <div class="badge" id="fab-count">0</div>
-</div>
-<div class="toast" id="toast">✅ Adicionado ao carrinho!</div>
 
 <script>
-/* === DADOS (ajustados conforme pedido) === */
+/* ====== Ajuste a baseImage se as imagens estiverem em outro lugar ====== */
+const baseImage = 'https://doc-confete.github.io/cardapio-loja/'; // ou '' se usar paths relativos
+
+/* === dados === */
 const produtosData = [
   {id:'p25',nome:'25 Salgados',preco:20.00, img:'images/25-salgados.jpg', categoria:'salgado'},
   {id:'p50',nome:'50 Salgados (Meio Cento)',preco:30.00, img:'images/50-salgados.jpg', categoria:'salgado'},
@@ -468,607 +241,384 @@ const produtosData = [
 ];
 
 const docesData = [
-  // removi 15 doces conforme pedido
   {id:'d40',nome:'40 Doces',preco:40.00,img:'images/40-doces.jpg', categoria:'doce'},
   {id:'d50',nome:'50 Doces',preco:50.00,img:'images/50-doces.jpg', categoria:'doce'},
   {id:'d100',nome:'100 Doces',preco:100.00,img:'images/100-doces.jpg', categoria:'doce'}
 ];
 
 const combosData = [
-  { id:'combo_fome', nome:'To com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' },
+  { id:'combo_fome', nome:'Tô com Fome', preco:19.00, img:'images/combo_fome.jpg', desc:'20 salgados + 10 mini churros' },
   { id:'combo_delicia', nome:'Delícia da Casa', preco:35.00, img:'images/combo_delicia.jpg', desc:'40 salgados + 10 mini churros' },
   { id:'combo_festa', nome:'Festa Total', preco:55.00, img:'images/combo_festa.jpg', desc:'100 salgados + 10 mini churros' }
 ];
 
+/* kits pedidos: 5,10,20,40 e kit lanche */
 const kitsData = [
-  { id:'kit_5', nome:'Kit 5 pessoas', preco:70.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' }, // preço atualizado
+  { id:'kit_5', nome:'Kit 5 pessoas', preco:70.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
   { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' },
   { id:'kit_20', nome:'Kit 20 pessoas', preco:180.00, img:'images/20-pessoas.jpg', desc:'200 salgados + 80 docinhos' },
-  { id:'kit_40', nome:'Kit 40 pessoas', preco:360.00, img:'images/40-pessoas.jpg', desc:'400 salgados + 160 docinhos' }, // novo kit
-  { id:'kit_lanche', nome:'Kit Lanche', preco:45.00, img:'images/kit-lanche.jpg', desc:'50 salgados + 15 docinhos' } // novo kit lanche
+  { id:'kit_40', nome:'Kit 40 pessoas', preco:360.00, img:'images/40-pessoas.jpg', desc:'400 salgados + 160 docinhos' },
+  { id:'kit_lanche', nome:'Kit Lanche', preco:45.00, img:'images/kit-lanche.jpg', desc:'50 salgados + 15 docinhos' }
 ];
 
 const miniChurrosData = [
-  {id:'c10', nome:'Poção 10 Mini Churros', preco:9.99, img:'images/mini-churros-10.jpg'},
-  {id:'c50', nome:'Poção 50 Mini Churros', preco:29.00, img:'images/mini-churros-50.jpg'},
-  {id:'c100', nome:'Poção 100 Mini Churros', preco:50.90, img:'images/mini-churros-100.jpg'},
-  {id:'kit2', nome:'Kit com 2 Churros Gourmet', preco:9.00, img:'images/kit-churros-2.jpg'}
+  {id:'c10', nome:'Porção 10 Mini Churros', preco:9.99, img:'images/mini-churros-10.jpg'},
+  {id:'c50', nome:'Porção 50 Mini Churros', preco:29.00, img:'images/mini-churros-50.jpg'},
+  {id:'c100', nome:'Porção 100 Mini Churros', preco:50.90, img:'images/mini-churros-100.jpg'},
+  {id:'kit2', nome:'Kit 2 Churros Gourmet', preco:9.00, img:'images/kit-churros-2.jpg'}
 ];
 
 const saboresSalgado = [ 'Coxinha','Medalhão de Salsicha','Pastel de Carne com Açúcar','Pastel de Carne','Bolinha de Queijo','Balão de Pizza','Travesseiro de Carne' ];
 const saboresDoce = [ 'Ferrero Rocher','Prestígio','Beijinho','Casadinho','Churros','Brigadeiro','Ninho' ];
 
-/* VARIÁVEIS GLOBAIS */
-const carrinho = new Map();
-let kitSelecionadoAtual = null;
-let saboresSelecionados = { salgados: [], doces: [] };
+/* === estado === */
+let cart = [];
+const CART_KEY = 'doce_confete_cart_v2';
 
-/* FUNÇÕES DE FORMATAÇÃO */
-function formatBRL(n){ return Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+/* ==== helpers ==== */
+function formatPrice(v){ return v.toLocaleString('pt-BR',{ style:'currency', currency:'BRL' }) }
+function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)) }
+function loadCart(){ const s = localStorage.getItem(CART_KEY); if(s) cart = JSON.parse(s) }
 
-/* ====== UTIL: TOAST ====== */
-const toastEl = document.getElementById('toast');
-let toastTimer = null;
-function showToast(txt = '', type = 'info'){
-  toastEl.textContent = txt || 'OK';
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> toastEl.classList.remove('show'),2200);
-}
+/* === logo load (tenta imagem no repo) === */
+(function loadLogo(){
+    const img = document.getElementById('logo-img');
+    img.src = baseImage + 'images/logo.png'; // se n existir, onerror esconde
+})();
 
-/* ====== RENDER SALGADOS ====== */
-const produtosContainer = document.getElementById('produtos');
-produtosData.forEach(p=>{
-  const card = document.createElement('div'); card.className='card';
-  const hasPromo = p.precoOriginal && p.precoOriginal > p.preco;
-  card.innerHTML = `
-    <div class="thumb">
-      <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22220%22><rect width=%22240%22 height=%22220%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%22110%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
-      ${hasPromo ? `<span class="promo-badge">🔥 PROMOÇÃO</span>` : ''}
-    </div>
-    <div class="info">
-      <div class="nome">${p.nome}</div>
-      <div class="preco">${formatBRL(p.preco)}</div>
-    </div>
-    ${hasPromo ? `<div style="margin-top:-4px"><span class="preco-old">${formatBRL(p.precoOriginal)}</span></div>` : ''}
-    <div class="controle">
-      <div class="qty" data-id="${p.id}">
-        <button class="minus">−</button>
-        <div class="n">1</div>
-        <button class="plus">+</button>
-      </div>
-      <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
-    </div>
-    <div class="qty-selector">
-      <select data-id="${p.id}" style="width:100%">
-        ${Array.from({length:10}).map((_,i)=>`<option value="${i+1}">${i+1} unidade${i+1>1?'s':''}</option>`).join('')}
-      </select>
-    </div>`;
-  produtosContainer.appendChild(card);
+/* === criar cards === */
+function createProductCard(item, flavorsList = []) {
+    const card = document.createElement('div');
+    card.className = 'product';
+    card.innerHTML = `
+        <div class="media">
+            <img src="${baseImage + (item.img || '')}" alt="${item.nome}" onerror="this.style.display='none'">
+        </div>
+        <div class="info">
+            <div class="title">${item.nome} ${item.promo ? '<span class="promo-badge">PROMO</span>' : ''}</div>
+            <div class="desc">${item.desc ? item.desc : ''}</div>
 
-  const qtyEl = card.querySelector('.qty'); 
-  const nEl = qtyEl.querySelector('.n');
-  const selectEl = card.querySelector('select');
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div class="price">${formatPrice(item.preco)}</div>
+                    ${item.precoOriginal ? `<div class="old-price">${formatPrice(item.precoOriginal)}</div>` : ''}
+                </div>
+                <div style="min-width:140px;">
+                    <div class="controls">
+                        <div class="qty">
+                            <button class="minus" aria-label="diminuir">-</button>
+                            <div class="val">0</div>
+                            <button class="plus" aria-label="aumentar">+</button>
+                        </div>
+                        <button class="btn add" disabled>Adicionar</button>
+                    </div>
+                </div>
+            </div>
 
-  // Sincronizar select com display
-  selectEl.addEventListener('change', (e) => { nEl.textContent = e.target.value; });
+            ${flavorsList.length ? `<div class="muted" style="margin-top:8px;font-size:13px">Sabores: serão escolhidos ao adicionar</div>` : ''}
+        </div>
+    `;
 
-  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n; selectEl.value = n; });
-  qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n; selectEl.value = n; });
+    const minus = card.querySelector('.minus');
+    const plus = card.querySelector('.plus');
+    const val = card.querySelector('.val');
+    const addBtn = card.querySelector('.add');
 
-  card.querySelector('.add-btn').addEventListener('click', (ev)=>{
-    const qty=parseInt(nEl.textContent,10);
-    const cid = ev.currentTarget.dataset.id;
-    const categoria = ev.currentTarget.dataset.categoria;
-
-    if(qty <= 0){ showToast('❌ Selecione uma quantidade primeiro!', 'error'); return; }
-
-    // Verificar sabores selecionados (salgados)
-    const sabores = getSelectedSabores('salgados_sabor');
-    if(!sabores.length){
-      showToast('❌ Selecione pelo menos um sabor de salgados!', 'error');
-      document.getElementById('sabores-salgados').scrollIntoView({behavior:'smooth'});
-      document.getElementById('sabores-salgados').style.backgroundColor = '#fff9e6';
-      setTimeout(() => { document.getElementById('sabores-salgados').style.backgroundColor = ''; }, 2000);
-      return;
+    function updateAddState(){
+        const v = parseInt(val.textContent);
+        addBtn.disabled = v <= 0;
     }
 
-    adicionarAoCarrinho(cid,qty,null,{salgados: sabores},'salgado');
-  });
-});
-
-/* ====== RENDER SABORES DOS SALGADOS (checkboxes) ====== */
-const saborListSalgados = document.getElementById('sabor-list-salgados');
-saboresSalgado.forEach((s,idx)=>{
-  const id = `salgado_sabor_${idx}`;
-  const wrap = document.createElement('label'); wrap.className='sabor-item';
-  wrap.innerHTML = `<input type="checkbox" name="salgados_sabor" id="${id}" value="${s}"> ${s}`;
-  saborListSalgados.appendChild(wrap);
-
-  wrap.querySelector('input').addEventListener('change', function() {
-    if(this.checked){ if(!saboresSelecionados.salgados.includes(s)) saboresSelecionados.salgados.push(s); }
-    else saboresSelecionados.salgados = saboresSelecionados.salgados.filter(item => item !== s);
-    updateKitSaboresDisplay();
-  });
-});
-
-document.getElementById('salgados_todos').addEventListener('change', (e)=>{
-  const checked = e.target.checked;
-  document.querySelectorAll('input[name="salgados_sabor"]').forEach(i=> i.checked = checked);
-  if(checked) saboresSelecionados.salgados = [...saboresSalgado]; else saboresSelecionados.salgados = [];
-  updateKitSaboresDisplay();
-});
-
-/* ====== RENDER DOCES ====== */
-const produtosDocesContainer = document.getElementById('produtos-doces');
-docesData.forEach(p=>{
-  const card = document.createElement('div'); card.className='card';
-  card.innerHTML = `
-    <div class="thumb">
-      <img src="${p.img}" alt="${p.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%22220%22><rect width=%22240%22 height=%22220%22 fill=%22%23f6f6f6%22/><text x=%22120%22 y=%22110%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
-    </div>
-    <div class="info">
-      <div class="nome">${p.nome}</div>
-      <div class="preco">${formatBRL(p.preco)}</div>
-    </div>
-    <div class="controle">
-      <div class="qty" data-id="${p.id}">
-        <button class="minus">−</button>
-        <div class="n">1</div>
-        <button class="plus">+</button>
-      </div>
-      <button class="add-btn" data-id="${p.id}" data-categoria="${p.categoria}">Adicionar ao pedido</button>
-    </div>
-    <div class="qty-selector">
-      <select data-id="${p.id}" style="width:100%">
-        ${Array.from({length:10}).map((_,i)=>`<option value="${i+1}">${i+1} unidade${i+1>1?'s':''}</option>`).join('')}
-      </select>
-    </div>`;
-  produtosDocesContainer.appendChild(card);
-
-  const qtyEl = card.querySelector('.qty'); 
-  const nEl = qtyEl.querySelector('.n');
-  const selectEl = card.querySelector('select');
-
-  selectEl.addEventListener('change', (e) => { nEl.textContent = e.target.value; });
-
-  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n; selectEl.value = n; });
-  qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n; selectEl.value = n; });
-
-  card.querySelector('.add-btn').addEventListener('click', (ev)=>{
-    const qty=parseInt(nEl.textContent,10);
-    const cid = ev.currentTarget.dataset.id;
-    const categoria = ev.currentTarget.dataset.categoria;
-
-    if(qty <= 0){ showToast('❌ Selecione uma quantidade primeiro!', 'error'); return; }
-
-    const sabores = getSelectedSabores('doces_sabor');
-    if(!sabores.length){ 
-      showToast('❌ Selecione pelo menos um sabor de doces!', 'error');
-      document.getElementById('sabores-doces').scrollIntoView({behavior:'smooth'});
-      document.getElementById('sabores-doces').style.backgroundColor = '#fff9e6';
-      setTimeout(() => { document.getElementById('sabores-doces').style.backgroundColor = ''; }, 2000);
-      return; 
-    }
-
-    adicionarAoCarrinho(cid,qty,null,{doces: sabores},'doce');
-  });
-});
-
-/* ====== RENDER SABORES DOS DOCES (checkboxes) ====== */
-const saborListDoces = document.getElementById('sabor-list-doces');
-saboresDoce.forEach((s,idx)=>{
-  const id = `doce_sabor_${idx}`;
-  const wrap = document.createElement('label'); wrap.className='sabor-item';
-  wrap.innerHTML = `<input type="checkbox" name="doces_sabor" id="${id}" value="${s}"> ${s}`;
-  saborListDoces.appendChild(wrap);
-
-  wrap.querySelector('input').addEventListener('change', function() {
-    if(this.checked){ if(!saboresSelecionados.doces.includes(s)) saboresSelecionados.doces.push(s); }
-    else saboresSelecionados.doces = saboresSelecionados.doces.filter(item => item !== s);
-    updateKitSaboresDisplay();
-  });
-});
-
-document.getElementById('doces_todos').addEventListener('change', (e)=>{
-  const checked = e.target.checked;
-  document.querySelectorAll('input[name="doces_sabor"]').forEach(i=> i.checked = checked);
-  if(checked) saboresSelecionados.doces = [...saboresDoce]; else saboresSelecionados.doces = [];
-  updateKitSaboresDisplay();
-});
-
-/* ====== RENDER COMBOS ====== */
-const combosGrid = document.getElementById('combos-grid');
-combosData.forEach(c=>{
-  const card = document.createElement('div'); card.className='combo-card';
-  card.innerHTML = `
-    <div class="thumb"><img src="${c.img}" alt="${c.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22160%22><rect width=%22360%22 height=%22160%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2280%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <div style="font-weight:900;color:var(--orange)">${c.nome}</div>
-        <div style="font-size:14px;color:var(--muted);margin-top:4px;">${c.desc || ''}</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-weight:900;color:var(--brown-dark);font-size:18px;">${formatBRL(c.preco)}</div>
-        <button class="add-btn combo-add" data-id="${c.id}" style="margin-top:12px;width:100%">Adicionar ao pedido</button>
-      </div>
-    </div>`;
-  combosGrid.appendChild(card);
-  card.querySelector('.combo-add').addEventListener('click', ()=> {
-    adicionarAoCarrinho(c.id,1,{nome:c.nome,preco:c.preco,img:c.img},[],null);
-  });
-});
-
-/* ====== RENDER KITS (Kit Festa) - COM NOVA FUNCIONALIDADE ====== */
-const kitsGrid = document.getElementById('kits-grid');
-kitsData.forEach(k=>{
-  const card = document.createElement('div'); 
-  card.className='combo-card';
-  card.dataset.kitId = k.id;
-
-  card.innerHTML = `
-    <div class="thumb"><img src="${k.img}" alt="${k.nome}" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22360%22 height=%22160%22><rect width=%22360%22 height=%22160%22 fill=%22%23f6f6f6%22/><text x=%22180%22 y=%2280%22 font-size=%2214%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <div style="font-weight:900;color:var(--orange);font-size:18px;">${k.nome}</div>
-        <div style="font-size:14px;color:var(--muted);margin-top:4px;">${k.desc || ''}</div>
-        <div style="margin-top:6px;font-size:16px;font-weight:900;color:var(--brown-dark)">${formatBRL(k.preco)}</div>
-      </div>
-    </div>
-    <button class="add-btn kit-select-btn" data-id="${k.id}" style="margin-top:8px;width:100%;"><span>👇</span> ESCOLHER ESTE KIT</button>`;
-
-  kitsGrid.appendChild(card);
-
-  // Ao clicar, abre a seleção de sabores para o kit
-  card.querySelector('.kit-select-btn').addEventListener('click', (e)=>{
-    e.preventDefault();
-    kitSelecionadoAtual = k;
-    document.querySelectorAll('.combo-card').forEach(c => c.classList.remove('card-highlight'));
-    card.classList.add('card-highlight');
-    mostrarSaboresParaKit(k);
-    document.getElementById('kit-sabores-dinamico').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    updateKitSaboresDisplay();
-  });
-});
-
-/* ====== FUNÇÃO PARA MOSTRAR SABORES PARA O KIT ====== */
-function mostrarSaboresParaKit(kit) {
-  const container = document.getElementById('kit-sabores-dinamico');
-  container.innerHTML = `
-    <div class="kit-sabores-container">
-      <div class="kit-sabores-header">
-        <h3>🎯 Você escolheu: ${kit.nome}</h3>
-        <button id="fechar-sabores" style="background:#eee;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:14px;">✕ Fechar</button>
-      </div>
-      <div class="alert alert-info"><span>📝</span> <strong>Agora selecione os sabores que você quer neste kit:</strong> Escolha pelo menos um sabor de salgados e um de doces.</div>
-      <div class="sabores-section">
-        <div class="sabor-group">
-          <h4>Sabores de Salgados</h4>
-          <div class="sabor-list" id="kit-sabores-salgados"></div>
-        </div>
-        <div class="sabor-group">
-          <h4>Sabores de Doces</h4>
-          <div class="sabor-list" id="kit-sabores-doces"></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;margin-top:20px;padding-top:20px;border-top:2px dashed #eee;">
-        <div style="flex:1;font-size:16px;">
-          <strong>Seus sabores selecionados:</strong>
-          <div id="sabores-selecionados-display" style="margin-top:8px;color:#666;"><em>Nenhum sabor selecionado ainda</em></div>
-        </div>
-        <button id="adicionar-kit-com-sabores" class="add-btn" style="min-width:200px;padding:16px 24px;"> <span>✅</span> ADICIONAR KIT AO PEDIDO </button>
-      </div>
-      <div style="margin-top:12px;font-size:14px;color:#666;background:#f9f9f9;padding:10px;border-radius:8px;"><strong>Dica:</strong> Você pode selecionar quantos sabores quiser. Os sabores serão misturados no seu kit.</div>
-    </div>
-  `;
-
-  // preencher salgados
-  const kitSaboresSalgados = document.getElementById('kit-sabores-salgados');
-  saboresSalgado.forEach((s) => {
-    const isSelected = saboresSelecionados.salgados.includes(s);
-    const wrap = document.createElement('label');
-    wrap.className = `sabor-item ${isSelected ? 'selected' : ''}`;
-    wrap.innerHTML = `<input type="checkbox" name="kit_salgados_sabor" value="${s}" ${isSelected ? 'checked' : ''}> ${s}`;
-    kitSaboresSalgados.appendChild(wrap);
-    wrap.querySelector('input').addEventListener('change', function() {
-      if(this.checked){ if(!saboresSelecionados.salgados.includes(s)) saboresSelecionados.salgados.push(s); wrap.classList.add('selected'); }
-      else { saboresSelecionados.salgados = saboresSelecionados.salgados.filter(item => item !== s); wrap.classList.remove('selected'); }
-      updateKitSaboresDisplay();
+    minus.addEventListener('click', ()=> {
+        let v = parseInt(val.textContent);
+        if(v > 0) v--;
+        val.textContent = v;
+        updateAddState();
     });
-  });
-
-  // preencher doces
-  const kitSaboresDoces = document.getElementById('kit-sabores-doces');
-  saboresDoce.forEach((s) => {
-    const isSelected = saboresSelecionados.doces.includes(s);
-    const wrap = document.createElement('label');
-    wrap.className = `sabor-item ${isSelected ? 'selected' : ''}`;
-    wrap.innerHTML = `<input type="checkbox" name="kit_doces_sabor" value="${s}" ${isSelected ? 'checked' : ''}> ${s}`;
-    kitSaboresDoces.appendChild(wrap);
-    wrap.querySelector('input').addEventListener('change', function() {
-      if(this.checked){ if(!saboresSelecionados.doces.includes(s)) saboresSelecionados.doces.push(s); wrap.classList.add('selected'); }
-      else { saboresSelecionados.doces = saboresSelecionados.doces.filter(item => item !== s); wrap.classList.remove('selected'); }
-      updateKitSaboresDisplay();
+    plus.addEventListener('click', ()=> {
+        let v = parseInt(val.textContent);
+        if(v < 100) v++;
+        val.textContent = v;
+        updateAddState();
     });
-  });
 
-  document.getElementById('adicionar-kit-com-sabores').addEventListener('click', () => {
-    if (!kitSelecionadoAtual) { showToast('❌ Nenhum kit selecionado!', 'error'); return; }
-    if (!saboresSelecionados.salgados.length){ showToast('❌ Selecione pelo menos um sabor de salgados!', 'error'); document.querySelector('.sabor-group:first-child').scrollIntoView({behavior: 'smooth'}); return; }
-    if (!saboresSelecionados.doces.length){ showToast('❌ Selecione pelo menos um sabor de doces!', 'error'); document.querySelector('.sabor-group:last-child').scrollIntoView({behavior: 'smooth'}); return; }
+    addBtn.addEventListener('click', ()=> {
+        const qty = parseInt(val.textContent);
+        if(qty <= 0) return;
+        // se o item tem sabores, abrir modal de seleção de sabores antes de adicionar
+        if(flavorsList.length) {
+            openFlavorModal(item, qty, flavorsList);
+        } else {
+            // adicionar direto (kits/churros)
+            doAddToCart(item, qty, []);
+        }
+        // reset qty visual para 0
+        val.textContent = '0';
+        updateAddState();
+    });
 
-    adicionarAoCarrinho(
-      kitSelecionadoAtual.id,
-      1,
-      {nome: kitSelecionadoAtual.nome, preco: kitSelecionadoAtual.preco, img: kitSelecionadoAtual.img},
-      {salgados: [...saboresSelecionados.salgados], doces: [...saboresSelecionados.doces]},
-      'kit'
-    );
-
-    resetarSelecaoKit();
-  });
-
-  document.getElementById('fechar-sabores').addEventListener('click', () => { resetarSelecaoKit(); });
+    return card;
 }
 
-/* ====== ATUALIZAR DISPLAY DOS SABORES SELECIONADOS ====== */
-function updateKitSaboresDisplay() {
-  const displayEl = document.getElementById('sabores-selecionados-display');
-  if (!displayEl) return;
-  const salgadosText = saboresSelecionados.salgados.length > 0 ? `<strong>Salgados:</strong> ${saboresSelecionados.salgados.join(', ')}` : '<span style="color:#e74c3c;">❌ Nenhum sabor de salgados selecionado</span>';
-  const docesText = saboresSelecionados.doces.length > 0 ? `<strong>Doces:</strong> ${saboresSelecionados.doces.join(', ')}` : '<span style="color:#e74c3c;">❌ Nenhum sabor de doces selecionado</span>';
-  displayEl.innerHTML = `<div>${salgadosText}</div><div style="margin-top:6px;">${docesText}</div>`;
-  const addBtn = document.getElementById('adicionar-kit-com-sabores');
-  if(addBtn){
-    const podeAdicionar = saboresSelecionados.salgados.length > 0 && saboresSelecionados.doces.length > 0;
-    addBtn.disabled = !podeAdicionar;
-    addBtn.classList.toggle('disabled', !podeAdicionar);
-    addBtn.innerHTML = podeAdicionar ? `<span>✅</span> ADICIONAR KIT AO PEDIDO` : `<span>⏳</span> SELECIONE OS SABORES`;
-  }
+/* montar grids */
+function mountGrid(containerId, data, flavors){
+    const cont = document.getElementById(containerId);
+    cont.innerHTML = '';
+    data.forEach(d => cont.appendChild(createProductCard(d, flavors)));
 }
 
-/* ====== RESETAR SELEÇÃO DO KIT ====== */
-function resetarSelecaoKit() {
-  kitSelecionadoAtual = null;
-  document.getElementById('kit-sabores-dinamico').innerHTML = '';
-  document.querySelectorAll('.combo-card').forEach(c => c.classList.remove('card-highlight'));
-  saboresSelecionados = { salgados: [], doces: [] };
-}
-
-/* ====== RENDER MINI CHURROS ====== */
-const miniList = document.getElementById('mini-churros-list');
-miniChurrosData.forEach(item=>{
-  const wrap = document.createElement('div');
-  wrap.style.display = 'flex';
-  wrap.style.justifyContent = 'space-between';
-  wrap.style.alignItems = 'center';
-  wrap.style.gap = '12px';
-  wrap.style.padding = '12px 0';
-  wrap.style.borderBottom = '1px dashed #eee';
-
-  wrap.innerHTML = `
-    <div style="display:flex;gap:14px;align-items:center;flex:1">
-      <div class="thumb" style="width:100px;height:75px;border-radius:8px;overflow:hidden;flex-shrink:0">
-        <img src="${item.img}" alt="${item.nome}" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2275%22><rect width=%22100%22 height=%2275%22 fill=%22%23f6f6f6%22/><text x=%2250%22 y=%2245%22 font-size=%2212%22 text-anchor=%22middle%22 fill=%22%23666%22>Sem imagem</text></svg>'">
-      </div>
-      <div style="flex:1">
-        <div style="font-weight:900;color:var(--orange);font-size:16px;">${item.nome}</div>
-        <div style="font-size:15px;color:var(--brown-dark);font-weight:700;margin-top:4px;">${formatBRL(item.preco)}</div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div class="qty" data-id="${item.id}">
-        <button class="minus">−</button>
-        <div class="n">1</div>
-        <button class="plus">+</button>
-      </div>
-      <button class="add-btn mini-add" data-id="${item.id}" style="min-width:140px">Adicionar</button>
-    </div>
-    <div class="qty-selector" style="min-width:100px">
-      <select data-id="${item.id}" style="width:100%">
-        ${Array.from({length:10}).map((_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}
-      </select>
-    </div>
-  `;
-  miniList.appendChild(wrap);
-
-  const qtyEl = wrap.querySelector('.qty'); 
-  const nEl = qtyEl.querySelector('.n');
-  const selectEl = wrap.querySelector('select');
-
-  selectEl.addEventListener('change', (e) => { nEl.textContent = e.target.value; });
-  qtyEl.querySelector('.minus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); if(n>1) n--; nEl.textContent=n; selectEl.value = n; });
-  qtyEl.querySelector('.plus').addEventListener('click',()=>{ let n=parseInt(nEl.textContent,10); n++; nEl.textContent=n; selectEl.value = n; });
-
-  wrap.querySelector('.mini-add').addEventListener('click',()=>{ const qty=parseInt(nEl.textContent,10); if(qty <= 0){ showToast('❌ Selecione uma quantidade!', 'error'); return; } adicionarAoCarrinho(item.id,qty,{nome:item.nome,preco:item.preco,img:item.img},[],null); });
-});
-
-/* ====== CARRINHO: adicionar / remover / atualizar ====== */
-function adicionarAoCarrinho(id,quant,override,flavors,categoria){
-  // Normalizar flavors
-  let flavorKey = '';
-  let storedFlavors = null;
-
-  if(!flavors) { storedFlavors = []; flavorKey = ''; }
-  else if(Array.isArray(flavors)){ storedFlavors = flavors.map(f=>String(f).trim()).filter(Boolean); flavorKey = storedFlavors.join('|'); }
-  else if(typeof flavors === 'object'){ const s = (flavors.salgados || []).map(x=>String(x).trim()).filter(Boolean); const d = (flavors.doces || []).map(x=>String(x).trim()).filter(Boolean); storedFlavors = {}; if(s.length) storedFlavors.salgados = s; if(d.length) storedFlavors.doces = d; flavorKey = `S:${s.join(',')};D:${d.join(',')}`; }
-  else { storedFlavors = []; flavorKey = ''; }
-
-  const key = `${id}__${flavorKey || ''}__${categoria || ''}`;
-
-  if(override){
-    if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); }
-    else carrinho.set(key,{ produto:{nome:override.nome,preco:override.preco,img:override.img}, qty:quant, flavors:storedFlavors, categoria:categoria });
-  } else {
-    let prod = produtosData.find(x=>x.id===id) || docesData.find(x=>x.id===id) || miniChurrosData.find(x=>x.id===id);
-    if(!prod){
-      const combo = combosData.find(x=>x.id===id) || kitsData.find(x=>x.id===id);
-      if(combo) prod = { id: combo.id, nome: combo.nome, preco: combo.preco, img: combo.img };
+/* adicionar ao carrinho (interno) */
+function doAddToCart(item, qty, flavors){
+    const key = `${item.id}__${flavors.join('|')}`;
+    const idx = cart.findIndex(ci => ci.key === key);
+    if(idx > -1){
+        cart[idx].quantity += qty;
+    } else {
+        cart.push({
+            key,
+            id: item.id,
+            name: item.nome,
+            price: item.preco,
+            quantity: qty,
+            flavors: flavors
+        });
     }
-    if(!prod) return;
-    if(carrinho.has(key)){ const e=carrinho.get(key); e.qty+=quant; carrinho.set(key,e); } 
-    else carrinho.set(key,{ produto:prod, qty:quant, flavors:storedFlavors, categoria:categoria });
-  }
-
-  showToast('✅ Adicionado ao carrinho!', 'success');
-  atualizarCarrinho();
-
-  if(categoria === 'kit'){ resetarSelecaoKit(); saboresSelecionados = { salgados: [], doces: [] }; }
+    saveCart();
+    renderCart();
+    toast('✅ Adicionado ao carrinho');
 }
 
-function removerDoCarrinho(key){ carrinho.delete(key); atualizarCarrinho(); showToast('🗑️ Item removido do carrinho', 'warning'); }
-
-function atualizarCarrinho(){
-  const lista=document.getElementById('lista-carrinho'); lista.innerHTML='';
-  const totalEl=document.getElementById('total'); const waBtn=document.getElementById('whatsapp-btn');
-  let total=0, count=0;
-
-  if(carrinho.size===0){ lista.innerHTML='<p style="color:#888;text-align:center;padding:20px;font-size:16px;">Seu carrinho está vazio<br><span style="font-size:14px;">Adicione algo delicioso! 😋</span></p>'; totalEl.textContent='Total: R$ 0,00'; waBtn.classList.add('small'); waBtn.href='#'; updateFab(0); return; }
-
-  for(const [key,entry] of carrinho.entries()){
-    const li=document.createElement('li');
-    const thumb=document.createElement('div'); thumb.className='mini-thumb';
-    const img=document.createElement('img'); img.src=entry.produto.img || ''; img.alt=entry.produto.nome;
-    img.onerror=function(){ this.onerror=null; this.src='data:image/svg+xml;charset=UTF-8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2256%22 height=%2242%22><rect width=%2256%22 height=%2242%22 fill=%22%23f4f4f4%22/><text x=%2228%22 y=%2224%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%23666%22>no img</text></svg>' };
-    thumb.appendChild(img);
-
-    const meta=document.createElement('div'); meta.className='cart-meta';
-    let flavorText = '';
-
-    if(entry.flavors){
-      if(Array.isArray(entry.flavors) && entry.flavors.length){
-        if(entry.categoria === 'salgado' && entry.flavors.length === saboresSalgado.length) flavorText = `Sabores: <strong>Todos os sabores</strong> • `;
-        else flavorText = `Sabores: <strong>${entry.flavors.join(', ')}</strong> • `;
-      } else if(typeof entry.flavors === 'object'){
-        const s = entry.flavors.salgados || [];
-        const d = entry.flavors.doces || [];
-        const sText = s.length ? s.join(', ') : '—';
-        const dText = d.length ? d.join(', ') : '—';
-        flavorText = `Salgados: <strong>${sText}</strong><br>Doces: <strong>${dText}</strong> • `;
-      }
+/* render cart */
+function renderCart(){
+    const el = document.getElementById('cart-items');
+    if(!cart.length){
+        el.innerHTML = `<div class="empty">Seu carrinho está vazio. Adicione algo gostoso! 😋</div>`;
+        document.getElementById('cart-total').textContent = 'Total: R$ 0,00';
+        return;
     }
+    el.innerHTML = '';
+    let total = 0;
+    cart.forEach((it, idx) => {
+        const itemTotal = it.price * it.quantity; total += itemTotal;
+        const node = document.createElement('div');
+        node.className = 'cart-item';
+        node.innerHTML = `
+            <div>
+                <div style="font-weight:700">${it.name} <span style="color:#b0896b;font-weight:600">x${it.quantity}</span></div>
+                ${it.flavors && it.flavors.length ? `<div style="font-size:13px;color:#7a5a4a">Sabores: ${it.flavors.join(', ')}</div>` : `<div style="font-size:13px;color:#7a5a4a">Sem sabores selecionados</div>`}
+            </div>
+            <div style="text-align:right">
+                <div style="font-weight:800;color:var(--brand-yellow)">${formatPrice(itemTotal)}</div>
+                <div style="display:flex;gap:6px;margin-top:6px;justify-content:flex-end">
+                    <button data-idx="${idx}" class="btn btn-light dec">-</button>
+                    <button data-idx="${idx}" class="btn btn-light inc">+</button>
+                    <button data-idx="${idx}" class="btn btn-light rem">Remover</button>
+                </div>
+            </div>
+        `;
+        el.appendChild(node);
+    });
+    document.getElementById('cart-total').textContent = `Total: ${formatPrice(total)}`;
 
-    meta.innerHTML=`<div class="cname">${entry.produto.nome}</div><div class="csub">${flavorText}Quantidade: <strong>${entry.qty}</strong> • Unit: ${formatBRL(entry.produto.preco)}</div>`;
-    const right=document.createElement('div'); right.className='cart-right';
-    const subtotal=entry.qty*entry.produto.preco; total+=subtotal; count+=entry.qty;
-    right.innerHTML=`<div class="subtotal">${formatBRL(subtotal)}</div><div class="remove" data-key="${key}">Remover</div>`;
-    li.appendChild(thumb); li.appendChild(meta); li.appendChild(right);
-    li.querySelector('.remove').addEventListener('click', (ev)=>{ removerDoCarrinho(ev.target.dataset.key) });
-    lista.appendChild(li);
-  }
-
-  totalEl.textContent=`Total: ${formatBRL(total)}`;
-
-  // montar mensagem simples (sem dados do cliente ainda)
-  let mensagemTextPlain = `Pedido - Doce Confete\n\n`;
-  for (const [key, entry] of carrinho.entries()) {
-    let flavorNote = '';
-    if(entry.flavors){
-      if(Array.isArray(entry.flavors) && entry.flavors.length){
-        flavorNote = ` (${entry.flavors.join(', ')})`;
-      } else if(typeof entry.flavors === 'object'){
-        const s = entry.flavors.salgados || [];
-        const d = entry.flavors.doces || [];
-        const sText = s.length ? `S: ${s.join(', ')}` : '';
-        const dText = d.length ? `D: ${d.join(', ')}` : '';
-        flavorNote = ` (${[sText,dText].filter(Boolean).join(' ; ')})`;
-      }
-    }
-    const line = `• ${entry.produto.nome}${flavorNote} — ${entry.qty} x ${formatBRL(entry.produto.preco)} = ${formatBRL(entry.qty * entry.produto.preco)}`;
-    mensagemTextPlain += line + '\n';
-  }
-  mensagemTextPlain += `\nTotal: ${formatBRL(total)}\n`;
-
-  waBtn.dataset.mensagemRaw = mensagemTextPlain;
-  waBtn.dataset.total = total.toFixed(2);
-  waBtn.classList.remove('small');
-  waBtn.href = '#';
-  updateFab(count);
+    // handlers
+    el.querySelectorAll('.dec').forEach(b => b.addEventListener('click', e=>{
+        const i = parseInt(e.currentTarget.dataset.idx);
+        if(cart[i].quantity > 1) cart[i].quantity--;
+        else cart.splice(i,1);
+        saveCart(); renderCart();
+    }));
+    el.querySelectorAll('.inc').forEach(b => b.addEventListener('click', e=>{
+        const i = parseInt(e.currentTarget.dataset.idx);
+        cart[i].quantity++; saveCart(); renderCart();
+    }));
+    el.querySelectorAll('.rem').forEach(b => b.addEventListener('click', e=>{
+        const i = parseInt(e.currentTarget.dataset.idx);
+        cart.splice(i,1); saveCart(); renderCart();
+    }));
 }
 
-/* fab */
-function updateFab(count){ document.getElementById('fab-count').textContent = count; }
-document.getElementById('fab').addEventListener('click', ()=>{ document.getElementById('carrinho').scrollIntoView({behavior:'smooth',block:'center'}) });
-
-/* Modal behavior */
-const modalEl = document.getElementById('modal');
-const tipoRadios = document.querySelectorAll('input[name="tipo_entrega"]');
-const entregaNote = document.getElementById('entrega-note');
-const enderecoWrap = document.getElementById('endereco-wrap');
-const pixOnlyNote = document.getElementById('pix-only-note');
-const payPix = document.getElementById('pay-pix');
-
-function setModalToTipo(tipo){
-  if(tipo === 'Entrega'){ entregaNote.classList.remove('field-hidden'); enderecoWrap.classList.remove('field-hidden'); pixOnlyNote.classList.remove('field-hidden'); }
-  else { entregaNote.classList.add('field-hidden'); enderecoWrap.classList.add('field-hidden'); pixOnlyNote.classList.add('field-hidden'); }
+/* toast */
+function toast(msg){
+    const el = document.createElement('div');
+    el.textContent = msg;
+    el.style.cssText = "position:fixed; right:18px; bottom:18px; padding:10px 14px; background:var(--brand-yellow); color:var(--brown-dark); border-radius:10px; font-weight:700; box-shadow:var(--shadow); z-index:9999;";
+    document.body.appendChild(el);
+    setTimeout(()=> el.remove(), 2200);
 }
-tipoRadios.forEach(r => r.addEventListener('change', (e)=> setModalToTipo(e.target.value)));
 
-const pedidoRadios = document.querySelectorAll('input[name="tipo_pedido"]');
-const dataAgendadaWrap = document.getElementById('data-agendada-wrap');
-pedidoRadios.forEach(r => r.addEventListener('change', (e)=>{ if(e.target.value === 'agendado') dataAgendadaWrap.classList.remove('field-hidden'); else dataAgendadaWrap.classList.add('field-hidden'); }));
+/* ===== Flavor modal (quando o produto tem sabores) ===== */
+let pendingFlavor = null; // {item, qty, flavorsList}
+function openFlavorModal(item, qty, flavorsList){
+    pendingFlavor = { item, qty, flavorsList };
+    const modal = document.getElementById('modal');
+    const body = document.getElementById('modal-body');
+    body.innerHTML = `
+        <h3 style="margin:0 0 8px 0">Escolha os sabores — ${item.nome}</h3>
+        <p style="margin-top:6px;color:#6b4a3b">Selecione os sabores desejados (toque para marcar). Você pode escolher até ${qty} sabores por item, se quiser variedade.</p>
+        <div class="chips" id="flavor-chips">
+            ${flavorsList.map(f => `<div class="chip" data-flavor="${f}">${f}</div>`).join('')}
+        </div>
 
-// abrir modal quando clicar no botão do WhatsApp (ver carrinho)
-document.getElementById('whatsapp-btn').addEventListener('click', (e)=>{ 
-  e.preventDefault(); 
-  if(carrinho.size===0){ showToast('Seu carrinho está vazio.', 'error'); return; } 
-  document.getElementById('cliente-nome').value = '';
-  document.getElementById('cliente-endereco').value = '';
-  document.querySelector('input[name="tipo_entrega"][value="Retirada"]').checked = true;
-  setModalToTipo('Retirada');
-  document.querySelector('input[name="tipo_pedido"][value="hoje"]').checked = true;
-  dataAgendadaWrap.classList.add('field-hidden');
-  payPix.checked = true;
-  modalEl.style.display='flex'; 
-  document.getElementById('cliente-nome').focus();
+        <div style="display:flex; gap:8px; margin-top:14px; align-items:center;">
+            <div style="font-size:14px; color:#6b4a3b">Quantidade: <strong>${qty}</strong></div>
+            <div style="flex:1"></div>
+            <button id="cancel-flavors" class="btn btn-light">Cancelar</button>
+            <button id="confirm-flavors" class="btn">Confirmar e adicionar</button>
+        </div>
+    `;
+    // attach events
+    modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false');
+    const chips = Array.from(document.querySelectorAll('#flavor-chips .chip'));
+    chips.forEach(c => c.addEventListener('click', ()=> c.classList.toggle('selected')));
+
+    document.getElementById('cancel-flavors').onclick = ()=> { modal.style.display='none'; pendingFlavor = null; };
+    document.getElementById('confirm-flavors').onclick = ()=> {
+        const selected = Array.from(document.querySelectorAll('#flavor-chips .chip.selected')).map(n => n.dataset.flavor);
+        // if user didn't select nenhum, aceita vazio também
+        doAddToCart(item, qty, selected);
+        modal.style.display='none'; pendingFlavor = null;
+    };
+}
+
+/* ====== checkout modal (finalizar pedido) ====== */
+function openCheckoutModal(){
+    if(!cart.length){ toast('Adicione algo ao carrinho antes de finalizar'); return; }
+    const modal = document.getElementById('modal');
+    const body = document.getElementById('modal-body');
+    body.innerHTML = `
+        <h3 style="margin:0 0 8px 0">📋 Finalizar Pedido</h3>
+        <div style="display:grid; gap:8px; margin-top:8px;">
+            <label>Nome do cliente *<input id="client-name" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:6px" placeholder="Seu nome completo"></label>
+            <label>Telefone (opcional)<input id="client-phone" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:6px" placeholder="(xx) xxxxx-xxxx"></label>
+            <label>Retirada ou Entrega?
+                <div style="display:flex; gap:8px; margin-top:6px;">
+                    <button class="btn btn-light" data-type="retirada">🏠 Retirada</button>
+                    <button class="btn btn-light" data-type="entrega">🚚 Entrega</button>
+                </div>
+            </label>
+            <div id="address-block" style="display:none;">
+                <label>Endereço de entrega *<textarea id="client-address" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee;" rows="3" placeholder="Rua, número, bairro, ponto de referência"></textarea></label>
+            </div>
+            <label>Agendamento (opcional)<input id="agendamento" type="text" placeholder="Ex: 20/02/2026 — 14:30" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee;"></label>
+            <label>Forma de pagamento
+                <select id="payment" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:6px;">
+                    <option value="PIX">PIX</option>
+                    <option value="Cartão">Cartão</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+            </label>
+            <label>Observações (opcional)<textarea id="notes" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee;" rows="2"></textarea></label>
+            <div style="display:flex; gap:8px; margin-top:6px;">
+                <button id="cancel-modal" class="btn btn-light" style="flex:1">Cancelar</button>
+                <button id="send-order" class="btn" style="flex:2">📤 Enviar pedido pelo WhatsApp</button>
+            </div>
+        </div>
+    `;
+    modal.style.display='flex'; modal.setAttribute('aria-hidden','false');
+
+    // entrega/retirada btns
+    document.querySelectorAll('[data-type]').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+            document.querySelectorAll('[data-type]').forEach(b=>b.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            const t = e.currentTarget.dataset.type;
+            document.getElementById('modal').dataset.type = t;
+            document.getElementById('address-block').style.display = t === 'entrega' ? 'block' : 'none';
+        });
+    });
+
+    document.getElementById('cancel-modal').onclick = ()=> { modal.style.display='none'; };
+    document.getElementById('send-order').onclick = sendOrderWhatsApp;
+}
+
+/* build whatsapp message (sem desconto PIX) */
+function generateOrderNumber(){
+    const d = new Date();
+    const ts = d.getFullYear().toString().slice(2) +
+               String(d.getMonth()+1).padStart(2,'0') +
+               String(d.getDate()).padStart(2,'0') +
+               String(d.getHours()).padStart(2,'0') +
+               String(d.getMinutes()).padStart(2,'0') +
+               String(d.getSeconds()).padStart(2,'0');
+    return 'DC-' + ts;
+}
+
+function buildWhatsAppMessage(data){
+    const orderId = generateOrderNumber();
+    let total = cart.reduce((s,i)=> s + i.price*i.quantity, 0);
+
+    let message = `PEDIDO - DOCE CONFETE\nPedido nº: ${orderId}\n\n`;
+    message += `Cliente: ${data.name}\n`;
+    if(data.phone) message += `Telefone: ${data.phone}\n`;
+    message += `\n🧾 ITENS:\n`;
+
+    cart.forEach(it => {
+        message += `\n• ${it.name} - ${formatPrice(it.price)}\n  ${it.quantity}x = ${formatPrice(it.price * it.quantity)}\n`;
+        if(it.flavors && it.flavors.length) message += `  Sabores: ${it.flavors.join(', ')}\n`;
+    });
+
+    message += `\n💰 TOTAL: ${formatPrice(total)}`;
+    message += `\n\n📍 Endereço: ${data.type === 'entrega' ? (data.address || '---') : 'Retirada no local'}`;
+    if(data.schedule) message += `\n⏰ Agendamento: ${data.schedule}`;
+    if(data.notes) message += `\n\n🔔 Observações: ${data.notes}`;
+
+    message += `\n\nPedido para: ${data.type === 'entrega' ? 'ENTREGA' : 'RETIRADA'}`;
+
+    return encodeURIComponent(message);
+}
+
+/* enviar pedido via whatsapp */
+function sendOrderWhatsApp(){
+    const name = document.getElementById('client-name').value.trim();
+    const phone = document.getElementById('client-phone').value.trim();
+    const type = document.getElementById('modal').dataset.type || 'retirada';
+    const address = document.getElementById('client-address') ? document.getElementById('client-address').value.trim() : '';
+    const schedule = document.getElementById('agendamento').value.trim();
+    const payment = document.getElementById('payment').value;
+    const notes = document.getElementById('notes').value.trim();
+
+    if(!name){ toast('Digite o nome do cliente'); document.getElementById('client-name').focus(); return; }
+    if(type === 'entrega' && !address){ toast('Digite o endereço para entrega'); document.getElementById('client-address').focus(); return; }
+
+    const data = { name, phone, type, address, schedule, payment, notes };
+    const msg = buildWhatsAppMessage(data);
+
+    const phoneTo = '558791060340';
+    const url = `https://wa.me/${phoneTo}?text=${msg}`;
+    window.open(url, '_blank');
+
+    // limpa tudo
+    cart = []; saveCart(); renderCart();
+    document.getElementById('modal').style.display = 'none';
+    document.getElementById('client-name').value = '';
+    document.getElementById('client-phone').value = '';
+    if(document.getElementById('client-address')) document.getElementById('client-address').value = '';
+    document.getElementById('agendamento').value = '';
+    document.getElementById('notes').value = '';
+    toast('Pedido enviado! ❤️');
+}
+
+/* quick open modal */
+document.addEventListener('DOMContentLoaded', ()=> {
+    mountGrid('salgados', produtosData, saboresSalgado);
+    mountGrid('doces', docesData, saboresDoce);
+    mountGrid('combos', combosData.concat(kitsData), []); // combos + kits (kits sem sabores)
+    mountGrid('churros', miniChurrosData, []);
+
+    loadCart(); renderCart();
+
+    document.getElementById('open-checkout').addEventListener('click', openCheckoutModal);
+    document.getElementById('whatsapp-quick').addEventListener('click', ()=> {
+        if(!cart.length){ toast('Seu carrinho está vazio'); return; }
+        openCheckoutModal();
+    });
+
+    // fechar modal clicando fora
+    document.getElementById('modal').addEventListener('click', (e)=>{
+        if(e.target === e.currentTarget) e.currentTarget.style.display = 'none';
+    });
 });
-
-document.getElementById('cancel-modal').addEventListener('click', ()=>{ modalEl.style.display='none'; });
-document.getElementById('confirm-modal').addEventListener('click', ()=>{ 
-  const nome = document.getElementById('cliente-nome').value.trim();
-  if(!nome){ showToast('Por favor digite seu nome.', 'error'); document.getElementById('cliente-nome').focus(); return; }
-  const tipo = document.querySelector('input[name="tipo_entrega"]:checked').value;
-  let pagamento = document.querySelector('input[name="pagamento"]:checked') ? document.querySelector('input[name="pagamento"]:checked').value : 'PIX';
-  const endereco = document.getElementById('cliente-endereco').value.trim();
-  if(tipo === 'Entrega'){ if(!endereco){ showToast('Para entrega, por favor informe o endereço completo.', 'error'); document.getElementById('cliente-endereco').focus(); return; } }
-  const pedidoTipo = document.querySelector('input[name="tipo_pedido"]:checked').value;
-  const dataAgendada = document.getElementById('data-agendada').value;
-  const horaPedido = document.getElementById('hora-pedido').value;
-  if(pedidoTipo === 'agendado' && !dataAgendada){ showToast('Para agendar, por favor escolha uma data.', 'error'); document.getElementById('data-agendada').focus(); return; }
-  enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido);
-});
-
-function enviarPedidoWhatsApp(nome, tipo, pagamento, endereco, pedidoTipo, dataAgendada, horaPedido){
-  const waBtn=document.getElementById('whatsapp-btn');
-  const pedidoSemNome = waBtn.dataset.mensagemRaw || '';
-  let mensagem = `Olá, meu nome é ${nome} e quero realizar meu pedido:\n\n`;
-  mensagem += pedidoSemNome + '\n';
-  mensagem += `Tipo: ${tipo}\n`;
-  if(tipo === 'Entrega'){ mensagem += `Endereço: ${endereco}\n`; }
-  if(pedidoTipo === 'agendado'){ mensagem += `Data/Horário agendado: ${dataAgendada}` + (horaPedido ? ` às ${horaPedido}` : '') + '\n'; }
-  else { mensagem += `Data/Horário do pedido: ` + (horaPedido ? `Hoje às ${horaPedido}` : 'Hoje') + '\n'; }
-  mensagem += `Forma de pagamento: ${pagamento}\n\n`;
-  mensagem += (tipo === 'Entrega') ? '📦 Pedido para ENTREGA' : '📦 Pedido para RETIRADA';
-  // telefone - coloque o número real aqui
-  const telefone = '558791060340';
-  const waHref = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
-  window.open(waHref, '_blank');
-  modalEl.style.display='none';
-}
-
-/* helpers */
-function getSelectedSabores(groupName){
-  const els = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
-  return els.filter(i => i.checked).map(i => i.value);
-}
-
-/* inicial */
-atualizarCarrinho();
-console.log('Cardápio carregado. Produtos:', produtosData.length, 'Doces:', docesData.length, 'Combos:', combosData.length, 'Kits:', kitsData.length);
-
-/* CTA: rolar para salgados */
-document.getElementById('cta-start').addEventListener('click', ()=>{ document.getElementById('salgados-section').scrollIntoView({behavior:'smooth',block:'start'}); });
-
 </script>
+
 </body>
 </html>
