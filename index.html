@@ -12,110 +12,578 @@
     --bg: #FFF9ED;
     --pastel-yellow: #FFEC8B;
     --brand-yellow: #FFC125;
+    --brand-yellow-light: #FFE484;
+    --brand-yellow-dark: #F9A825;
     --brown-dark: #5b220f;
     --brown-mid: #9d603b;
+    --brown-light: #D4A574;
     --accent: #e5712a;
-    --card-radius: 14px;
-    --shadow: 0 12px 30px rgba(91,34,15,0.08);
+    --accent-hot: #FF6B35;
+    --success: #27AE60;
+    --card-radius: 18px;
+    --shadow: 0 12px 30px rgba(91,34,15,0.12);
+    --shadow-heavy: 0 16px 40px rgba(255, 193, 37, 0.25);
+    --gradient-yellow: linear-gradient(135deg, var(--brand-yellow), #FFD93D);
+    --gradient-brown: linear-gradient(135deg, var(--brown-mid), var(--brown-dark));
+    --gradient-accent: linear-gradient(135deg, var(--accent), #FF8C42);
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
     margin:0;
-    background: linear-gradient(180deg, var(--bg) 0%, #FFFDF8 100%);
+    background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
     font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     color:var(--brown-dark);
     padding-bottom:60px;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 236, 139, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 193, 37, 0.1) 0%, transparent 50%);
 }
 
-/* header */
+/* HEADER EXPLOSIVO */
 .header{
     position:sticky; top:0; z-index:30;
-    background: linear-gradient(90deg, var(--pastel-yellow), #FFF6D6);
-    padding:16px;
-    border-bottom:1px solid rgba(0,0,0,0.04);
+    background: linear-gradient(90deg, #FFD93D 0%, #FFC125 100%);
+    padding:18px 20px;
+    border-bottom: 4px solid var(--brown-dark);
+    box-shadow: 0 8px 24px rgba(255, 193, 37, 0.4);
     display:flex; justify-content:space-between; align-items:center;
 }
 .brand{ display:flex; gap:12px; align-items:center;}
 .logo{
-    display:flex; gap:8px; align-items:center;
-    background:linear-gradient(180deg,var(--brand-yellow), #FFB83A);
-    padding:10px 14px; border-radius:12px; color:var(--brown-dark);
-    font-family: "Baloo 2", cursive; font-weight:800;
-    box-shadow:var(--shadow);
+    display:flex; gap:10px; align-items:center;
+    background: linear-gradient(135deg, var(--brown-dark), #8B4513);
+    padding:14px 18px; 
+    border-radius: 16px; 
+    color: white;
+    font-family: "Baloo 2", cursive; 
+    font-weight:800;
+    font-size: 22px;
+    box-shadow: var(--shadow-heavy);
+    border: 3px solid var(--brand-yellow);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
 }
-.logo img{ height:34px; display:block; border-radius:6px }
-.tagline{ font-size:13px; color:#6b4a3b; margin-top:2px; }
+.logo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(255, 193, 37, 0.4);
+}
+.logo img{ 
+    height:42px; 
+    display:block; 
+    border-radius:8px;
+    border: 2px solid var(--brand-yellow);
+}
+.tagline{ 
+    font-size:14px; 
+    color:#5D4037; 
+    font-weight:600;
+    background: rgba(255,255,255,0.9);
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-top: 4px;
+}
 
-.contact{ display:flex; gap:8px; align-items:center }
-.contact a{ text-decoration:none; color:var(--brown-dark); background:rgba(0,0,0,0.03); padding:8px 10px; border-radius:10px; font-size:13px }
+.contact{ display:flex; gap:10px; align-items:center }
+.contact a{ 
+    text-decoration:none; 
+    color:var(--brown-dark); 
+    background:rgba(255,255,255,0.9);
+    padding:10px 14px; 
+    border-radius:12px; 
+    font-weight:600;
+    font-size:14px;
+    border: 2px solid var(--brown-dark);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.contact a:hover {
+    background: var(--brown-dark);
+    color: white;
+    transform: translateY(-2px);
+}
 
-/* layout */
-.wrap{ max-width:1150px; margin:20px auto; padding:16px; display:grid; grid-template-columns:1fr 360px; gap:20px; }
-@media(max-width:980px){ .wrap{ grid-template-columns:1fr; padding:12px } }
+/* LAYOUT PRINCIPAL */
+.wrap{ 
+    max-width:1200px; 
+    margin:24px auto; 
+    padding:16px; 
+    display:grid; 
+    grid-template-columns:1fr 360px; 
+    gap:24px; 
+}
+@media(max-width:980px){ 
+    .wrap{ 
+        grid-template-columns:1fr; 
+        padding:12px;
+        gap: 20px;
+    } 
+}
 
-/* section & cards */
-.section{ background:white; border-radius:var(--card-radius); padding:16px; box-shadow:var(--shadow); border-top:6px solid var(--pastel-yellow) }
-.section h2{ margin:0 0 6px 0; font-family:"Baloo 2", cursive; color:var(--brown-dark) }
-.muted{ color:#6b4a3b; font-size:14px }
+/* SEÇÃO COM PULSÃO */
+.section{ 
+    background: white; 
+    border-radius:var(--card-radius); 
+    padding:24px; 
+    box-shadow:var(--shadow); 
+    border-top: 8px solid var(--brand-yellow);
+    border-left: 4px solid var(--brand-yellow-light);
+    position: relative;
+    overflow: hidden;
+}
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: var(--brand-yellow-light);
+    border-radius: 0 0 0 100%;
+    z-index: 0;
+}
+.section h2{ 
+    margin:0 0 12px 0; 
+    font-family:"Baloo 2", cursive; 
+    color:var(--brown-dark);
+    font-size: 28px;
+    position: relative;
+    z-index: 1;
+}
+.muted{ 
+    color:#8B7355; 
+    font-size:15px;
+    font-weight: 500;
+    padding: 8px 0;
+}
 
-.product-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap:14px; margin-top:12px }
+/* GRID DE PRODUTOS ANIMADO */
+.product-grid{ 
+    display:grid; 
+    grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); 
+    gap:18px; 
+    margin-top:20px;
+}
 
-.product{ border-radius:12px; overflow:hidden; background: linear-gradient(180deg,#fff,#FFFDFB); border:1px solid rgba(0,0,0,0.04); display:flex; flex-direction:column; transition:transform .14s }
-.product:hover{ transform:translateY(-6px) }
+.product{ 
+    border-radius:16px; 
+    overflow:hidden; 
+    background: linear-gradient(180deg,#fff,#FFFDF8); 
+    border: 3px solid transparent;
+    border-image: linear-gradient(135deg, var(--brand-yellow), var(--brown-light)) 1;
+    display:flex; 
+    flex-direction:column; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: 0 8px 20px rgba(139, 115, 85, 0.1);
+}
+.product:hover{ 
+    transform:translateY(-8px);
+    box-shadow: 0 16px 32px rgba(139, 115, 85, 0.2);
+    border-color: var(--brand-yellow);
+}
+.product::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-yellow);
+}
 
-.media{ height:150px; display:flex; align-items:center; justify-content:center; background:var(--pastel-yellow) }
-.media img{ max-height:140px; width:auto; object-fit:cover; border-radius:8px }
+.media{ 
+    height:170px; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    background: linear-gradient(135deg, var(--brand-yellow-light), #FFE8A5);
+    padding: 10px;
+}
+.media img{ 
+    max-height:150px; 
+    width:auto; 
+    object-fit:cover; 
+    border-radius:12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 3px solid white;
+}
 
-.info{ padding:12px; display:flex; flex-direction:column; gap:8px }
-.title{ font-weight:700; color:var(--brown-dark) }
-.desc{ font-size:13px; color:#7a5a4a }
-.price-row{ display:flex; justify-content:space-between; align-items:center }
-.price{ font-weight:800; color:var(--brand-yellow); font-size:18px }
-.old-price{ text-decoration:line-through; color:#B0896B; font-size:13px }
+.info{ 
+    padding:18px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:12px;
+    flex-grow: 1;
+}
+.title{ 
+    font-weight:800; 
+    color:var(--brown-dark);
+    font-size: 18px;
+    line-height: 1.3;
+}
+.desc{ 
+    font-size:14px; 
+    color:#A6896D;
+    line-height: 1.4;
+}
 
-.controls{ display:flex; gap:8px; align-items:center; margin-top:6px }
-.qty{ display:flex; align-items:center; gap:8px; background:#fff; border-radius:10px; padding:6px; border:1px solid rgba(0,0,0,0.06) }
-.qty button{ border:0; background:transparent; font-weight:700; color:var(--brown-dark); cursor:pointer; width:28px; height:28px }
-.qty .val{ min-width:24px; text-align:center; font-weight:700 }
+/* PREÇO DESTACADO */
+.price-row{ 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center;
+    margin-top: auto;
+}
+.price{ 
+    font-weight:900; 
+    color:var(--accent-hot); 
+    font-size:22px;
+    text-shadow: 0 2px 4px rgba(229, 113, 42, 0.15);
+}
+.old-price{ 
+    text-decoration:line-through; 
+    color:#B0896B; 
+    font-size:14px;
+    font-weight: 600;
+}
 
-/* Add button disabled style */
-.btn{ background: linear-gradient(180deg, var(--brown-mid), var(--brown-dark)); color:white; padding:8px 12px; border-radius:10px; border:0; cursor:pointer; font-weight:700; font-size:14px }
-.btn[disabled]{ opacity:0.45; cursor:not-allowed; transform:none }
+/* CONTROLES VIBRANTES */
+.controls{ 
+    display:flex; 
+    gap:10px; 
+    align-items:center; 
+    margin-top:8px;
+}
+.qty{ 
+    display:flex; 
+    align-items:center; 
+    gap:8px; 
+    background:#fff; 
+    border-radius:12px; 
+    padding:8px; 
+    border: 2px solid var(--brand-yellow);
+    box-shadow: 0 4px 8px rgba(255, 193, 37, 0.15);
+}
+.qty button{ 
+    border:0; 
+    background: linear-gradient(135deg, var(--brand-yellow), #FFD93D); 
+    color:var(--brown-dark); 
+    cursor:pointer; 
+    width:36px; 
+    height:36px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.qty button:hover {
+    background: var(--brown-dark);
+    color: white;
+}
+.qty .val{ 
+    min-width:36px; 
+    text-align:center; 
+    font-weight:800;
+    font-size: 18px;
+    color: var(--brown-dark);
+}
 
-/* flavors */
-.flavors{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px }
-.flavor{ background:#fff; padding:6px 10px; border-radius:20px; border:1px solid rgba(0,0,0,0.04); cursor:pointer; font-size:13px }
-.flavor.selected{ background: var(--brand-yellow); color:var(--brown-dark); font-weight:700 }
+/* BOTÃO PRINCIPAL - SUPER DESTACADO */
+.btn{ 
+    background: var(--gradient-brown); 
+    color:white; 
+    padding:12px 18px; 
+    border-radius:12px; 
+    border:0; 
+    cursor:pointer; 
+    font-weight:800; 
+    font-size:15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 16px rgba(155, 96, 59, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn:hover:not([disabled]) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(155, 96, 59, 0.4);
+    background: linear-gradient(135deg, var(--brown-dark), #7A3E15);
+}
+.btn[disabled]{ 
+    opacity:0.5; 
+    cursor:not-allowed; 
+    transform:none;
+    background: #CCCCCC;
+}
 
-/* cart sidebar */
-.cart{ position:sticky; top:90px }
-.box{ background:white; border-radius:12px; padding:16px; box-shadow:var(--shadow); border-top:6px solid var(--pastel-yellow) }
-.cart h3{ margin:0 0 8px 0; font-family:"Baloo 2", cursive; color:var(--brown-dark) }
-.cart-items{ max-height:320px; overflow:auto; margin-top:8px; display:flex; flex-direction:column; gap:10px }
-.cart-item{ display:flex; justify-content:space-between; gap:8px; align-items:center; border-bottom:1px dashed rgba(0,0,0,0.04); padding-bottom:8px }
-.cart-total{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; font-weight:800; color:var(--brown-dark); font-size:18px }
+/* SABORES ESTILIZADOS */
+.flavors{ 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:8px; 
+    margin-top:12px;
+}
+.flavor{ 
+    background:#fff; 
+    padding:8px 14px; 
+    border-radius:20px; 
+    border: 2px solid var(--brand-yellow-light);
+    cursor:pointer; 
+    font-size:13px;
+    font-weight: 600;
+    color: var(--brown-mid);
+    transition: all 0.2s ease;
+}
+.flavor:hover {
+    border-color: var(--brand-yellow);
+    background: var(--brand-yellow-light);
+}
+.flavor.selected{ 
+    background: var(--gradient-yellow); 
+    color:var(--brown-dark); 
+    font-weight:800;
+    border-color: var(--brand-yellow);
+    box-shadow: 0 4px 8px rgba(255, 193, 37, 0.3);
+}
 
-.checkout{ margin-top:12px; display:flex; gap:8px }
-.whatsapp-btn{ background: linear-gradient(90deg,#25D366,#1DA851); color:white; padding:10px 12px; border-radius:12px; border:0; cursor:pointer; font-weight:700; display:flex; gap:8px; align-items:center; flex:1; justify-content:center }
-.checkout-secondary{ background:var(--brand-yellow); color:var(--brown-dark); padding:10px 12px; border-radius:12px; font-weight:700; border:0; cursor:pointer; flex:1 }
+/* CARRINHO LATERAL DESTACADO */
+.cart{ 
+    position:sticky; 
+    top:100px;
+}
+.box{ 
+    background:white; 
+    border-radius:var(--card-radius); 
+    padding:24px; 
+    box-shadow:var(--shadow); 
+    border-top: 8px solid var(--accent);
+    border-right: 4px solid var(--accent);
+    position: relative;
+}
+.box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-accent);
+}
+.cart h3{ 
+    margin:0 0 16px 0; 
+    font-family:"Baloo 2", cursive; 
+    color:var(--brown-dark);
+    font-size: 24px;
+}
+.cart-items{ 
+    max-height:380px; 
+    overflow:auto; 
+    margin-top:12px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:12px;
+    padding-right: 8px;
+}
+.cart-item{ 
+    display:flex; 
+    justify-content:space-between; 
+    gap:12px; 
+    align-items:center; 
+    border-bottom: 2px dashed rgba(155, 96, 59, 0.15); 
+    padding-bottom:12px;
+}
+.cart-total{ 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    margin-top:20px; 
+    font-weight:900; 
+    color:var(--brown-dark); 
+    font-size:22px;
+    padding-top: 16px;
+    border-top: 3px solid var(--brand-yellow);
+}
 
-/* info pills */
-.info-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:10px }
-.pill{ background:#FFF8E6; border-radius:10px; padding:10px; border:1px solid rgba(0,0,0,0.02) }
+/* BOTÕES DE CHECKOUT */
+.checkout{ 
+    margin-top:20px; 
+    display:flex; 
+    gap:12px;
+}
+.whatsapp-btn{ 
+    background: linear-gradient(90deg,#25D366,#1DA851); 
+    color:white; 
+    padding:14px 18px; 
+    border-radius:14px; 
+    border:0; 
+    cursor:pointer; 
+    font-weight:800; 
+    display:flex; 
+    gap:10px; 
+    align-items:center; 
+    flex:1; 
+    justify-content:center;
+    font-size: 15px;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
+}
+.whatsapp-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
+}
+.checkout-secondary{ 
+    background: var(--gradient-yellow); 
+    color:var(--brown-dark); 
+    padding:14px 18px; 
+    border-radius:14px; 
+    font-weight:800; 
+    border:0; 
+    cursor:pointer; 
+    flex:1;
+    box-shadow: 0 6px 16px rgba(255, 193, 37, 0.3);
+    transition: all 0.3s ease;
+}
+.checkout-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(255, 193, 37, 0.4);
+}
 
-/* modal */
-.modal{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:60; align-items:center; justify-content:center; padding:18px }
-.modal .card{ width:100%; max-width:620px; border-radius:12px; padding:18px; background:white }
+/* PILLS DE INFORMAÇÃO ESTILIZADAS */
+.info-grid{ 
+    display:grid; 
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); 
+    gap:16px; 
+    margin-top:16px;
+}
+.pill{ 
+    background: linear-gradient(135deg, #FFFCF5, #FFF8E8);
+    border-radius:14px; 
+    padding:16px; 
+    border: 3px solid var(--brand-yellow-light);
+    box-shadow: 0 8px 16px rgba(255, 236, 139, 0.2);
+}
+.pill strong {
+    color: var(--brown-dark);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
 
-/* flavor modal chips */
-.chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }
-.chip{ padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,0.06); cursor:pointer; background:#fff }
-.chip.selected{ background:var(--brand-yellow); color:var(--brown-dark); font-weight:700 }
+/* MODAL MODERNO */
+.modal{ 
+    display:none; 
+    position:fixed; 
+    inset:0; 
+    background:rgba(91,34,15,0.8); 
+    z-index:60; 
+    align-items:center; 
+    justify-content:center; 
+    padding:18px;
+    backdrop-filter: blur(6px);
+}
+.modal .card{ 
+    width:100%; 
+    max-width:620px; 
+    border-radius:20px; 
+    padding:28px; 
+    background: white;
+    box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+    border: 4px solid var(--brand-yellow);
+    animation: modalSlideIn 0.4s ease;
+}
 
-/* tiny */
-.promo-badge{ background:var(--accent); color:white; font-weight:800; padding:4px 8px; border-radius:8px; font-size:12px }
-.empty{ text-align:center; color:#bda08a; padding:28px 12px }
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* CHIPS DE SABORES NO MODAL */
+.chips{ 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:10px; 
+    margin-top:16px;
+}
+.chip{ 
+    padding:12px 18px; 
+    border-radius:999px; 
+    border: 2px solid var(--brand-yellow);
+    cursor:pointer; 
+    background:#fff;
+    font-weight: 600;
+    color: var(--brown-mid);
+    transition: all 0.2s ease;
+}
+.chip:hover {
+    background: var(--brand-yellow-light);
+}
+.chip.selected{ 
+    background: var(--gradient-yellow); 
+    color:var(--brown-dark); 
+    font-weight:800;
+    border-color: var(--brand-yellow-dark);
+    box-shadow: 0 6px 12px rgba(255, 193, 37, 0.3);
+}
+
+/* BADGE DE PROMOÇÃO EXPLOSIVO */
+.promo-badge{ 
+    background: var(--gradient-accent); 
+    color:white; 
+    font-weight:900; 
+    padding:6px 12px; 
+    border-radius:10px; 
+    font-size:13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-left: 10px;
+    box-shadow: 0 4px 8px rgba(229, 113, 42, 0.3);
+}
+.empty{ 
+    text-align:center; 
+    color:#bda08a; 
+    padding:40px 12px;
+    font-size: 16px;
+}
+
+/* RODAPÉ ESTILIZADO */
+footer {
+    text-align:center;
+    color:#8B7355;
+    padding:24px 12px;
+    background: linear-gradient(90deg, #FFF8E8, #FFE8A5);
+    margin-top: 40px;
+    border-top: 4px solid var(--brand-yellow);
+    font-weight: 600;
+}
+
+/* SCROLLBAR PERSONALIZADA */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #FFF8E8;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--brand-yellow);
+    border-radius: 10px;
+    border: 2px solid #FFF8E8;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-yellow-dark);
+}
 </style>
 </head>
 <body>
@@ -123,15 +591,12 @@ body{
 <header class="header">
     <div class="brand">
         <div class="logo">
-    <img src="images/logo-doce-confete.jpg" alt="logo"
-            <!-- logo image (fallback emoji if não carregar) -->
-            <img src="" alt="logo" id="logo-img" onerror="this.style.display='none'">
-            <div style="display:flex;flex-direction:column;">
-                <div style="display:flex;align-items:center;gap:8px;">
-                    <span style="font-size:18px">🎉</span>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span style="font-size:28px">🎉</span>
+                <div style="display:flex;flex-direction:column;line-height:1.2;">
                     <div>Doce Confete</div>
+                    <div class="tagline">doces & salgados com amor!</div>
                 </div>
-                <div class="tagline">doces & salgados!</div>
             </div>
         </div>
     </div>
@@ -150,29 +615,29 @@ body{
             <div id="salgados" class="product-grid"></div>
         </div>
 
-        <div class="section" style="margin-top:16px;">
+        <div class="section" style="margin-top:24px;">
             <h2>🍬 Doces</h2>
             <div class="muted">Ao clicar em "Adicionar" escolha os sabores</div>
             <div id="doces" class="product-grid"></div>
         </div>
 
-        <div class="section" style="margin-top:16px;">
+        <div class="section" style="margin-top:24px;">
             <h2>🎁 Kits e Combos</h2>
             <div class="muted">Kits para festas — escolha e adicione</div>
             <div id="combos" class="product-grid"></div>
         </div>
 
-        <div class="section" style="margin-top:16px;">
+        <div class="section" style="margin-top:24px;">
             <h2>🍩 Mini Churros</h2>
             <div id="churros" class="product-grid"></div>
         </div>
 
-        <div class="section" style="margin-top:16px;">
+        <div class="section" style="margin-top:24px;">
             <h2>ℹ️ Informações importantes</h2>
             <div class="info-grid">
                 <div class="pill">
                     <strong>⏰ Horário</strong>
-                    <p style="margin:6px 0 0 0; font-size:14px; color:#6b4a3b">
+                    <p style="margin:8px 0 0 0; font-size:14px; color:#6b4a3b">
                         Trabalhamos de domingo a domingo.<br>
                         Segunda a sábado:<br>
                         • 10:00 – 12:00 (manhã: retirada/entrega de encomendas)<br>
@@ -183,14 +648,14 @@ body{
 
                 <div class="pill">
                     <strong>🚚 Entrega</strong>
-                    <p style="margin:6px 0 0 0; font-size:14px; color:#6b4a3b">
+                    <p style="margin:8px 0 0 0; font-size:14px; color:#6b4a3b">
                         A entrega depende do bairro/região de Caruaru — o valor será informado no chat.
                     </p>
                 </div>
 
                 <div class="pill">
                     <strong>💳 Pagamento</strong>
-                    <p style="margin:6px 0 0 0; font-size:14px; color:#6b4a3b">
+                    <p style="margin:8px 0 0 0; font-size:14px; color:#6b4a3b">
                         PIX, Cartão e Dinheiro.
                     </p>
                 </div>
@@ -212,15 +677,15 @@ body{
                 <button id="whatsapp-quick" class="whatsapp-btn">💬 Enviar WhatsApp</button>
             </div>
 
-            <div style="margin-top:12px; font-size:13px; color:#7a5a4a">
-                <strong>Observações:</strong>
+            <div style="margin-top:16px; font-size:14px; color:#7a5a4a; background: #FFF8E8; padding: 12px; border-radius: 10px;">
+                <strong>📝 Observações:</strong>
                 <p style="margin:6px 0 0 0">Endereço e agendamento são solicitados na finalização.</p>
             </div>
         </div>
     </aside>
 </main>
 
-<footer style="text-align:center;color:#6b4a3b;padding:18px 12px;">© Doce Confete — (87) 9106-0340 • Instagram: doc_confete </footer>
+<footer>© Doce Confete — (87) 9106-0340 • Instagram: doc_confete</footer>
 
 <!-- MODAL GERAL -->
 <div id="modal" class="modal" aria-hidden="true">
@@ -281,22 +746,16 @@ function formatPrice(v){ return v.toLocaleString('pt-BR',{ style:'currency', cur
 function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)) }
 function loadCart(){ const s = localStorage.getItem(CART_KEY); if(s) cart = JSON.parse(s) }
 
-/* === logo load (tenta imagem no repo) === */
-(function loadLogo(){
-    const img = document.getElementById('logo-img');
-    img.src = baseImage + 'images/logo.png'; // se n existir, onerror esconde
-})();
-
 /* === criar cards === */
 function createProductCard(item, flavorsList = []) {
     const card = document.createElement('div');
     card.className = 'product';
     card.innerHTML = `
         <div class="media">
-            <img src="${baseImage + (item.img || '')}" alt="${item.nome}" onerror="this.style.display='none'">
+            <div style="font-size: 60px; color: var(--brown-dark); opacity: 0.9;">🥟</div>
         </div>
         <div class="info">
-            <div class="title">${item.nome} ${item.promo ? '<span class="promo-badge">PROMO</span>' : ''}</div>
+            <div class="title">${item.nome} ${item.promo ? '<span class="promo-badge">🔥 PROMOÇÃO</span>' : ''}</div>
             <div class="desc">${item.desc ? item.desc : ''}</div>
 
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -304,19 +763,21 @@ function createProductCard(item, flavorsList = []) {
                     <div class="price">${formatPrice(item.preco)}</div>
                     ${item.precoOriginal ? `<div class="old-price">${formatPrice(item.precoOriginal)}</div>` : ''}
                 </div>
-                <div style="min-width:140px;">
+                <div style="min-width:160px;">
                     <div class="controls">
                         <div class="qty">
                             <button class="minus" aria-label="diminuir">-</button>
                             <div class="val">0</div>
                             <button class="plus" aria-label="aumentar">+</button>
                         </div>
-                        <button class="btn add" disabled>Adicionar</button>
+                        <button class="btn add" disabled>
+                            <span>🛒</span> Adicionar
+                        </button>
                     </div>
                 </div>
             </div>
 
-            ${flavorsList.length ? `<div class="muted" style="margin-top:8px;font-size:13px">Sabores: serão escolhidos ao adicionar</div>` : ''}
+            ${flavorsList.length ? `<div class="muted" style="margin-top:12px;font-size:14px; background: #FFF8E8; padding: 8px 12px; border-radius: 8px;">🎯 Sabores: serão escolhidos ao adicionar</div>` : ''}
         </div>
     `;
 
@@ -386,14 +847,18 @@ function doAddToCart(item, qty, flavors){
     }
     saveCart();
     renderCart();
-    toast('✅ Adicionado ao carrinho');
+    toast('✅ Adicionado ao carrinho!');
 }
 
 /* render cart */
 function renderCart(){
     const el = document.getElementById('cart-items');
     if(!cart.length){
-        el.innerHTML = `<div class="empty">Seu carrinho está vazio. Adicione algo gostoso! 😋</div>`;
+        el.innerHTML = `<div class="empty">
+            <div style="font-size: 48px; margin-bottom: 12px; opacity: 0.5;">🛒</div>
+            <p style="font-weight: 600; color: var(--brown-mid);">Seu carrinho está vazio</p>
+            <p style="font-size: 14px; color: #A6896D;">Adicione algo gostoso! 😋</p>
+        </div>`;
         document.getElementById('cart-total').textContent = 'Total: R$ 0,00';
         return;
     }
@@ -405,15 +870,15 @@ function renderCart(){
         node.className = 'cart-item';
         node.innerHTML = `
             <div>
-                <div style="font-weight:700">${it.name} <span style="color:#b0896b;font-weight:600">x${it.quantity}</span></div>
-                ${it.flavors && it.flavors.length ? `<div style="font-size:13px;color:#7a5a4a">Sabores: ${it.flavors.join(', ')}</div>` : `<div style="font-size:13px;color:#7a5a4a">Sem sabores selecionados</div>`}
+                <div style="font-weight:800; color: var(--brown-dark)">${it.name} <span style="color:var(--accent);font-weight:800">x${it.quantity}</span></div>
+                ${it.flavors && it.flavors.length ? `<div style="font-size:13px;color:#8B7355; background: #FFF8E8; padding: 4px 8px; border-radius: 6px; margin-top: 4px;">Sabores: ${it.flavors.join(', ')}</div>` : `<div style="font-size:13px;color:#8B7355;">Sem sabores selecionados</div>`}
             </div>
             <div style="text-align:right">
-                <div style="font-weight:800;color:var(--brand-yellow)">${formatPrice(itemTotal)}</div>
-                <div style="display:flex;gap:6px;margin-top:6px;justify-content:flex-end">
-                    <button data-idx="${idx}" class="btn btn-light dec">-</button>
-                    <button data-idx="${idx}" class="btn btn-light inc">+</button>
-                    <button data-idx="${idx}" class="btn btn-light rem">Remover</button>
+                <div style="font-weight:900;color:var(--accent-hot); font-size: 16px;">${formatPrice(itemTotal)}</div>
+                <div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end">
+                    <button data-idx="${idx}" class="btn btn-light dec" style="background: var(--brand-yellow-light); color: var(--brown-dark); padding: 6px 10px; border-radius: 8px; border: none; font-weight: 800;">-</button>
+                    <button data-idx="${idx}" class="btn btn-light inc" style="background: var(--brand-yellow-light); color: var(--brown-dark); padding: 6px 10px; border-radius: 8px; border: none; font-weight: 800;">+</button>
+                    <button data-idx="${idx}" class="btn btn-light rem" style="background: #FFE8E8; color: #E74C3C; padding: 6px 10px; border-radius: 8px; border: none; font-weight: 800;">Remover</button>
                 </div>
             </div>
         `;
@@ -438,14 +903,44 @@ function renderCart(){
     }));
 }
 
-/* toast */
+/* toast com estilo novo */
 function toast(msg){
     const el = document.createElement('div');
     el.textContent = msg;
-    el.style.cssText = "position:fixed; right:18px; bottom:18px; padding:10px 14px; background:var(--brand-yellow); color:var(--brown-dark); border-radius:10px; font-weight:700; box-shadow:var(--shadow); z-index:9999;";
+    el.style.cssText = `
+        position: fixed; 
+        right: 20px; 
+        bottom: 20px; 
+        padding: 14px 20px; 
+        background: linear-gradient(135deg, var(--brand-yellow), #FFD93D);
+        color: var(--brown-dark); 
+        border-radius: 12px; 
+        font-weight: 800; 
+        box-shadow: 0 8px 24px rgba(255, 193, 37, 0.4);
+        z-index: 9999;
+        border: 3px solid white;
+        animation: toastSlideIn 0.3s ease;
+    `;
     document.body.appendChild(el);
-    setTimeout(()=> el.remove(), 2200);
+    setTimeout(()=> {
+        el.style.animation = 'toastSlideOut 0.3s ease forwards';
+        setTimeout(()=> el.remove(), 300);
+    }, 2200);
 }
+
+// Adicionar animações do toast
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes toastSlideIn {
+        from { transform: translateX(100px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes toastSlideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100px); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
 
 /* ===== Flavor modal (quando o produto tem sabores) ===== */
 let pendingFlavor = null; // {item, qty, flavorsList}
@@ -454,17 +949,24 @@ function openFlavorModal(item, qty, flavorsList){
     const modal = document.getElementById('modal');
     const body = document.getElementById('modal-body');
     body.innerHTML = `
-        <h3 style="margin:0 0 8px 0">Escolha os sabores — ${item.nome}</h3>
-        <p style="margin-top:6px;color:#6b4a3b">Selecione os sabores desejados (toque para marcar). Você pode escolher até ${qty} sabores por item, se quiser variedade.</p>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <div style="background: var(--gradient-yellow); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">🥟</div>
+            <div>
+                <h3 style="margin:0; color: var(--brown-dark)">Escolha os sabores</h3>
+                <p style="margin:4px 0 0 0; color: var(--brown-mid); font-size: 15px;">${item.nome} • ${qty} unidade(s)</p>
+            </div>
+        </div>
+        
+        <p style="margin-top:6px;color:#6b4a3b; background: #FFF8E8; padding: 12px; border-radius: 10px;">🎯 Selecione os sabores desejados (toque para marcar). Você pode escolher até ${qty} sabores por item.</p>
         <div class="chips" id="flavor-chips">
             ${flavorsList.map(f => `<div class="chip" data-flavor="${f}">${f}</div>`).join('')}
         </div>
 
-        <div style="display:flex; gap:8px; margin-top:14px; align-items:center;">
-            <div style="font-size:14px; color:#6b4a3b">Quantidade: <strong>${qty}</strong></div>
+        <div style="display:flex; gap:10px; margin-top:24px; align-items:center;">
+            <div style="font-size:15px; color: var(--brown-dark); font-weight: 600;">Quantidade: <span style="color: var(--accent); font-size: 18px;">${qty}</span></div>
             <div style="flex:1"></div>
-            <button id="cancel-flavors" class="btn btn-light">Cancelar</button>
-            <button id="confirm-flavors" class="btn">Confirmar e adicionar</button>
+            <button id="cancel-flavors" class="btn" style="background: #CCCCCC; color: #666;">Cancelar</button>
+            <button id="confirm-flavors" class="btn" style="background: var(--gradient-brown);">✅ Confirmar</button>
         </div>
     `;
     // attach events
@@ -483,35 +985,64 @@ function openFlavorModal(item, qty, flavorsList){
 
 /* ====== checkout modal (finalizar pedido) ====== */
 function openCheckoutModal(){
-    if(!cart.length){ toast('Adicione algo ao carrinho antes de finalizar'); return; }
+    if(!cart.length){ toast('🎯 Adicione algo ao carrinho antes de finalizar'); return; }
     const modal = document.getElementById('modal');
     const body = document.getElementById('modal-body');
     body.innerHTML = `
-        <h3 style="margin:0 0 8px 0">📋 Finalizar Pedido</h3>
-        <div style="display:grid; gap:8px; margin-top:8px;">
-            <label>Nome do cliente *<input id="client-name" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:6px" placeholder="Seu nome completo"></label>
-            <label>Telefone (opcional)<input id="client-phone" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:6px" placeholder="(xx) xxxxx-xxxx"></label>
-            <label>Retirada ou Entrega?
-                <div style="display:flex; gap:8px; margin-top:6px;">
-                    <button class="btn btn-light" data-type="retirada">🏠 Retirada</button>
-                    <button class="btn btn-light" data-type="entrega">🚚 Entrega</button>
+        <h3 style="margin:0 0 16px 0; color: var(--brown-dark); display: flex; align-items: center; gap: 10px;">📋 Finalizar Pedido</h3>
+        
+        <div style="background: #FFF8E8; padding: 16px; border-radius: 12px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-weight: 600; color: var(--brown-dark);">Itens no carrinho:</div>
+                <div style="font-weight: 800; color: var(--accent-hot); font-size: 18px;">${formatPrice(cart.reduce((s,i)=> s + i.price*i.quantity, 0))}</div>
+            </div>
+        </div>
+        
+        <div style="display:grid; gap:16px;">
+            <label style="display: block;">
+                <div style="font-weight:700; margin-bottom:8px; color: var(--brown-dark);">Nome do cliente *</div>
+                <input id="client-name" style="width:100%; padding:14px; border-radius:10px; border:2px solid var(--brand-yellow); font-size:16px;" placeholder="Seu nome completo">
+            </label>
+            
+            <label style="display: block;">
+                <div style="font-weight:700; margin-bottom:8px; color: var(--brown-dark);">Retirada ou Entrega?</div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn" data-type="retirada" style="background: var(--gradient-yellow); color: var(--brown-dark); flex:1;">🏠 Retirada</button>
+                    <button class="btn" data-type="entrega" style="background: var(--brand-yellow-light); color: var(--brown-dark); flex:1;">🚚 Entrega</button>
                 </div>
             </label>
+            
             <div id="address-block" style="display:none;">
-                <label>Endereço de entrega *<textarea id="client-address" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee;" rows="3" placeholder="Rua, número, bairro, ponto de referência"></textarea></label>
+                <label style="display: block;">
+                    <div style="font-weight:700; margin-bottom:8px; color: var(--brown-dark);">Endereço de entrega *</div>
+                    <textarea id="client-address" style="width:100%; padding:14px; border-radius:10px; border:2px solid var(--brand-yellow);" rows="3" placeholder="Rua, número, bairro, ponto de referência"></textarea>
+                </label>
             </div>
-            <label>Agendamento (opcional)<input id="agendamento" type="text" placeholder="Ex: 20/02/2026 — 14:30" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee;"></label>
-            <label>Forma de pagamento
-                <select id="payment" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-top:6px;">
-                    <option value="PIX">PIX</option>
-                    <option value="Cartão">Cartão</option>
-                    <option value="Dinheiro">Dinheiro</option>
-                </select>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <label style="display: block;">
+                    <div style="font-weight:700; margin-bottom:8px; color: var(--brown-dark);">Forma de pagamento</div>
+                    <select id="payment" style="width:100%; padding:14px; border-radius:10px; border:2px solid var(--brand-yellow); font-size:15px;">
+                        <option value="PIX">PIX (5% OFF)</option>
+                        <option value="Cartão">Cartão</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                    </select>
+                </label>
+                
+                <label style="display: block;">
+                    <div style="font-weight:700; margin-bottom:8px; color: var(--brown-dark);">Agendamento (opcional)</div>
+                    <input id="agendamento" type="text" placeholder="Ex: 20/02 — 14:30" style="width:100%; padding:14px; border-radius:10px; border:2px solid var(--brand-yellow);">
+                </label>
+            </div>
+            
+            <label style="display: block;">
+                <div style="font-weight:700; margin-bottom:8px; color: var(--brown-dark);">Observações (opcional)</div>
+                <textarea id="notes" style="width:100%; padding:14px; border-radius:10px; border:2px solid var(--brand-yellow);" rows="2" placeholder="Alguma observação especial?"></textarea>
             </label>
-            <label>Observações (opcional)<textarea id="notes" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee;" rows="2"></textarea></label>
-            <div style="display:flex; gap:8px; margin-top:6px;">
-                <button id="cancel-modal" class="btn btn-light" style="flex:1">Cancelar</button>
-                <button id="send-order" class="btn" style="flex:2">📤 Enviar pedido pelo WhatsApp</button>
+            
+            <div style="display:flex; gap:12px; margin-top:24px;">
+                <button id="cancel-modal" class="btn" style="background: #E0E0E0; color: #666; flex:1;">Cancelar</button>
+                <button id="send-order" class="btn" style="background: var(--gradient-brown); flex:2;">📤 Enviar pedido pelo WhatsApp</button>
             </div>
         </div>
     `;
@@ -520,8 +1051,10 @@ function openCheckoutModal(){
     // entrega/retirada btns
     document.querySelectorAll('[data-type]').forEach(btn=>{
         btn.addEventListener('click', (e)=>{
-            document.querySelectorAll('[data-type]').forEach(b=>b.classList.remove('active'));
-            e.currentTarget.classList.add('active');
+            document.querySelectorAll('[data-type]').forEach(b=>{
+                b.style.background = 'var(--brand-yellow-light)';
+            });
+            e.currentTarget.style.background = 'var(--gradient-yellow)';
             const t = e.currentTarget.dataset.type;
             document.getElementById('modal').dataset.type = t;
             document.getElementById('address-block').style.display = t === 'entrega' ? 'block' : 'none';
@@ -548,22 +1081,25 @@ function buildWhatsAppMessage(data){
     const orderId = generateOrderNumber();
     let total = cart.reduce((s,i)=> s + i.price*i.quantity, 0);
 
-    let message = `PEDIDO - DOCE CONFETE\nPedido nº: ${orderId}\n\n`;
-    message += `Cliente: ${data.name}\n`;
-    if(data.phone) message += `Telefone: ${data.phone}\n`;
-    message += `\n🧾 ITENS:\n`;
+    let message = `🎉 *PEDIDO - DOCE CONFETE*\n`;
+    message += `📋 *Pedido nº:* ${orderId}\n\n`;
+    message += `👤 *Cliente:* ${data.name}\n`;
+    if(data.phone) message += `📞 *Telefone:* ${data.phone}\n`;
+    message += `\n📦 *ITENS DO PEDIDO:*\n`;
 
     cart.forEach(it => {
-        message += `\n• ${it.name} - ${formatPrice(it.price)}\n  ${it.quantity}x = ${formatPrice(it.price * it.quantity)}\n`;
-        if(it.flavors && it.flavors.length) message += `  Sabores: ${it.flavors.join(', ')}\n`;
+        message += `\n• *${it.name}* - ${formatPrice(it.price)}\n`;
+        message += `  ${it.quantity}x = ${formatPrice(it.price * it.quantity)}\n`;
+        if(it.flavors && it.flavors.length) message += `  🎯 *Sabores:* ${it.flavors.join(', ')}\n`;
     });
 
-    message += `\n💰 TOTAL: ${formatPrice(total)}`;
-    message += `\n\n📍 Endereço: ${data.type === 'entrega' ? (data.address || '---') : 'Retirada no local'}`;
-    if(data.schedule) message += `\n⏰ Agendamento: ${data.schedule}`;
-    if(data.notes) message += `\n\n🔔 Observações: ${data.notes}`;
+    message += `\n💰 *TOTAL:* ${formatPrice(total)}`;
+    message += `\n\n📍 *Endereço:* ${data.type === 'entrega' ? (data.address || '---') : 'Retirada no local'}`;
+    if(data.schedule) message += `\n⏰ *Agendamento:* ${data.schedule}`;
+    message += `\n💳 *Pagamento:* ${data.payment}`;
+    if(data.notes) message += `\n\n📝 *Observações:* ${data.notes}`;
 
-    message += `\n\nPedido para: ${data.type === 'entrega' ? 'ENTREGA' : 'RETIRADA'}`;
+    message += `\n\n${data.type === 'entrega' ? '🚚 *PEDIDO PARA ENTREGA*' : '🏠 *PEDIDO PARA RETIRADA*'}`;
 
     return encodeURIComponent(message);
 }
@@ -571,15 +1107,15 @@ function buildWhatsAppMessage(data){
 /* enviar pedido via whatsapp */
 function sendOrderWhatsApp(){
     const name = document.getElementById('client-name').value.trim();
-    const phone = document.getElementById('client-phone').value.trim();
+    const phone = document.getElementById('client-phone') ? document.getElementById('client-phone').value.trim() : '';
     const type = document.getElementById('modal').dataset.type || 'retirada';
     const address = document.getElementById('client-address') ? document.getElementById('client-address').value.trim() : '';
     const schedule = document.getElementById('agendamento').value.trim();
     const payment = document.getElementById('payment').value;
     const notes = document.getElementById('notes').value.trim();
 
-    if(!name){ toast('Digite o nome do cliente'); document.getElementById('client-name').focus(); return; }
-    if(type === 'entrega' && !address){ toast('Digite o endereço para entrega'); document.getElementById('client-address').focus(); return; }
+    if(!name){ toast('❌ Digite o nome do cliente'); document.getElementById('client-name').focus(); return; }
+    if(type === 'entrega' && !address){ toast('❌ Digite o endereço para entrega'); document.getElementById('client-address').focus(); return; }
 
     const data = { name, phone, type, address, schedule, payment, notes };
     const msg = buildWhatsAppMessage(data);
@@ -592,11 +1128,10 @@ function sendOrderWhatsApp(){
     cart = []; saveCart(); renderCart();
     document.getElementById('modal').style.display = 'none';
     document.getElementById('client-name').value = '';
-    document.getElementById('client-phone').value = '';
     if(document.getElementById('client-address')) document.getElementById('client-address').value = '';
     document.getElementById('agendamento').value = '';
     document.getElementById('notes').value = '';
-    toast('Pedido enviado! ❤️');
+    toast('🎉 Pedido enviado! Obrigado! ❤️');
 }
 
 /* quick open modal */
@@ -610,7 +1145,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
     document.getElementById('open-checkout').addEventListener('click', openCheckoutModal);
     document.getElementById('whatsapp-quick').addEventListener('click', ()=> {
-        if(!cart.length){ toast('Seu carrinho está vazio'); return; }
+        if(!cart.length){ toast('🎯 Seu carrinho está vazio'); return; }
         openCheckoutModal();
     });
 
@@ -623,5 +1158,3 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 </body>
 </html>
-
-
