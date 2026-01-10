@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
@@ -38,13 +38,13 @@ body{
 }
 .brand{ display:flex; gap:12px; align-items:center;}
 .logo{
-    display:flex; gap:8px; align-items:center;
+    display:flex; gap:12px; align-items:center;
     background:linear-gradient(180deg,var(--brand-yellow), #FFB83A);
     padding:10px 14px; border-radius:12px; color:var(--brown-dark);
     font-family: "Baloo 2", cursive; font-weight:800;
     box-shadow:var(--shadow);
 }
-.logo img{ height:34px; display:block; border-radius:6px }
+.logo img{ height:44px; width:44px; display:block; border-radius:8px; object-fit:cover; border:2px solid rgba(255,255,255,0.45) }
 .tagline{ font-size:13px; color:#6b4a3b; margin-top:2px; }
 
 .contact{ display:flex; gap:8px; align-items:center }
@@ -64,9 +64,23 @@ body{
 .product{ border-radius:12px; overflow:hidden; background: linear-gradient(180deg,#fff,#FFFDFB); border:1px solid rgba(0,0,0,0.04); display:flex; flex-direction:column; transition:transform .14s }
 .product:hover{ transform:translateY(-6px) }
 
-.media{ height:150px; display:flex; align-items:center; justify-content:center; background:var(--pastel-yellow) }
-.media img{ max-height:140px; width:auto; object-fit:cover; border-radius:8px }
+/* MEDIA: imagem agora preenche o quadrado com estética */
+.media{
+    aspect-ratio: 1 / 1;
+    min-height:180px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--pastel-yellow);
+    padding:12px; /* cria "moldura" amarela */
+}
+.media .img-frame{
+    width:100%; height:100%; border-radius:12px; overflow:hidden;
+    box-shadow: 0 8px 18px rgba(91,34,15,0.06);
+    border: 6px solid rgba(255,255,255,0.6); /* leve borda branca para destacar */
+    background: #fff;
+}
+.media img{ width:100%; height:100%; object-fit:cover; display:block; }
 
+/* info */
 .info{ padding:12px; display:flex; flex-direction:column; gap:8px }
 .title{ font-weight:700; color:var(--brown-dark) }
 .desc{ font-size:13px; color:#7a5a4a }
@@ -116,6 +130,10 @@ body{
 /* tiny */
 .promo-badge{ background:var(--accent); color:white; font-weight:800; padding:4px 8px; border-radius:8px; font-size:12px }
 .empty{ text-align:center; color:#bda08a; padding:28px 12px }
+
+/* small helpers */
+.btn-light{ background:rgba(0,0,0,0.05); color:var(--brown-dark); padding:8px 10px; border-radius:8px; border:0; font-weight:700 }
+.active{ box-shadow:inset 0 -3px 0 rgba(0,0,0,0.04) }
 </style>
 </head>
 <body>
@@ -123,9 +141,8 @@ body{
 <header class="header">
     <div class="brand">
         <div class="logo">
-    <img src="images/logo-doce-confete.jpg" alt="logo"
-            <!-- logo image (fallback emoji if não carregar) -->
-            <img src="" alt="logo" id="logo-img" onerror="this.style.display='none'">
+            <!-- logo image (se não carregar, mostra somente texto) -->
+            <img src="" alt="logo" id="logo-img">
             <div style="display:flex;flex-direction:column;">
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span style="font-size:18px">🎉</span>
@@ -138,7 +155,7 @@ body{
 
     <div class="contact">
         <a href="tel:558791060340">📞 (87) 9106-0340</a>
-        <a href="https://wa.me/558791060340" target="_blank">💬 WhatsApp</a>
+        <a id="wa-link" href="https://wa.me/558791060340" target="_blank">💬 WhatsApp</a>
     </div>
 </header>
 
@@ -234,6 +251,10 @@ body{
 /* ====== Ajuste a baseImage se as imagens estiverem em outro lugar ====== */
 const baseImage = 'https://doc-confete.github.io/cardapio-loja/'; // ou '' se usar paths relativos
 
+/* Se true => usa emojis na mensagem enviada ao WhatsApp (pode causar inconsistências em alguns celulares).
+   Se false => usa texto simples (recomendado para compatibilidade com iPhone). */
+const useEmojiInMessage = false;
+
 /* === dados === */
 const produtosData = [
   {id:'p25',nome:'25 Salgados',preco:20.00, img:'images/25-salgados.jpg', categoria:'salgado'},
@@ -253,7 +274,6 @@ const combosData = [
   { id:'combo_festa', nome:'Festa Total', preco:55.00, img:'images/combo_festa.jpg', desc:'100 salgados + 10 mini churros' }
 ];
 
-/* kits pedidos: 5,10,20,40 e kit lanche */
 const kitsData = [
   { id:'kit_5', nome:'Kit 5 pessoas', preco:70.00, img:'images/5-pessoas.jpg', desc:'50 salgados + 40 doces' },
   { id:'kit_10_15', nome:'Kit 10–15 pessoas', preco:100.00, img:'images/10-pessoas.jpg', desc:'100 salgados + 50 doces' },
@@ -284,7 +304,8 @@ function loadCart(){ const s = localStorage.getItem(CART_KEY); if(s) cart = JSON
 /* === logo load (tenta imagem no repo) === */
 (function loadLogo(){
     const img = document.getElementById('logo-img');
-    img.src = baseImage + 'images/logo.png'; // se n existir, onerror esconde
+    img.src = baseImage + 'images/logo.png';
+    img.onerror = function(){ this.style.display = 'none'; };
 })();
 
 /* === criar cards === */
@@ -293,7 +314,9 @@ function createProductCard(item, flavorsList = []) {
     card.className = 'product';
     card.innerHTML = `
         <div class="media">
-            <img src="${baseImage + (item.img || '')}" alt="${item.nome}" onerror="this.style.display='none'">
+            <div class="img-frame">
+                <img src="${baseImage + (item.img || '')}" alt="${item.nome}" onerror="this.onerror=null; this.src='${baseImage}images/placeholder.png';">
+            </div>
         </div>
         <div class="info">
             <div class="title">${item.nome} ${item.promo ? '<span class="promo-badge">PROMO</span>' : ''}</div>
@@ -475,7 +498,7 @@ function openFlavorModal(item, qty, flavorsList){
     document.getElementById('cancel-flavors').onclick = ()=> { modal.style.display='none'; pendingFlavor = null; };
     document.getElementById('confirm-flavors').onclick = ()=> {
         const selected = Array.from(document.querySelectorAll('#flavor-chips .chip.selected')).map(n => n.dataset.flavor);
-        // if user didn't select nenhum, aceita vazio também
+        // se user não selecionar nenhum, aceita vazio também
         doAddToCart(item, qty, selected);
         modal.style.display='none'; pendingFlavor = null;
     };
@@ -548,23 +571,31 @@ function buildWhatsAppMessage(data){
     const orderId = generateOrderNumber();
     let total = cart.reduce((s,i)=> s + i.price*i.quantity, 0);
 
+    // Se useEmojiInMessage === false, substituímos emojis por texto simples para evitar problemas de render em alguns celulares
+    const itemsHeading = useEmojiInMessage ? "🧾 ITENS:" : "ITENS:";
+    const totalHeading = useEmojiInMessage ? "💰 TOTAL:" : "TOTAL:";
+    const addressHeading = useEmojiInMessage ? "📍 Endereço:" : "Endereço:";
+    const notesHeading = useEmojiInMessage ? "🔔 Observações:" : "Observações:";
+    const pedidoPara = data.type === 'entrega' ? (useEmojiInMessage ? 'ENTREGA' : 'ENTREGA') : (useEmojiInMessage ? 'RETIRADA' : 'RETIRADA');
+
     let message = `PEDIDO - DOCE CONFETE\nPedido nº: ${orderId}\n\n`;
     message += `Cliente: ${data.name}\n`;
     if(data.phone) message += `Telefone: ${data.phone}\n`;
-    message += `\n🧾 ITENS:\n`;
+    message += `\n${itemsHeading}\n`;
 
     cart.forEach(it => {
         message += `\n• ${it.name} - ${formatPrice(it.price)}\n  ${it.quantity}x = ${formatPrice(it.price * it.quantity)}\n`;
         if(it.flavors && it.flavors.length) message += `  Sabores: ${it.flavors.join(', ')}\n`;
     });
 
-    message += `\n💰 TOTAL: ${formatPrice(total)}`;
-    message += `\n\n📍 Endereço: ${data.type === 'entrega' ? (data.address || '---') : 'Retirada no local'}`;
-    if(data.schedule) message += `\n⏰ Agendamento: ${data.schedule}`;
-    if(data.notes) message += `\n\n🔔 Observações: ${data.notes}`;
+    message += `\n${totalHeading} ${formatPrice(total)}`;
+    message += `\n\n${addressHeading} ${data.type === 'entrega' ? (data.address || '---') : 'Retirada no local'}`;
+    if(data.schedule) message += `\nAgendamento: ${data.schedule}`;
+    if(data.notes) message += `\n\n${notesHeading} ${data.notes}`;
 
-    message += `\n\nPedido para: ${data.type === 'entrega' ? 'ENTREGA' : 'RETIRADA'}`;
+    message += `\n\nPedido para: ${pedidoPara}`;
 
+    // encodeURIComponent para URL
     return encodeURIComponent(message);
 }
 
@@ -623,6 +654,3 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 </body>
 </html>
-
-
-
